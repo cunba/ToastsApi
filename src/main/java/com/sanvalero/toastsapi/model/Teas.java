@@ -6,20 +6,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name = "Menu")
-public class Menu {
+@Entity(name = "Teas")
+public class Teas {
+
     @Id
     private int id;
+    @Column(name = "type")
+    private String type;
     @Column(name = "date")
     private Date date;
+    @Column(name = "menu")
+    private boolean menu;
     @Column(name = "price")
     private float price;
     @Column(name = "punctuation")
     private float punctuation;
-    @Column(name = "toast_id")
-    private int toastId;
-    @Column(name = "coffee_id")
-    private int coffeeId;
-    @Column(name = "tea_id")
-    private int tea_id;
 }

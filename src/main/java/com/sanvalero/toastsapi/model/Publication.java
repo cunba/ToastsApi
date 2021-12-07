@@ -22,6 +22,8 @@ public class Publication {
     private int toast_id;
     @Column(name = "coffee_id")
     private int coffee_id;
+    @Column(name = "tea_id")
+    private int tea_id;
     @Column(name = "menu_id")
     private int menu_id;
     @Column(name = "user_id")
