@@ -24,6 +24,8 @@ public class User {
     private String surname;
     @Column
     private String email;
+    @Column
+    private String password;
     @Column(name = "creation_date")
     private Date creationDate;
     @Column
