@@ -28,6 +28,6 @@ public class Establishment {
     @Column
     private float punctuation;
 
-    @OneToMany(mappedBy = "publication")
+    @OneToMany(mappedBy = "establishment")
     private List<Publication> publications;
 }
