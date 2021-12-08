@@ -1,31 +1,38 @@
 package com.sanvalero.toastsapi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "Publication")
 public class Publication {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "date")
+    @Column
     private Date date;
     @Column(name = "total_price")
     private float totalPrice;
     @Column(name = "total_punctuation")
     private float totalPunctuation;
-    @Column(name = "photo")
+    @Column
     private String photo;
-    @Column(name = "toast_id")
-    private int toast_id;
-    @Column(name = "coffee_id")
-    private int coffee_id;
-    @Column(name = "menu_id")
-    private int menu_id;
-    @Column(name = "user_id")
-    private int user_id;
-    @Column(name = "stablishment_id")
-    private int stablishment_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "publication-user")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "establishment_id")
+    @JsonBackReference(value = "publication-establishment")
+    private Establishment establishment;
 }

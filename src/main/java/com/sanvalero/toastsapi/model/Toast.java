@@ -7,31 +7,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Menus")
-public class Menu {
+@NoArgsConstructor
+@Entity(name = "Toasts")
+public class Toast {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
+    private String type;
+    @Column
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
+    @Column(name = "menu")
+    private boolean withMenu;
     @Column
     private float price;
     @Column
     private float punctuation;
 
-    @OneToMany(mappedBy = "toast")
-    private List<Toast> toasts;
-    @OneToMany(mappedBy = "coffee")
-    private List<Coffee> coffees;
-    @OneToMany(mappedBy = "tea")
-    private List<Tea> teas;
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    @JsonBackReference(value = "toast-menu")
+    private Menu menu;
+    @ManyToOne
+    @JoinColumn(name = "publication_id")
+    @JsonBackReference(value = "toast-publication")
+    private Publication publication;
 }
