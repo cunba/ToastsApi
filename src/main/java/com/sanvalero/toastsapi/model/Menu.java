@@ -26,10 +26,10 @@ public class Menu {
     @Column
     private float punctuation;
 
-    @OneToMany(mappedBy = "toast")
+    @OneToMany(mappedBy = "menu")
     private List<Toast> toasts;
-    @OneToMany(mappedBy = "coffee")
+    @OneToMany(mappedBy = "menu")
     private List<Coffee> coffees;
-    @OneToMany(mappedBy = "tea")
+    @OneToMany(mappedBy = "menu")
     private List<Tea> teas;
 }

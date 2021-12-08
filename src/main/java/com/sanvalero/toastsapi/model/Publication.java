@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -35,4 +36,11 @@ public class Publication {
     @JoinColumn(name = "establishment_id")
     @JsonBackReference(value = "publication-establishment")
     private Establishment establishment;
+
+    @OneToMany
+    private List<Toast> toasts;
+    @OneToMany
+    private List<Coffee> coffees;
+    @OneToMany
+    private List<Tea> teas;
 }

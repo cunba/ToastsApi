@@ -33,6 +33,6 @@ public class User {
     @Column(name = "publications_number")
     private int publicationsNumber;
 
-    @OneToMany(mappedBy = "publication")
+    @OneToMany(mappedBy = "user")
     private List<Publication> publications;
 }
