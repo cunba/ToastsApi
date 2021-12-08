@@ -1,28 +1,38 @@
 package com.sanvalero.toastsapi.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "Users")
-public class Users {
+public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name")
+    @Column
     private String name;
-    @Column(name = "surname")
+    @Column
     private String surname;
-    @Column(name = "email")
+    @Column
     private String email;
     @Column(name = "creation_date")
     private Date creationDate;
-    @Column(name = "active")
+    @Column
     private boolean active;
     @Column(name = "money_spent")
     private float moneySpent;
     @Column(name = "publications_number")
     private int publicationsNumber;
+
+    @OneToMany(mappedBy = "publication")
+    private List<Publication> publications;
 }
