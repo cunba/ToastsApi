@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.*;
@@ -12,11 +12,11 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Users")
+@Entity(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String name;
@@ -27,7 +27,7 @@ public class User {
     @Column
     private String password;
     @Column(name = "creation_date")
-    private Date creationDate;
+    private LocalDate creationDate;
     @Column
     private boolean active;
     @Column(name = "money_spent")

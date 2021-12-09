@@ -13,10 +13,10 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Menus")
+@Entity(name = "menus")
 public class Menu {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy")

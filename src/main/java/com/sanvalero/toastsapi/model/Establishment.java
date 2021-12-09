@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.*;
@@ -12,15 +12,15 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Establishments")
+@Entity(name = "establishments")
 public class Establishment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String name;
     @Column(name = "creation_date")
-    private Date creationDate;
+    private LocalDate creationDate;
     @Column
     private String location;
     @Column

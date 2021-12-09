@@ -13,11 +13,11 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Teas")
+@Entity(name = "teas")
 public class Tea {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String type;
@@ -33,10 +33,10 @@ public class Tea {
 
     @ManyToOne
     @JoinColumn(name = "menu_id")
-    @JsonBackReference(value = "tea-menu")
+    @JsonBackReference
     private Menu menu;
     @ManyToOne
     @JoinColumn(name = "publication_id")
-    @JsonBackReference(value = "tea-publication")
+    @JsonBackReference
     private Publication publication;
 }
