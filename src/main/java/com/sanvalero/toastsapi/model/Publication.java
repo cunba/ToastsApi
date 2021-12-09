@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.*;
@@ -13,14 +13,14 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Publication")
+@Entity(name = "publications")
 public class Publication {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
-    private Date date;
+    private LocalDate date;
     @Column(name = "total_price")
     private float totalPrice;
     @Column(name = "total_punctuation")
@@ -30,17 +30,17 @@ public class Publication {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference(value = "publication-user")
+    @JsonBackReference
     private User user;
     @ManyToOne
     @JoinColumn(name = "establishment_id")
-    @JsonBackReference(value = "publication-establishment")
+    @JsonBackReference
     private Establishment establishment;
 
-    @OneToMany
+    @OneToMany(mappedBy = "publication")
     private List<Toast> toasts;
-    @OneToMany
+    @OneToMany(mappedBy = "publication")
     private List<Coffee> coffees;
-    @OneToMany
+    @OneToMany(mappedBy = "publication")
     private List<Tea> teas;
 }
