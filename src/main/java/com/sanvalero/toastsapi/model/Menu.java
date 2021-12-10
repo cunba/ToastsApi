@@ -19,7 +19,7 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     @Column
     private float price;
