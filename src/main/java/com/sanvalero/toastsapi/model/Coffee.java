@@ -20,8 +20,6 @@ public class Coffee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
-    private String type;
-    @Column
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     @Column(name = "menu")
@@ -31,6 +29,10 @@ public class Coffee {
     @Column
     private float punctuation;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    @JsonBackReference
+    private CoffeeType type;
     @ManyToOne
     @JoinColumn(name = "menu_id")
     @JsonBackReference
