@@ -6,17 +6,19 @@ import java.util.List;
 import com.sanvalero.toastsapi.model.Menu;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MenuRepository extends CrudRepository<Menu, Integer> {
     List<Menu> findByDate(LocalDate date);
 
-    List<Menu> findByDateRange(LocalDate minDate, LocalDate maxDate);
+    // List<Menu> findByDate(LocalDate minDate, LocalDate maxDate);
 
     List<Menu> findByPrice(float price);
 
-    List<Menu> findByPriceRange(float minPrice, float maxPrice);
+    // List<Menu> findByPrice(float minPrice, float maxPrice);
 
     List<Menu> findByPunctuation(float punctuation);
 
-    List<Menu> findByPunctuationRange(float minPunctuation, float maxPunctuation);
+    // List<Menu> findByPunctuation(float minPunctuation, float maxPunctuation);
 }
