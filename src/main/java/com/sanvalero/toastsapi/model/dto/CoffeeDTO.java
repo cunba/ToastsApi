@@ -11,12 +11,12 @@ import java.time.LocalDate;
 public class CoffeeDTO {
 
     private int id;
-    private String type;
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     private boolean withMenu;
     private float price;
     private float punctuation;
+    private int typeId;
     private int menuId;
     private int publicationId;
 }

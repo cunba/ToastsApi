@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,9 +19,6 @@ public class Tea {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
-    private String type;
-    @Column
-    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     @Column(name = "menu")
     private boolean withMenu;
@@ -31,6 +27,10 @@ public class Tea {
     @Column
     private float punctuation;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    @JsonBackReference
+    private TeaType type;
     @ManyToOne
     @JoinColumn(name = "menu_id")
     @JsonBackReference

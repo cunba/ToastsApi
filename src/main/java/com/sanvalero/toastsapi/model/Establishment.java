@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class Establishment {
     @Column
     private String name;
     @Column(name = "creation_date")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
     @Column
     private String location;
