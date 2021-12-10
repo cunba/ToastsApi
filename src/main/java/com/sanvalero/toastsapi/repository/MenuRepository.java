@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 public interface MenuRepository extends CrudRepository<Menu, Integer> {
     List<Menu> findByDate(LocalDate date);
 
-    // List<Menu> findByDate(LocalDate minDate, LocalDate maxDate);
+    List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
 
     List<Menu> findByPrice(float price);
 
-    // List<Menu> findByPrice(float minPrice, float maxPrice);
+    List<Menu> findByPriceBetween(float minPrice, float maxPrice);
 
     List<Menu> findByPunctuation(float punctuation);
 
-    // List<Menu> findByPunctuation(float minPunctuation, float maxPunctuation);
+    List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 }
