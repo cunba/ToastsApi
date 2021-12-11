@@ -8,8 +8,8 @@ import com.sanvalero.toastsapi.model.CoffeeType;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.dto.CoffeeDTO;
-import com.sanvalero.toastsapi.repository.CoffeeRepository;
-import com.sanvalero.toastsapi.repository.CoffeeTypeRepository;
+import com.sanvalero.toastsapi.repository.ProductRepository;
+import com.sanvalero.toastsapi.repository.ProductTypeRepository;
 import com.sanvalero.toastsapi.repository.MenuRepository;
 import com.sanvalero.toastsapi.repository.PublicationRepository;
 
@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
 public class CoffeeServiceImpl implements CoffeeService {
 
     @Autowired
-    private CoffeeRepository cr;
+    private ProductRepository cr;
     @Autowired
-    private CoffeeTypeRepository ctr;
+    private ProductTypeRepository ctr;
     @Autowired
     private MenuRepository mr;
     @Autowired
