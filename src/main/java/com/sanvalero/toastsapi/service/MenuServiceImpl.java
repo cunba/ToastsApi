@@ -4,11 +4,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.sanvalero.toastsapi.model.Menu;
+import com.sanvalero.toastsapi.repository.MenuRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MenuServiceImpl implements MenuService {
+
+    @Autowired
+    private MenuRepository mr;
 
     @Override
     public List<Menu> findAllMenus() {
@@ -18,38 +23,32 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> findByDate(LocalDate date) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.findByDate(date);
     }
 
     @Override
     public List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.findByDateBetween(minDate, maxDate);
     }
 
     @Override
     public List<Menu> findByPrice(float price) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.findByPrice(price);
     }
 
     @Override
     public List<Menu> findByPriceBetween(float minPrice, float maxPrice) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.findByPriceBetween(minPrice, maxPrice);
     }
 
     @Override
     public List<Menu> findByPunctuation(float punctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.findByPunctuation(punctuation);
     }
 
     @Override
     public List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
@@ -60,8 +59,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu addMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        return null;
+        return mr.save(menu);
     }
 
     @Override

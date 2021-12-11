@@ -7,6 +7,7 @@ import com.sanvalero.toastsapi.model.Coffee;
 import com.sanvalero.toastsapi.model.CoffeeType;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Publication;
+import com.sanvalero.toastsapi.model.dto.CoffeeDTO;
 
 public interface CoffeeService {
     List<Coffee> findByType(CoffeeType coffeeType);
@@ -29,9 +30,13 @@ public interface CoffeeService {
 
     List<Coffee> findByPublication(Publication publication);
 
-    Coffee addCoffee(Coffee coffee);
+    List<Coffee> findAllCoffees();
+
+    Coffee findById(int id);
+
+    Coffee addCoffee(CoffeeDTO coffeedto);
 
     Coffee deleteCoffee(int id);
 
-    Coffee modifyCoffee(Coffee coffee, int id);
+    Coffee modifyCoffee(CoffeeDTO coffeeDTO, int id);
 }

@@ -3,11 +3,16 @@ package com.sanvalero.toastsapi.service;
 import java.util.List;
 
 import com.sanvalero.toastsapi.model.ToastType;
+import com.sanvalero.toastsapi.repository.ToastTypeRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ToastTypeServiceImpl implements ToastTypeService {
+
+    @Autowired
+    private ToastTypeRepository ttr;
 
     @Override
     public List<ToastType> findAllTypes() {
@@ -23,8 +28,7 @@ public class ToastTypeServiceImpl implements ToastTypeService {
 
     @Override
     public ToastType addType(ToastType type) {
-        // TODO Auto-generated method stub
-        return null;
+        return ttr.save(type);
     }
 
     @Override
