@@ -16,17 +16,17 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     private ProductTypeRepository ptr;
 
     @Override
-    public ProductType findByName(String name) {
+    public List<ProductType> findByProductName(String name) {
         return ptr.findByProductName(name);
     }
 
     @Override
-    public List<ProductType> findByType(String type) {
+    public ProductType findByType(String type) {
         return ptr.findByType(type);
     }
 
     @Override
-    public ProductType findByNameAndType(String name, String type) {
+    public ProductType findByProductNameAndType(String name, String type) {
         return ptr.findByProductNameAndType(name, type);
     }
 

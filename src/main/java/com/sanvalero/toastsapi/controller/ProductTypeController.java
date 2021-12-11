@@ -25,25 +25,25 @@ public class ProductTypeController {
         return pts.findAll();
     }
 
-    @GetMapping("/type/{id}")
+    @GetMapping("/type/id={id}")
     public ProductType getTypeById(@PathVariable int id) throws NotFoundException {
         return pts.findById(id);
     }
 
-    @GetMapping("/type/{name}")
-    public ProductType getTypeByName(@PathVariable String name) {
-        return pts.findByName(name);
+    @GetMapping("/type/name={name}")
+    public List<ProductType> getTypeByName(@PathVariable String name) {
+        return pts.findByProductName(name);
     }
 
-    @GetMapping("/type/{type}")
-    public List<ProductType> getTypeByType(@PathVariable String type) {
+    @GetMapping("/type/type={type}")
+    public ProductType getTypeByType(@PathVariable String type) {
         return pts.findByType(type);
     }
 
     @GetMapping("/type")
     public ProductType getTypeByNameAndType(@RequestParam(value = "name") String name, 
                                             @RequestParam(value = "type") String type) {
-        return pts.findByNameAndType(name, type);
+        return pts.findByProductNameAndType(name, type);
     }
 
     @PostMapping("/type")
