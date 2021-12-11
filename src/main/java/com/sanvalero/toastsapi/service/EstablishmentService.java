@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 
 public interface EstablishmentService {
@@ -19,10 +20,14 @@ public interface EstablishmentService {
     List<Establishment> findByPunctuation(float punctuation);
 
     List<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
-    
+
+    Establishment findById(int id) throws NotFoundException;
+
+    List<Establishment> findAll();
+
     Establishment addEstablishment(Establishment establishment);
 
-    Establishment deleteEstablishment(int id);
+    Establishment deleteEstablishment(Establishment establishment);
 
-    Establishment modifyEstablishment(Establishment establishment, int id);
+    Establishment modifyEstablishment(Establishment establishment);
 }

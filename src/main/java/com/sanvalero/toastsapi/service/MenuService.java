@@ -3,11 +3,10 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
 
 public interface MenuService {
-    List<Menu> findAllMenus();
-
     List<Menu> findByDate(LocalDate date);
 
     List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
@@ -20,11 +19,13 @@ public interface MenuService {
 
     List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Menu findById(int id);
+    Menu findById(int id) throws NotFoundException;
+
+    List<Menu> findAll();
 
     Menu addMenu(Menu menu);
 
     Menu deleteMenu(Menu menu);
 
-    Menu modifyMenu(Menu menu, int id);
+    Menu modifyMenu(Menu menu);
 }

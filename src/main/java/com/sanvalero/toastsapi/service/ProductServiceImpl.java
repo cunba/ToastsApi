@@ -100,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        return (List<Product>) productRepository.findAll();
+        return productRepository.findAll();
     }
 
     @Override
@@ -130,11 +130,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product modifyProduct(Product product) {
-        if (productRepository.existsById(product.getId())) {
-            return productRepository.save(product);
-        }
-
-        return null;
+        return productRepository.save(product);
     }
 
 }

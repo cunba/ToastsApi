@@ -31,8 +31,8 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public List<ProductType> findAllTypes() {
-        return (List<ProductType>) ptr.findAll();
+    public List<ProductType> findAll() {
+        return ptr.findAll();
     }
 
     @Override
@@ -41,24 +41,19 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public ProductType addType(ProductType type) throws NotFoundException {
+    public ProductType addType(ProductType type) {
         return ptr.save(type);
     }
 
     @Override
-    public ProductType deleteType(int id) throws NotFoundException {
-        ProductType type = ptr.findById(id).orElseThrow(NotFoundException::new);
+    public ProductType deleteType(ProductType type) {
         ptr.delete(type);
         return type;
     }
 
     @Override
     public ProductType modifyType(ProductType type) {
-        if (ptr.existsById(type.getId())) {
-            return ptr.save(type);
-        }
-
-        return null;
+        return ptr.save(type);
     }
-    
+
 }

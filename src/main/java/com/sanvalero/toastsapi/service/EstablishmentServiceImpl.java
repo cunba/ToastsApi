@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.repository.EstablishmentRepository;
 
@@ -51,20 +52,29 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
+    public Establishment findById(int id) throws NotFoundException {
+        return er.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @Override
+    public List<Establishment> findAll() {
+        return er.findAll();
+    }
+
+    @Override
     public Establishment addEstablishment(Establishment establishment) {
         return er.save(establishment);
     }
 
     @Override
-    public Establishment deleteEstablishment(int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Establishment deleteEstablishment(Establishment establishment) {
+        er.delete(establishment);
+        return establishment;
     }
 
     @Override
-    public Establishment modifyEstablishment(Establishment establishment, int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Establishment modifyEstablishment(Establishment establishment) {
+        return er.save(establishment);
     }
 
 }

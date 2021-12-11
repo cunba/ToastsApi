@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer> {
+    List<Product> findAll();
+
     List<Product> findByType(ProductType productType);
 
     List<Product> findByDate(LocalDate date);

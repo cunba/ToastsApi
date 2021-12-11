@@ -3,11 +3,16 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.dto.PublicationDTO;
+import com.sanvalero.toastsapi.repository.EstablishmentRepository;
 import com.sanvalero.toastsapi.repository.PublicationRepository;
+import com.sanvalero.toastsapi.repository.UserRepository;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +21,10 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Autowired
     private PublicationRepository pr;
+    @Autowired
+    private EstablishmentRepository er;
+    @Autowired
+    private UserRepository ur;
 
     @Override
     public List<Publication> findByDate(LocalDate date) {
@@ -58,32 +67,39 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findAllPublications() {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Publication> findAll() {
+        return pr.findAll();
     }
 
     @Override
-    public Publication findById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Publication findById(int id) throws NotFoundException {
+        return pr.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public Publication addPublication(Publication publication) {
+    public Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException {
+        Establishment establishment = er.findById(publicationDTO.getEstablishmentId())
+            .orElseThrow(NotFoundException::new);
+        User user = ur.findById(publicationDTO.getUserId())
+            .orElseThrow(NotFoundException::new);
+
+        ModelMapper mapper = new ModelMapper();
+        Publication publication = mapper.map(publicationDTO, Publication.class);
+        publication.setEstablishment(establishment);
+        publication.setUser(user);
+
         return pr.save(publication);
     }
 
     @Override
-    public Publication deletePublication(int id) {
+    public Publication deletePublication(Publication publication) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Publication modifyPublication(Publication publication, int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Publication modifyPublication(Publication publication) {
+        return pr.save(publication);
     }
     
 }

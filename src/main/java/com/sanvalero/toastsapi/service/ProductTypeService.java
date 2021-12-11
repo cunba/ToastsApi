@@ -12,13 +12,13 @@ public interface ProductTypeService {
 
     List<ProductType> findByNameAndType(String name, String type);
 
-    List<ProductType> findAllTypes();
+    List<ProductType> findAll();
 
     ProductType findById(int id) throws NotFoundException;
 
-    ProductType addType(ProductType type) throws NotFoundException;
+    ProductType addType(ProductType productType);
 
-    ProductType deleteType(int id) throws NotFoundException;
+    ProductType deleteType(ProductType productType);
 
-    ProductType modifyType(ProductType type);
+    ProductType modifyType(ProductType productType);
 }

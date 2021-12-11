@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PublicationRepository extends CrudRepository<Publication, Integer> {
+    List<Publication> findAll();
+
     List<Publication> findByDate(LocalDate date);
 
     List<Publication> findByDateBetween(LocalDate minDate, LocalDate maxDate);
