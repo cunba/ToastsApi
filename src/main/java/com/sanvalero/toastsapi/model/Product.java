@@ -24,15 +24,15 @@ import lombok.NoArgsConstructor;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
-    @Column(name = "menu")
-    private boolean withMenu;
+    @Column(name = "in_menu")
+    private boolean inMenu;
     @Column
     private float price;
     @Column

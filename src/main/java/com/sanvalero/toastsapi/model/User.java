@@ -18,12 +18,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
     @Column
     private String surname;
+    @Column(name = "birth_date")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate birthDate;
     @Column
     private String email;
     @Column
