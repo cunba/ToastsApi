@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.repository.MenuRepository;
 
@@ -14,12 +15,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private MenuRepository mr;
-
-    @Override
-    public List<Menu> findAllMenus() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public List<Menu> findByDate(LocalDate date) {
@@ -52,9 +47,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu findById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Menu findById(int id) throws NotFoundException {
+        return mr.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @Override
+    public List<Menu> findAll() {
+        return mr.findAll();
     }
 
     @Override
@@ -64,14 +63,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu deleteMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        return null;
+        mr.delete(menu);
+        return menu;
     }
 
     @Override
-    public Menu modifyMenu(Menu menu, int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public Menu modifyMenu(Menu menu) {
+        return mr.save(menu);
     }
-    
+
 }

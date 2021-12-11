@@ -1,22 +1,16 @@
-package com.sanvalero.toastsapi.repository;
+package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Product;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.model.Publication;
+import com.sanvalero.toastsapi.model.dto.ProductDTO;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface ProductRepository extends CrudRepository<Product, Integer> {
-    List<Product> findAll();
-
-    List<Product> findByType(ProductType productType);
-
+public interface ProductService {
     List<Product> findByDate(LocalDate date);
 
     List<Product> findByDateBetween(LocalDate minDate, LocalDate maxDate);
@@ -34,4 +28,18 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
     List<Product> findByMenu(Menu menu);
 
     List<Product> findByPublication(Publication publication);
+
+    List<Product> findAll();
+
+    Product findById(int id) throws NotFoundException;
+
+    List<Product> findByType(ProductType productType);
+
+    List<Product> findByTypes(List<ProductType> productTypeList);
+
+    Product addProduct(ProductDTO productDTO) throws NotFoundException;
+
+    Product deleteProduct(int id) throws NotFoundException;
+
+    Product modifyProduct(Product product);
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MenuRepository extends CrudRepository<Menu, Integer> {
+    List<Menu> findAll();
+
     List<Menu> findByDate(LocalDate date);
 
     List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
