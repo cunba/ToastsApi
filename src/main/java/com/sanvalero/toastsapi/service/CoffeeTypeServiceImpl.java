@@ -3,7 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.util.List;
 
 import com.sanvalero.toastsapi.model.CoffeeType;
-import com.sanvalero.toastsapi.repository.CoffeeTypeRepository;
+import com.sanvalero.toastsapi.repository.ProductTypeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class CoffeeTypeServiceImpl implements CoffeeTypeService {
 
     @Autowired
-    CoffeeTypeRepository ctr;
+    ProductTypeRepository ctr;
 
     @Override
     public List<CoffeeType> findAllTypes() {
