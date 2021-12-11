@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Publication {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private LocalDate date;
