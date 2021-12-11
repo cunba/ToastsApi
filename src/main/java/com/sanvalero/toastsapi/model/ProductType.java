@@ -13,11 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "toasts_types")
-public class ToastType {
+@Entity(name = "products_types")
+public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column
+    private String name;
     @Column
     private String type;
 }
