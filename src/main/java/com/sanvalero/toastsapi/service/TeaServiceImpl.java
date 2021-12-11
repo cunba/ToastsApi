@@ -7,76 +7,70 @@ import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.Tea;
 import com.sanvalero.toastsapi.model.TeaType;
+import com.sanvalero.toastsapi.repository.TeaRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeaServiceImpl implements TeaService {
 
+    @Autowired
+    private TeaRepository tr;
+
     @Override
     public List<Tea> findByType(TeaType teaType) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByType(teaType);
     }
 
     @Override
     public List<Tea> findByDate(LocalDate date) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByDate(date);
     }
 
     @Override
     public List<Tea> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByDateBetween(minDate, maxDate);
     }
 
     @Override
     public List<Tea> findByPrice(float price) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByPrice(price);
     }
 
     @Override
     public List<Tea> findByPriceBetween(float minPrice, float maxPrice) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByPriceBetween(minPrice, maxPrice);
     }
 
     @Override
     public List<Tea> findByPunctuation(float punctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByPunctuation(punctuation);
     }
 
     @Override
     public List<Tea> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
     public List<Tea> findByWithMenu(boolean withMenu) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByWithMenu(withMenu);
     }
 
     @Override
     public List<Tea> findByMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByMenu(menu);
     }
 
     @Override
     public List<Tea> findByPublication(Publication publication) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.findByPublication(publication);
     }
 
     @Override
     public Tea addTea(Tea tea) {
-        // TODO Auto-generated method stub
-        return null;
+        return tr.save(tea);
     }
 
     @Override

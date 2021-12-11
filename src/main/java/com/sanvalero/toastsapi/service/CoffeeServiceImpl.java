@@ -21,69 +21,69 @@ import org.springframework.stereotype.Service;
 public class CoffeeServiceImpl implements CoffeeService {
 
     @Autowired
-    private CoffeeRepository coffeeRepository;
+    private CoffeeRepository cr;
     @Autowired
-    private CoffeeTypeRepository coffeeTypeRepository;
+    private CoffeeTypeRepository ctr;
     @Autowired
-    private MenuRepository menuRepository;
+    private MenuRepository mr;
     @Autowired
-    private PublicationRepository publicationRepository;
+    private PublicationRepository pr;
 
     @Override
     public List<Coffee> findByType(CoffeeType coffeeType) {
-        return coffeeRepository.findByType(coffeeType);
+        return cr.findByType(coffeeType);
     }
 
     @Override
     public List<Coffee> findByDate(LocalDate date) {
-        return coffeeRepository.findByDate(date);
+        return cr.findByDate(date);
     }
 
     @Override
     public List<Coffee> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
-        return coffeeRepository.findByDateBetween(minDate, maxDate);
+        return cr.findByDateBetween(minDate, maxDate);
     }
 
     @Override
     public List<Coffee> findByPrice(float price) {
-        return coffeeRepository.findByPrice(price);
+        return cr.findByPrice(price);
     }
 
     @Override
     public List<Coffee> findByPriceBetween(float minPrice, float maxPrice) {
-        return coffeeRepository.findByPriceBetween(minPrice, maxPrice);
+        return cr.findByPriceBetween(minPrice, maxPrice);
     }
 
     @Override
     public List<Coffee> findByPunctuation(float punctuation) {
-        return coffeeRepository.findByPunctuation(punctuation);
+        return cr.findByPunctuation(punctuation);
     }
 
     @Override
     public List<Coffee> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        return coffeeRepository.findByPunctuationBetween(minPunctuation, maxPunctuation);
+        return cr.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
     public List<Coffee> findByWithMenu(boolean withMenu) {
-        return coffeeRepository.findByWithMenu(withMenu);
+        return cr.findByWithMenu(withMenu);
     }
 
     @Override
     public List<Coffee> findByMenu(Menu menu) {
-        return coffeeRepository.findByMenu(menu);
+        return cr.findByMenu(menu);
     }
 
     @Override
     public List<Coffee> findByPublication(Publication publication) {
-        return coffeeRepository.findByPublication(publication);
+        return cr.findByPublication(publication);
     }
 
     @Override
     public Coffee addCoffee(CoffeeDTO coffeeDTO) {
-        // CoffeeType type = coffeeTypeRepository.findById(coffeeDTO.getTypeId());
-        // Menu menu = menuRepository.findById(coffeeDTO.getMenuId());
-        // Publication publication = publicationRepository.findById(coffeeDTO.getPublicationId());
+        // CoffeeType type = ctr.findById(coffeeDTO.getTypeId());
+        // Menu menu = mr.findById(coffeeDTO.getMenuId());
+        // Publication publication = pr.findById(coffeeDTO.getPublicationId());
 
         // ModelMapper mapper = new ModelMapper();
         // Coffee coffee = mapper.map(coffeeDTO, Coffee.class);
@@ -91,15 +91,15 @@ public class CoffeeServiceImpl implements CoffeeService {
         // coffee.setMenu(menu);
         // coffee.setPublication(publication);
 
-        // return coffeeRepository.save(coffee);
+        // return cr.save(coffee);
 
         return null;
     }
 
     @Override
     public Coffee deleteCoffee(int id) {
-        // Coffee coffee = coffeeRepository.findById(id);
-        // coffeeRepository.delete(coffee);
+        // Coffee coffee = cr.findById(id);
+        // cr.delete(coffee);
         // return coffee;
         return null;
     }
@@ -111,12 +111,13 @@ public class CoffeeServiceImpl implements CoffeeService {
 
     @Override
     public List<Coffee> findAllCoffees() {
-        return findAllCoffees();
+        return (List<Coffee>) cr.findAll();
     }
 
     @Override
     public Coffee findById(int id) {
-        return findById(id);
+        // return cr.findById(id);
+        return null;
     }
     
 }

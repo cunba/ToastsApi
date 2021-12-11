@@ -4,58 +4,55 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.sanvalero.toastsapi.model.Establishment;
+import com.sanvalero.toastsapi.repository.EstablishmentRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EstablishmentServiceImpl implements EstablishmentService {
 
+    @Autowired
+    private EstablishmentRepository er;
+
     @Override
     public List<Establishment> findByName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByName(name);
     }
 
     @Override
     public List<Establishment> findByCreationDate(LocalDate date) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByCreationDate(date);
     }
 
     @Override
     public List<Establishment> findByCreationDateBetween(LocalDate minDate, LocalDate maxDate) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByCreationDateBetween(minDate, maxDate);
     }
 
     @Override
     public List<Establishment> findByOpen(boolean open) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByOpen(open);
     }
 
     @Override
     public List<Establishment> findByLocation(String location) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByLocation(location);
     }
 
     @Override
     public List<Establishment> findByPunctuation(float punctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByPunctuation(punctuation);
     }
 
     @Override
     public List<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
     public Establishment addEstablishment(Establishment establishment) {
-        // TODO Auto-generated method stub
-        return null;
+        return er.save(establishment);
     }
 
     @Override
@@ -69,5 +66,5 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
 }
