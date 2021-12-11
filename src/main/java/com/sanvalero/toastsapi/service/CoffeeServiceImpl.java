@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Coffee;
 import com.sanvalero.toastsapi.model.CoffeeType;
 import com.sanvalero.toastsapi.model.Menu;
@@ -13,6 +14,7 @@ import com.sanvalero.toastsapi.repository.CoffeeTypeRepository;
 import com.sanvalero.toastsapi.repository.MenuRepository;
 import com.sanvalero.toastsapi.repository.PublicationRepository;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,28 +81,28 @@ public class CoffeeServiceImpl implements CoffeeService {
     }
 
     @Override
-    public Coffee addCoffee(CoffeeDTO coffeeDTO) {
-        // CoffeeType type = ctr.findById(coffeeDTO.getTypeId());
-        // Menu menu = mr.findById(coffeeDTO.getMenuId());
-        // Publication publication = pr.findById(coffeeDTO.getPublicationId());
+    public Coffee addCoffee(CoffeeDTO coffeeDTO) throws NotFoundException {
+        CoffeeType type = ctr.findById(coffeeDTO.getTypeId())
+            .orElseThrow(NotFoundException::new);
+        Menu menu = mr.findById(coffeeDTO.getMenuId())
+            .orElseThrow(NotFoundException::new);
+        Publication publication = pr.findById(coffeeDTO.getPublicationId())
+            .orElseThrow(NotFoundException::new);
 
-        // ModelMapper mapper = new ModelMapper();
-        // Coffee coffee = mapper.map(coffeeDTO, Coffee.class);
-        // coffee.setType(type);
-        // coffee.setMenu(menu);
-        // coffee.setPublication(publication);
+        ModelMapper mapper = new ModelMapper();
+        Coffee coffee = mapper.map(coffeeDTO, Coffee.class);
+        coffee.setType(type);
+        coffee.setMenu(menu);
+        coffee.setPublication(publication);
 
-        // return cr.save(coffee);
-
-        return null;
+        return cr.save(coffee);
     }
 
     @Override
-    public Coffee deleteCoffee(int id) {
-        // Coffee coffee = cr.findById(id);
-        // cr.delete(coffee);
-        // return coffee;
-        return null;
+    public Coffee deleteCoffee(int id) throws NotFoundException {
+        Coffee coffee = cr.findById(id).orElseThrow(NotFoundException::new);
+        cr.delete(coffee);
+        return coffee;
     }
 
     @Override
@@ -114,9 +116,8 @@ public class CoffeeServiceImpl implements CoffeeService {
     }
 
     @Override
-    public Coffee findById(int id) {
-        // return cr.findById(id);
-        return null;
+    public Coffee findById(int id) throws NotFoundException {
+        return cr.findById(id).orElseThrow(NotFoundException::new);
     }
     
 }

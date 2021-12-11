@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Coffee;
 import com.sanvalero.toastsapi.model.CoffeeType;
 import com.sanvalero.toastsapi.model.Menu;
@@ -32,11 +33,11 @@ public interface CoffeeService {
 
     List<Coffee> findAllCoffees();
 
-    Coffee findById(int id);
+    Coffee findById(int id) throws NotFoundException;
 
-    Coffee addCoffee(CoffeeDTO coffeedto);
+    Coffee addCoffee(CoffeeDTO coffeeDTO) throws NotFoundException;
 
-    Coffee deleteCoffee(int id);
+    Coffee deleteCoffee(int id) throws NotFoundException;
 
     Coffee modifyCoffee(CoffeeDTO coffeeDTO, int id);
 }
