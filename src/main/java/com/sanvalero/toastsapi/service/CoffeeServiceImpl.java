@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
@@ -33,6 +34,18 @@ public class CoffeeServiceImpl implements CoffeeService {
     @Override
     public List<Coffee> findByType(CoffeeType coffeeType) {
         return cr.findByType(coffeeType);
+    }
+
+    @Override
+    public List<Coffee> findByTypes(List<CoffeeType> coffeeTypeList) {
+        List<Coffee> coffees = new LinkedList<>();
+        for (CoffeeType coffeeType : coffeeTypeList) {
+            List<Coffee> lista = cr.findByType(coffeeType);
+            for (Coffee coffee : lista) {
+                coffees.add(coffee);
+            }
+        }
+        return coffees;
     }
 
     @Override
@@ -81,13 +94,23 @@ public class CoffeeServiceImpl implements CoffeeService {
     }
 
     @Override
+    public Coffee findById(int id) throws NotFoundException {
+        return cr.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    @Override
+    public List<Coffee> findAll() {
+        return (List<Coffee>) cr.findAll();
+    }
+
+    @Override
     public Coffee addCoffee(CoffeeDTO coffeeDTO) throws NotFoundException {
         CoffeeType type = ctr.findById(coffeeDTO.getTypeId())
-            .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         Menu menu = mr.findById(coffeeDTO.getMenuId())
-            .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         Publication publication = pr.findById(coffeeDTO.getPublicationId())
-            .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new);
 
         ModelMapper mapper = new ModelMapper();
         Coffee coffee = mapper.map(coffeeDTO, Coffee.class);
@@ -106,18 +129,12 @@ public class CoffeeServiceImpl implements CoffeeService {
     }
 
     @Override
-    public Coffee modifyCoffee(CoffeeDTO coffeeDTO, int id) {
+    public Coffee modifyCoffee(Coffee coffee) {
+        if (cr.existsById(coffee.getId())) {
+            return cr.save(coffee);
+        }
+
         return null;
     }
 
-    @Override
-    public List<Coffee> findAllCoffees() {
-        return (List<Coffee>) cr.findAll();
-    }
-
-    @Override
-    public Coffee findById(int id) throws NotFoundException {
-        return cr.findById(id).orElseThrow(NotFoundException::new);
-    }
-    
 }
