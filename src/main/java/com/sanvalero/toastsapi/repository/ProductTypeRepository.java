@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface ProductTypeRepository extends CrudRepository<ProductType, Integer> {
     List<ProductType> findAll();
 
-    List<ProductType> findByName(String name);
+    ProductType findByProductName(String name);
 
     List<ProductType> findByType(String type);
 
-    List<ProductType> findByNameAndType(String name, String type);
+    ProductType findByProductNameAndType(String name, String type);
 }

@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 @Entity(name = "products_types")
 public class ProductType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
-    private String name;
+    @Column(name = "product_name")
+    private String productName;
     @Column
     private String type;
 }

@@ -6,11 +6,11 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
 
 public interface ProductTypeService {
-    List<ProductType> findByName(String name);
+    ProductType findByName(String name);
 
     List<ProductType> findByType(String type);
 
-    List<ProductType> findByNameAndType(String name, String type);
+    ProductType findByNameAndType(String name, String type);
 
     List<ProductType> findAll();
 
