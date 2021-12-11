@@ -7,87 +7,105 @@ import com.sanvalero.toastsapi.model.Coffee;
 import com.sanvalero.toastsapi.model.CoffeeType;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Publication;
+import com.sanvalero.toastsapi.model.dto.CoffeeDTO;
+import com.sanvalero.toastsapi.repository.CoffeeRepository;
+import com.sanvalero.toastsapi.repository.CoffeeTypeRepository;
+import com.sanvalero.toastsapi.repository.MenuRepository;
+import com.sanvalero.toastsapi.repository.PublicationRepository;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CoffeeServiceImpl implements CoffeeService {
 
+    @Autowired
+    private CoffeeRepository coffeeRepository;
+    @Autowired
+    private CoffeeTypeRepository coffeeTypeRepository;
+    @Autowired
+    private MenuRepository menuRepository;
+    @Autowired
+    private PublicationRepository publicationRepository;
+
     @Override
     public List<Coffee> findByType(CoffeeType coffeeType) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByType(coffeeType);
     }
 
     @Override
     public List<Coffee> findByDate(LocalDate date) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByDate(date);
     }
 
     @Override
     public List<Coffee> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByDateBetween(minDate, maxDate);
     }
 
     @Override
     public List<Coffee> findByPrice(float price) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByPrice(price);
     }
 
     @Override
     public List<Coffee> findByPriceBetween(float minPrice, float maxPrice) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
     @Override
     public List<Coffee> findByPunctuation(float punctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByPunctuation(punctuation);
     }
 
     @Override
     public List<Coffee> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
     public List<Coffee> findByWithMenu(boolean withMenu) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByWithMenu(withMenu);
     }
 
     @Override
     public List<Coffee> findByMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByMenu(menu);
     }
 
     @Override
     public List<Coffee> findByPublication(Publication publication) {
-        // TODO Auto-generated method stub
-        return null;
+        return coffeeRepository.findByPublication(publication);
     }
 
     @Override
-    public Coffee addCoffee(Coffee coffee) {
-        // TODO Auto-generated method stub
+    public Coffee addCoffee(CoffeeDTO coffeeDTO) {
+        // CoffeeType type = coffeeTypeRepository.findById(coffeeDTO.getTypeId());
+        // Menu menu = menuRepository.findById(coffeeDTO.getMenuId());
+        // Publication publication = publicationRepository.findById(coffeeDTO.getPublicationId());
+
+        // ModelMapper mapper = new ModelMapper();
+        // Coffee coffee = mapper.map(coffeeDTO, Coffee.class);
+        // coffee.setType(type);
+        // coffee.setMenu(menu);
+        // coffee.setPublication(publication);
+
+        // return coffeeRepository.save(coffee);
+
         return null;
     }
 
     @Override
     public Coffee deleteCoffee(int id) {
-        // TODO Auto-generated method stub
+        // Coffee coffee = coffeeRepository.findById(id);
+        // coffeeRepository.delete(coffee);
+        // return coffee;
         return null;
     }
 
     @Override
-    public Coffee modifyCoffee(Coffee coffee, int id) {
-        // TODO Auto-generated method stub
+    public Coffee modifyCoffee(CoffeeDTO coffeeDTO, int id) {
         return null;
     }
     
