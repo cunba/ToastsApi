@@ -24,6 +24,9 @@ public class User {
     private String name;
     @Column
     private String surname;
+    @Column(name = "birth_date")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate birthDate;
     @Column
     private String email;
     @Column
