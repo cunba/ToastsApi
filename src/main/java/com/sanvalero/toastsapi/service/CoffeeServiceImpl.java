@@ -108,5 +108,15 @@ public class CoffeeServiceImpl implements CoffeeService {
     public Coffee modifyCoffee(CoffeeDTO coffeeDTO, int id) {
         return null;
     }
+
+    @Override
+    public List<Coffee> findAllCoffees() {
+        return findAllCoffees();
+    }
+
+    @Override
+    public Coffee findById(int id) {
+        return findById(id);
+    }
     
 }

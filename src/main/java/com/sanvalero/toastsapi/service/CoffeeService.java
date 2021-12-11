@@ -30,6 +30,10 @@ public interface CoffeeService {
 
     List<Coffee> findByPublication(Publication publication);
 
+    List<Coffee> findAllCoffees();
+
+    Coffee findById(int id);
+
     Coffee addCoffee(CoffeeDTO coffeedto);
 
     Coffee deleteCoffee(int id);
