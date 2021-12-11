@@ -1,19 +1,21 @@
 package com.sanvalero.toastsapi.model.dto;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
-public class TeaDTO {
+public class ProductDTO {
 
     private int id;
+    private String name;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
-    private boolean withMenu;
+    private boolean inMenu;
     private float price;
     private float punctuation;
     private int typeId;

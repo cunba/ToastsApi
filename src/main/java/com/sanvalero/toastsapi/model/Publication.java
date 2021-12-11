@@ -1,14 +1,22 @@
 package com.sanvalero.toastsapi.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -38,9 +46,5 @@ public class Publication {
     private Establishment establishment;
 
     @OneToMany(mappedBy = "publication")
-    private List<Toast> toasts;
-    @OneToMany(mappedBy = "publication")
-    private List<Coffee> coffees;
-    @OneToMany(mappedBy = "publication")
-    private List<Tea> teas;
+    private List<Product> products;
 }

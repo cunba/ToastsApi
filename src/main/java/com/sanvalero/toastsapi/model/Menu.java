@@ -1,14 +1,20 @@
 package com.sanvalero.toastsapi.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -27,9 +33,5 @@ public class Menu {
     private float punctuation;
 
     @OneToMany(mappedBy = "menu")
-    private List<Toast> toasts;
-    @OneToMany(mappedBy = "menu")
-    private List<Coffee> coffees;
-    @OneToMany(mappedBy = "menu")
-    private List<Tea> teas;
+    private List<Product> products;
 }
