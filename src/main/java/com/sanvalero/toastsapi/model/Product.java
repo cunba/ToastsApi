@@ -31,8 +31,8 @@ public class Product {
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
-    @Column(name = "menu")
-    private boolean withMenu;
+    @Column(name = "in_menu")
+    private boolean inMenu;
     @Column
     private float price;
     @Column

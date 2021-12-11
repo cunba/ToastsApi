@@ -23,7 +23,7 @@ public interface ProductService {
 
     List<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    List<Product> findByWithMenu(boolean withMenu);
+    List<Product> findByInMenu(boolean inMenu);
 
     List<Product> findByMenu(Menu menu);
 

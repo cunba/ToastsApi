@@ -79,8 +79,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findByWithMenu(boolean withMenu) {
-        return productRepository.findByWithMenu(withMenu);
+    public List<Product> findByInMenu(boolean inMenu) {
+        return productRepository.findByInMenu(inMenu);
     }
 
     @Override
