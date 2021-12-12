@@ -1,10 +1,15 @@
 package com.sanvalero.toastsapi.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +27,8 @@ public class ProductType {
     private String productName;
     @Column
     private String type;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "type")
+    private List<Product> products;
 }

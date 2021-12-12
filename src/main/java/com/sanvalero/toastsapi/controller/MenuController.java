@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,40 +26,40 @@ public class MenuController {
     @Autowired
     private MenuService ms;
 
-    @GetMapping("/menus/{date}")
-    public List<Menu> getMenusByDate(@RequestParam(name = "date" ) LocalDate date) {
+    @GetMapping("/menus/date={date}")
+    public List<Menu> getMenusByDate(@RequestParam(name = "date") LocalDate date) {
         return ms.findByDate(date);
     }
 
     @GetMapping("/menus/minDate={minDate}-maxDate={maxDate}")
     public List<Menu> getMenusByDateBetween(@PathVariable LocalDate minDate,
-                                            @PathVariable LocalDate maxDate) {
+            @PathVariable LocalDate maxDate) {
         return ms.findByDateBetween(minDate, maxDate);
     }
 
-    @GetMapping("/menus/{price}")
+    @GetMapping("/menus/price={price}")
     public List<Menu> getMenusByPrice(@PathVariable float price) {
         return ms.findByPrice(price);
     }
 
-    @GetMapping("/menus/{minPrice}{maxPrice}")
+    @GetMapping("/menus/minPrice={minPrice}-maxPrice={maxPrice}")
     public List<Menu> getMenusByPriceBetween(@PathVariable float minPrice,
-                                             @PathVariable float maxPrice) {
+            @PathVariable float maxPrice) {
         return ms.findByPriceBetween(minPrice, maxPrice);
     }
 
-    @GetMapping("/menus/{punctuation}")
+    @GetMapping("/menus/punctuation={punctuation}")
     public List<Menu> getMenusByPunctuation(@PathVariable float punctuation) {
         return ms.findByPunctuation(punctuation);
     }
 
     @GetMapping("/menus/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
     public List<Menu> getMenusByPunbtuationBetween(@PathVariable float minPunctuation,
-                                                   @PathVariable float maxPunctuation) {
+            @PathVariable float maxPunctuation) {
         return ms.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
-    @GetMapping("/menu/{id}")
+    @GetMapping("/menu/id={id}")
     public Menu getMenuById(@PathVariable int id) throws NotFoundException {
         return ms.findById(id);
     }
@@ -73,11 +74,21 @@ public class MenuController {
         return ms.addMenu(menu);
     }
 
-    @DeleteMapping("/menu/{id}")
+    @DeleteMapping("/menu/id={id}")
     public Menu delete(@PathVariable int id) throws NotFoundException {
         Menu menu = getMenuById(id);
         ms.deleteMenu(menu);
         return menu;
+    }
+
+    @PutMapping("menu/id={id}")
+    public Menu modify(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
+        Menu menuToModify = ms.findById(id);
+        menuToModify.setDate(menu.getDate());
+        menuToModify.setPrice(menu.getPrice());
+        menuToModify.setPunctuation(menu.getPunctuation());
+
+        return ms.modifyMenu(menuToModify);
     }
 
     @ExceptionHandler(NotFoundException.class)
