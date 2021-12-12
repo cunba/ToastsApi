@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
@@ -23,18 +22,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findByType(ProductType productType) {
         return pr.findByType(productType);
-    }
-
-    @Override
-    public List<Product> findByTypes(List<ProductType> productTypeList) {
-        List<Product> products = new LinkedList<>();
-        for (ProductType productType : productTypeList) {
-            List<Product> lista = pr.findByType(productType);
-            for (Product product : lista) {
-                products.add(product);
-            }
-        }
-        return products;
     }
 
     @Override
@@ -107,7 +94,6 @@ public class ProductServiceImpl implements ProductService {
         pr.delete(product);
         return product;
     }
-
 
     @Override
     public void deleteAll() {

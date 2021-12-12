@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,6 +48,6 @@ public class Publication {
     @JsonBackReference
     private Establishment establishment;
 
-    @OneToMany(mappedBy = "publication")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publication")
     private List<Product> products;
 }

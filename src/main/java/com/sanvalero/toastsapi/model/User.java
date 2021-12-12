@@ -43,6 +43,6 @@ public class User {
     private int publicationsNumber;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Publication> publications;
 }

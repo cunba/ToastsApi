@@ -34,8 +34,6 @@ public interface ProductService {
 
     List<Product> findByType(ProductType productType);
 
-    List<Product> findByTypes(List<ProductType> productTypeList);
-
     Product addProduct(Product product);
 
     Product modifyProduct(Product product);

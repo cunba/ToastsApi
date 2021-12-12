@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,6 +39,6 @@ public class Establishment {
     private float punctuation;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "establishment")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "establishment")
     private List<Publication> publications;
 }
