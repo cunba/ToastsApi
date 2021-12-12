@@ -17,7 +17,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     private EstablishmentRepository er;
 
     @Override
-    public List<Establishment> findByName(String name) {
+    public Establishment findByName(String name) {
         return er.findByName(name);
     }
 

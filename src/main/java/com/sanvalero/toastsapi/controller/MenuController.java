@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,14 +26,20 @@ public class MenuController {
     @Autowired
     private MenuService ms;
 
-    @GetMapping("/menus/date={date}")
-    public List<Menu> getMenusByDate(@RequestParam(name = "date") LocalDate date) {
+    @GetMapping("/menus/date={dateString}")
+    public List<Menu> getMenusByDate(@PathVariable String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse(dateString, formatter);
         return ms.findByDate(date);
     }
 
-    @GetMapping("/menus/minDate={minDate}-maxDate={maxDate}")
-    public List<Menu> getMenusByDateBetween(@PathVariable LocalDate minDate,
-            @PathVariable LocalDate maxDate) {
+    @GetMapping("/menus/minDate={minDateString}-maxDate={maxDateString}")
+    public List<Menu> getMenusByDateBetween(@PathVariable String minDateString,
+                                            @PathVariable String maxDateString) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate minDate = LocalDate.parse(minDateString, formatter);
+        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
         return ms.findByDateBetween(minDate, maxDate);
     }
 
@@ -76,7 +82,7 @@ public class MenuController {
 
     @DeleteMapping("/menu/id={id}")
     public Menu delete(@PathVariable int id) throws NotFoundException {
-        Menu menu = getMenuById(id);
+        Menu menu = ms.findById(id);
         ms.deleteMenu(menu);
         return menu;
     }

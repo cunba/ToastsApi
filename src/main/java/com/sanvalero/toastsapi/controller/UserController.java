@@ -41,7 +41,7 @@ public class UserController {
 
     @DeleteMapping("/user/id={id}")
     public User delete(@PathVariable int id) throws NotFoundException {
-        User user = getUserById(id);
+        User user = us.findById(id);
         us.deleteUser(user);
         return user;
     }
