@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @NoArgsConstructor
@@ -25,14 +26,14 @@ public class User {
     @Column
     private String surname;
     @Column(name = "birth_date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @Column
     private String email;
     @Column
     private String password;
     @Column(name = "creation_date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
     @Column
     private boolean active;
@@ -41,6 +42,7 @@ public class User {
     @Column(name = "publications_number")
     private int publicationsNumber;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Publication> publications;
 }
