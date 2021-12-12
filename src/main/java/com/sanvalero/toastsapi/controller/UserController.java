@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/user/id={id}")
-    public User getUserById(@PathVariable int id) throws NotFoundException {
+    public User getById(@PathVariable int id) throws NotFoundException {
         return us.findById(id);
     }
 
@@ -42,19 +42,19 @@ public class UserController {
     }
 
     @PutMapping("user/id={id}")
-    public User modify(@PathVariable int id, @RequestBody User user) throws NotFoundException {
-        User userToModify = us.findById(id);
-        userToModify.setActive(user.isActive());
-        userToModify.setBirthDate(user.getBirthDate());
-        userToModify.setCreationDate(user.getCreationDate());
-        userToModify.setEmail(user.getEmail());
-        userToModify.setMoneySpent(user.getMoneySpent());
-        userToModify.setName(user.getName());
-        userToModify.setPassword(user.getPassword());
-        userToModify.setPublicationsNumber(user.getPublicationsNumber());
-        userToModify.setSurname(user.getSurname());
+    public User update(@PathVariable int id, @RequestBody User user) throws NotFoundException {
+        User userToUpdate = us.findById(id);
+        userToUpdate.setActive(user.isActive());
+        userToUpdate.setBirthDate(user.getBirthDate());
+        userToUpdate.setCreationDate(user.getCreationDate());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setMoneySpent(user.getMoneySpent());
+        userToUpdate.setName(user.getName());
+        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setPublicationsNumber(user.getPublicationsNumber());
+        userToUpdate.setSurname(user.getSurname());
         
-        return us.modifyUser(userToModify);
+        return us.modifyUser(userToUpdate);
     }
 
     @DeleteMapping("/user/id={id}")
@@ -72,8 +72,8 @@ public class UserController {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException bnfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", bnfe.getMessage());
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
+        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

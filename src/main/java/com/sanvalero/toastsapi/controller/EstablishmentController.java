@@ -85,17 +85,17 @@ public class EstablishmentController {
     }
 
     @PutMapping("/establishment/id={id}")
-    public Establishment modify(@RequestBody Establishment establishment, @PathVariable int id)
+    public Establishment update(@RequestBody Establishment establishment, @PathVariable int id)
             throws NotFoundException {
-        Establishment establishmentToModify = es.findById(id);
-        establishmentToModify.setCreationDate(establishment.getCreationDate());
-        establishmentToModify.setLocation(establishment.getLocation());
-        establishmentToModify.setName(establishment.getName());
-        establishmentToModify.setOpen(establishment.isOpen());
-        establishmentToModify.setPublications(establishment.getPublications());
-        establishmentToModify.setPunctuation(establishment.getPunctuation());
+        Establishment establishmentToUpdate = es.findById(id);
+        establishmentToUpdate.setCreationDate(establishment.getCreationDate());
+        establishmentToUpdate.setLocation(establishment.getLocation());
+        establishmentToUpdate.setName(establishment.getName());
+        establishmentToUpdate.setOpen(establishment.isOpen());
+        establishmentToUpdate.setPublications(establishment.getPublications());
+        establishmentToUpdate.setPunctuation(establishment.getPunctuation());
 
-        return es.modifyEstablishment(establishmentToModify);
+        return es.modifyEstablishment(establishmentToUpdate);
     }
 
     @DeleteMapping("/establishment/id={id}")
@@ -113,8 +113,8 @@ public class EstablishmentController {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException bnfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", bnfe.getMessage());
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
+        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

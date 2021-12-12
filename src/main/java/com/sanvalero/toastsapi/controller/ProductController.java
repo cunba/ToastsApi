@@ -146,26 +146,22 @@ public class ProductController {
     }
 
     @PutMapping("/product/id={id}")
-    public Product update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
-        Product productToUpdate = ps.findById(id);
-
+    public Product update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {        
         ProductType type = pts.findById(productDTO.getTypeId());
-        Menu menu = ms.findById(productDTO.getMenuId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
-
+        
+        Product product = ps.findById(id);
         ModelMapper mapper = new ModelMapper();
-        Product product = mapper.map(productDTO, Product.class);
+        product = mapper.map(productDTO, Product.class);
+        product.setPublication(publication);
+        product.setType(type);
+        
+        if (productDTO.isInMenu()) {
+            Menu menu = ms.findById(productDTO.getMenuId());
+            product.setMenu(menu);
+        }
 
-        productToUpdate.setDate(product.getDate());
-        productToUpdate.setInMenu(product.isInMenu());
-        productToUpdate.setMenu(menu);
-        productToUpdate.setName(product.getName());
-        productToUpdate.setPrice(product.getPrice());
-        productToUpdate.setPublication(publication);
-        productToUpdate.setPunctuation(product.getPunctuation());
-        productToUpdate.setType(type);
-
-        return ps.modifyProduct(productToUpdate);
+        return ps.modifyProduct(product);
     }
 
     @DeleteMapping("/product/id={id}")
@@ -183,8 +179,8 @@ public class ProductController {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException bnfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", bnfe.getMessage());
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
+        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
