@@ -7,7 +7,7 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 
 public interface EstablishmentService {
-    List<Establishment> findByName(String name);
+    Establishment findByName(String name);
 
     List<Establishment> findByCreationDate(LocalDate date);
 
