@@ -130,6 +130,7 @@ public class ProductController {
 
         ModelMapper mapper = new ModelMapper();
         Product product = mapper.map(productDTO, Product.class);
+        product.setDate(LocalDate.now());
         product.setType(type);
         product.setMenu(menu);
         product.setPublication(publication);

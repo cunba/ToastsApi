@@ -1,5 +1,6 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -36,6 +37,7 @@ public class UserController {
 
     @PostMapping("/user")
     public User create(@RequestBody User user) {
+        user.setCreationDate(LocalDate.now());
         return us.addUser(user);
     }
 

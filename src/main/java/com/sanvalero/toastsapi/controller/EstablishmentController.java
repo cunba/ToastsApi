@@ -80,6 +80,7 @@ public class EstablishmentController {
 
     @PostMapping("/establishment")
     public Establishment create(@RequestBody Establishment establishment) {
+        establishment.setCreationDate(LocalDate.now());
         return es.addEstablishment(establishment);
     }
 

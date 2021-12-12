@@ -58,12 +58,6 @@ public class ProductTypeController {
         return pts.addType(type);
     }
 
-    @DeleteMapping("/type/id={id}")
-    public ProductType deleteType(@PathVariable int id) throws NotFoundException {
-        ProductType type = pts.findById(id);
-        return pts.deleteType(type);
-    }
-
     @PutMapping("/type/id={id}")
     public ProductType modifyType(@PathVariable int id, @RequestBody ProductType type) throws NotFoundException {
         ProductType typeToModify = pts.findById(id);
@@ -71,6 +65,12 @@ public class ProductTypeController {
         typeToModify.setType(type.getType());
 
         return pts.modifyType(typeToModify);
+    }
+
+    @DeleteMapping("/type/id={id}")
+    public ProductType deleteType(@PathVariable int id) throws NotFoundException {
+        ProductType type = pts.findById(id);
+        return pts.deleteType(type);
     }
 
     @DeleteMapping("/types")

@@ -80,6 +80,7 @@ public class MenuController {
 
     @PostMapping("/menu")
     public Menu create(@RequestBody Menu menu) {
+        menu.setDate(LocalDate.now());
         return ms.addMenu(menu);
     }
 
