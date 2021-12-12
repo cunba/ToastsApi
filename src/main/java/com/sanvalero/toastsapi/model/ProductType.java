@@ -18,8 +18,8 @@ public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
-    private String name;
+    @Column(name = "product_name")
+    private String productName;
     @Column
     private String type;
 }
