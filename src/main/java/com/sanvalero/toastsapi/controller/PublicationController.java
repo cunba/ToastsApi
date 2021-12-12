@@ -143,12 +143,14 @@ public class PublicationController {
     public Publication update(@RequestBody PublicationDTO publicationDTO, @PathVariable int id)
             throws NotFoundException {
 
+        Publication publication = ps.findById(id);
+
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
         User user = us.findById(publicationDTO.getUserId());
 
-        Publication publication = ps.findById(id);
-        ModelMapper mapper = new ModelMapper();
-        publication = mapper.map(publicationDTO, Publication.class);
+        publication.setPhoto(publicationDTO.getPhoto());
+        publication.setTotalPrice(publicationDTO.getTotalPrice());
+        publication.setTotalPunctuation(publicationDTO.getTotalPunctuation());
         publication.setEstablishment(establishment);
         publication.setUser(user);
 

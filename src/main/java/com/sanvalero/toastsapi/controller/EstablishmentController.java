@@ -51,8 +51,17 @@ public class EstablishmentController {
     @GetMapping("/establishments/minDate={minDateString}-maxDate={maxDateString}")
     public List<Establishment> getByCreationDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
+
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
         LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+
+        LocalDate changerDate = LocalDate.now();
+        if (minDate.isAfter(maxDate)) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
+        }
+
         return es.findByCreationDateBetween(minDate, maxDate);
     }
 
@@ -74,6 +83,13 @@ public class EstablishmentController {
     @GetMapping("/establishments/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
     public List<Establishment> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
+
+        float templatePunctuation = 0;
+        if (minPunctuation > maxPunctuation) {
+            templatePunctuation = minPunctuation;
+            minPunctuation = maxPunctuation;
+            maxPunctuation = templatePunctuation;
+        }
 
         return es.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }

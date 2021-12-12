@@ -42,6 +42,13 @@ public class MenuController {
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
         LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
 
+        LocalDate changerDate = LocalDate.now();
+        if (minDate.isAfter(maxDate)) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
+        }
+
         return ms.findByDateBetween(minDate, maxDate);
     }
 
@@ -54,6 +61,13 @@ public class MenuController {
     public List<Menu> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
+        float templatePrice = 0;
+        if (minPrice > maxPrice) {
+            templatePrice = minPrice;
+            minPrice = maxPrice;
+            maxPrice = templatePrice;
+        }
+
         return ms.findByPriceBetween(minPrice, maxPrice);
     }
 
@@ -65,6 +79,14 @@ public class MenuController {
     @GetMapping("/menus/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
     public List<Menu> getByPunbtuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
+
+        float templatePunctuation = 0;
+        if (minPunctuation > maxPunctuation) {
+            templatePunctuation = minPunctuation;
+            minPunctuation = maxPunctuation;
+            maxPunctuation = templatePunctuation;
+        }
+
         return ms.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 

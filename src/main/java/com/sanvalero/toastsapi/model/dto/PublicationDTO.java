@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class PublicationDTO {
 
     private int id;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     private float totalPrice;
     private float totalPunctuation;
