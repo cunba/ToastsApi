@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class ProductDTO {
 
     private int id;
-    private String name;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     private boolean inMenu;

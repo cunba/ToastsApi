@@ -2,6 +2,7 @@ package com.sanvalero.toastsapi.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,6 @@ public class ProductType {
     private String type;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "type")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
     private List<Product> products;
 }

@@ -3,7 +3,6 @@ package com.sanvalero.toastsapi.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
@@ -117,7 +116,7 @@ public class ProductController {
             minPunctuation = maxPunctuation;
             maxPunctuation = templatePunctuation;
         }
-        
+
         return ps.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
@@ -127,14 +126,8 @@ public class ProductController {
         return ps.findByType(type);
     }
 
-    @GetMapping("/products/types")
-    public List<Product> getByTypes(@RequestParam(value = "ids") Vector<Integer> typesIds) {
-        List<ProductType> types = pts.findByIds(typesIds);
-        return ps.findByTypes(types);
-    }
-
     @GetMapping("/products/menu")
-    public List<Product> getByMenu(@RequestParam(value = "menuId") int id) throws NotFoundException {
+    public List<Product> getByMenu(@RequestParam(value = "id") int id) throws NotFoundException {
         Menu menu = ms.findById(id);
 
         return ps.findByMenu(menu);
@@ -158,29 +151,33 @@ public class ProductController {
         product.setType(type);
         product.setPublication(publication);
 
+        Menu menu = null;
         if (productDTO.isInMenu()) {
-            Menu menu = ms.findById(productDTO.getMenuId());
-            product.setMenu(menu);
+            menu = ms.findById(productDTO.getMenuId());
         }
+        product.setMenu(menu);
 
         return ps.addProduct(product);
     }
 
     @PutMapping("/product/id={id}")
     public Product update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
+        Product product = ps.findById(id);
+
         ProductType type = pts.findById(productDTO.getTypeId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
 
-        Product product = ps.findById(id);
-        ModelMapper mapper = new ModelMapper();
-        product = mapper.map(productDTO, Product.class);
+        product.setInMenu(productDTO.isInMenu());
+        product.setPrice(productDTO.getPrice());
+        product.setPunctuation(productDTO.getPunctuation());
         product.setPublication(publication);
         product.setType(type);
 
+        Menu menu = null;
         if (productDTO.isInMenu()) {
-            Menu menu = ms.findById(productDTO.getMenuId());
-            product.setMenu(menu);
+            menu = ms.findById(productDTO.getMenuId());
         }
+        product.setMenu(menu);
 
         return ps.modifyProduct(product);
     }

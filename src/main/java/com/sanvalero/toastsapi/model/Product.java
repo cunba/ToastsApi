@@ -27,8 +27,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
-    private String name;
-    @Column
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     @Column(name = "in_menu")
