@@ -68,6 +68,13 @@ public class ProductController {
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
         LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
 
+        LocalDate changerDate = LocalDate.now();
+        if (minDate.isAfter(maxDate)) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
+        }
+
         return ps.findByDateBetween(minDate, maxDate);
     }
 
@@ -85,6 +92,13 @@ public class ProductController {
     public List<Product> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
+        float templatePrice = 0;
+        if (minPrice > maxPrice) {
+            templatePrice = minPrice;
+            minPrice = maxPrice;
+            maxPrice = templatePrice;
+        }
+
         return ps.findByPriceBetween(minPrice, maxPrice);
     }
 
@@ -97,6 +111,13 @@ public class ProductController {
     public List<Product> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
+        float templatePunctuation = 0;
+        if (minPunctuation > maxPunctuation) {
+            templatePunctuation = minPunctuation;
+            minPunctuation = maxPunctuation;
+            maxPunctuation = templatePunctuation;
+        }
+        
         return ps.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
@@ -130,13 +151,13 @@ public class ProductController {
     public Product create(@RequestBody ProductDTO productDTO) throws NotFoundException {
         ProductType type = pts.findById(productDTO.getTypeId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
-        
+
         ModelMapper mapper = new ModelMapper();
         Product product = mapper.map(productDTO, Product.class);
         product.setDate(LocalDate.now());
         product.setType(type);
         product.setPublication(publication);
-        
+
         if (productDTO.isInMenu()) {
             Menu menu = ms.findById(productDTO.getMenuId());
             product.setMenu(menu);
@@ -147,25 +168,21 @@ public class ProductController {
 
     @PutMapping("/product/id={id}")
     public Product update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
-        Product productToUpdate = ps.findById(id);
-
         ProductType type = pts.findById(productDTO.getTypeId());
-        Menu menu = ms.findById(productDTO.getMenuId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
 
+        Product product = ps.findById(id);
         ModelMapper mapper = new ModelMapper();
-        Product product = mapper.map(productDTO, Product.class);
+        product = mapper.map(productDTO, Product.class);
+        product.setPublication(publication);
+        product.setType(type);
 
-        productToUpdate.setDate(product.getDate());
-        productToUpdate.setInMenu(product.isInMenu());
-        productToUpdate.setMenu(menu);
-        productToUpdate.setName(product.getName());
-        productToUpdate.setPrice(product.getPrice());
-        productToUpdate.setPublication(publication);
-        productToUpdate.setPunctuation(product.getPunctuation());
-        productToUpdate.setType(type);
+        if (productDTO.isInMenu()) {
+            Menu menu = ms.findById(productDTO.getMenuId());
+            product.setMenu(menu);
+        }
 
-        return ps.modifyProduct(productToUpdate);
+        return ps.modifyProduct(product);
     }
 
     @DeleteMapping("/product/id={id}")
@@ -183,8 +200,8 @@ public class ProductController {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException bnfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", bnfe.getMessage());
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
+        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

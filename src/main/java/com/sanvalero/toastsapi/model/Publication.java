@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class Publication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     @Column(name = "total_price")
     private float totalPrice;

@@ -7,7 +7,6 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
-import com.sanvalero.toastsapi.model.dto.PublicationDTO;
 
 public interface PublicationService {
     List<Publication> findByDate(LocalDate date);
@@ -30,7 +29,7 @@ public interface PublicationService {
 
     Publication findById(int id) throws NotFoundException;
 
-    Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException;
+    Publication addPublication(Publication publication);
 
     Publication modifyPublication(Publication publication);
 

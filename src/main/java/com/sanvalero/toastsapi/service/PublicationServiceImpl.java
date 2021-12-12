@@ -7,12 +7,8 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
-import com.sanvalero.toastsapi.model.dto.PublicationDTO;
-import com.sanvalero.toastsapi.repository.EstablishmentRepository;
 import com.sanvalero.toastsapi.repository.PublicationRepository;
-import com.sanvalero.toastsapi.repository.UserRepository;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +17,6 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Autowired
     private PublicationRepository pr;
-    @Autowired
-    private EstablishmentRepository er;
-    @Autowired
-    private UserRepository ur;
 
     @Override
     public List<Publication> findByDate(LocalDate date) {
@@ -77,17 +69,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException {
-        Establishment establishment = er.findById(publicationDTO.getEstablishmentId())
-                .orElseThrow(NotFoundException::new);
-        User user = ur.findById(publicationDTO.getUserId())
-                .orElseThrow(NotFoundException::new);
-
-        ModelMapper mapper = new ModelMapper();
-        Publication publication = mapper.map(publicationDTO, Publication.class);
-        publication.setEstablishment(establishment);
-        publication.setUser(user);
-
+    public Publication addPublication(Publication publication) {
         return pr.save(publication);
     }
 
