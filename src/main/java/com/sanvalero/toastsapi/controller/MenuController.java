@@ -82,7 +82,7 @@ public class MenuController {
 
     @DeleteMapping("/menu/id={id}")
     public Menu delete(@PathVariable int id) throws NotFoundException {
-        Menu menu = getMenuById(id);
+        Menu menu = ms.findById(id);
         ms.deleteMenu(menu);
         return menu;
     }

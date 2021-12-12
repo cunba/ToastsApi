@@ -28,7 +28,7 @@ public class Establishment {
     @Column
     private String name;
     @Column(name = "creation_date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
     @Column
     private String location;
