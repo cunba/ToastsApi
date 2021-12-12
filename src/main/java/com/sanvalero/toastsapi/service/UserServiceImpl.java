@@ -2,6 +2,7 @@ package com.sanvalero.toastsapi.service;
 
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.User;
 import com.sanvalero.toastsapi.repository.UserRepository;
 
@@ -20,8 +21,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(int id) {
-        return findById(id);
+    public User findById(int id) throws NotFoundException {
+        return ur.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -30,14 +31,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User deleteUser(int id) {
-        return null;
+    public User deleteUser(User user) {
+        ur.delete(user);
+        return user;
     }
 
     @Override
-    public User modifyUser(User user, int id) {
-        // TODO Auto-generated method stub
-        return null;
+    public User modifyUser(User user) {
+        return ur.save(user);
     }
-    
+
 }
