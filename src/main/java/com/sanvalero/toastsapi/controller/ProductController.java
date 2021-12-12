@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Vector;
 
+import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Product;
@@ -18,7 +19,10 @@ import com.sanvalero.toastsapi.service.PublicationService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -125,15 +129,18 @@ public class ProductController {
     @PostMapping("/product")
     public Product create(@RequestBody ProductDTO productDTO) throws NotFoundException {
         ProductType type = pts.findById(productDTO.getTypeId());
-        Menu menu = ms.findById(productDTO.getMenuId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
-
+        
         ModelMapper mapper = new ModelMapper();
         Product product = mapper.map(productDTO, Product.class);
         product.setDate(LocalDate.now());
         product.setType(type);
-        product.setMenu(menu);
         product.setPublication(publication);
+        
+        if (productDTO.isInMenu()) {
+            Menu menu = ms.findById(productDTO.getMenuId());
+            product.setMenu(menu);
+        }
 
         return ps.addProduct(product);
     }
@@ -173,5 +180,11 @@ public class ProductController {
         ps.deleteAll();
 
         return "All products deleted";
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException bnfe) {
+        ErrorResponse errorResponse = new ErrorResponse("404", bnfe.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
