@@ -26,8 +26,10 @@ public interface EstablishmentService {
     List<Establishment> findAll();
 
     Establishment addEstablishment(Establishment establishment);
+    
+    Establishment modifyEstablishment(Establishment establishment);
 
     Establishment deleteEstablishment(Establishment establishment);
 
-    Establishment modifyEstablishment(Establishment establishment);
+    void deleteAll();
 }

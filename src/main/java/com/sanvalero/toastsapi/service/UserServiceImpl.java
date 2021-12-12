@@ -31,14 +31,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User modifyUser(User user) {
+        return ur.save(user);
+    }
+
+    @Override
     public User deleteUser(User user) {
         ur.delete(user);
         return user;
     }
 
     @Override
-    public User modifyUser(User user) {
-        return ur.save(user);
+    public void deleteAll() {
+        ur.deleteAll();
     }
-
 }

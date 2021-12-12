@@ -1,5 +1,6 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -36,14 +37,8 @@ public class UserController {
 
     @PostMapping("/user")
     public User create(@RequestBody User user) {
+        user.setCreationDate(LocalDate.now());
         return us.addUser(user);
-    }
-
-    @DeleteMapping("/user/id={id}")
-    public User delete(@PathVariable int id) throws NotFoundException {
-        User user = us.findById(id);
-        us.deleteUser(user);
-        return user;
     }
 
     @PutMapping("user/id={id}")
@@ -58,8 +53,22 @@ public class UserController {
         userToModify.setPassword(user.getPassword());
         userToModify.setPublicationsNumber(user.getPublicationsNumber());
         userToModify.setSurname(user.getSurname());
-
+        
         return us.modifyUser(userToModify);
+    }
+
+    @DeleteMapping("/user/id={id}")
+    public User delete(@PathVariable int id) throws NotFoundException {
+        User user = us.findById(id);
+        us.deleteUser(user);
+        return user;
+    }
+
+    @DeleteMapping("/users")
+    public String deleteAll() {
+        us.deleteAll();
+
+        return "All users deleted";
     }
 
     @ExceptionHandler(NotFoundException.class)

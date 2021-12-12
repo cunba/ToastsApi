@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.util.List;
+import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
@@ -54,6 +55,16 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     @Override
     public ProductType modifyType(ProductType type) {
         return ptr.save(type);
+    }
+
+    @Override
+    public List<ProductType> findByIds(Vector<Integer> ids) {
+        return (List<ProductType>) ptr.findAllById(ids);
+    }
+
+    @Override
+    public void deleteAll() {
+        ptr.deleteAll();
     }
 
 }

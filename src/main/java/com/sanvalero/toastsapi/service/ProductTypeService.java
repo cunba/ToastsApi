@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.util.List;
+import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
@@ -16,9 +17,13 @@ public interface ProductTypeService {
 
     ProductType findById(int id) throws NotFoundException;
 
-    ProductType addType(ProductType productType);
+    List<ProductType> findByIds(Vector<Integer> ids);
 
-    ProductType deleteType(ProductType productType);
+    ProductType addType(ProductType type);
 
-    ProductType modifyType(ProductType productType);
+    ProductType deleteType(ProductType type);
+
+    ProductType modifyType(ProductType type);
+
+    void deleteAll();
 }

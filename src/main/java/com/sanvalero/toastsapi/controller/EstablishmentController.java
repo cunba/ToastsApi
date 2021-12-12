@@ -80,6 +80,7 @@ public class EstablishmentController {
 
     @PostMapping("/establishment")
     public Establishment create(@RequestBody Establishment establishment) {
+        establishment.setCreationDate(LocalDate.now());
         return es.addEstablishment(establishment);
     }
 
@@ -102,6 +103,13 @@ public class EstablishmentController {
         Establishment establishment = es.findById(id);
         es.deleteEstablishment(establishment);
         return establishment;
+    }
+
+    @DeleteMapping("/establishments")
+    public String deleteAll() {
+        es.deleteAll();
+
+        return "All establishments deleted";
     }
 
     @ExceptionHandler(NotFoundException.class)
