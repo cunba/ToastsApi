@@ -104,6 +104,13 @@ public class EstablishmentController {
         return establishment;
     }
 
+    @DeleteMapping("/establishments")
+    public String deleteAll() {
+        es.deleteAll();
+
+        return "All establishments deleted";
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException bnfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", bnfe.getMessage());

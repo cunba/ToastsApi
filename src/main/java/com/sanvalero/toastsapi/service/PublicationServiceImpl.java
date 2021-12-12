@@ -79,9 +79,9 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException {
         Establishment establishment = er.findById(publicationDTO.getEstablishmentId())
-            .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         User user = ur.findById(publicationDTO.getUserId())
-            .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new);
 
         ModelMapper mapper = new ModelMapper();
         Publication publication = mapper.map(publicationDTO, Publication.class);
@@ -92,14 +92,19 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    public Publication modifyPublication(Publication publication) {
+        return pr.save(publication);
+    }
+
+    @Override
     public Publication deletePublication(Publication publication) {
         pr.delete(publication);
         return publication;
     }
 
     @Override
-    public Publication modifyPublication(Publication publication) {
-        return pr.save(publication);
+    public void deleteAll() {
+        pr.deleteAll();
     }
-    
+
 }

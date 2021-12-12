@@ -32,7 +32,9 @@ public interface PublicationService {
 
     Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException;
 
+    Publication modifyPublication(Publication publication);
+
     Publication deletePublication(Publication publication);
 
-    Publication modifyPublication(Publication publication);
+    void deleteAll();
 }

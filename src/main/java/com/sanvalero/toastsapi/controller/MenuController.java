@@ -26,20 +26,22 @@ public class MenuController {
     @Autowired
     private MenuService ms;
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     @GetMapping("/menus/date={dateString}")
     public List<Menu> getMenusByDate(@PathVariable String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date = LocalDate.parse(dateString, formatter);
+
         return ms.findByDate(date);
     }
 
     @GetMapping("/menus/minDate={minDateString}-maxDate={maxDateString}")
     public List<Menu> getMenusByDateBetween(@PathVariable String minDateString,
-                                            @PathVariable String maxDateString) {
+            @PathVariable String maxDateString) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
         LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+
         return ms.findByDateBetween(minDate, maxDate);
     }
 
@@ -51,6 +53,7 @@ public class MenuController {
     @GetMapping("/menus/minPrice={minPrice}-maxPrice={maxPrice}")
     public List<Menu> getMenusByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
+
         return ms.findByPriceBetween(minPrice, maxPrice);
     }
 
@@ -80,14 +83,7 @@ public class MenuController {
         return ms.addMenu(menu);
     }
 
-    @DeleteMapping("/menu/id={id}")
-    public Menu delete(@PathVariable int id) throws NotFoundException {
-        Menu menu = ms.findById(id);
-        ms.deleteMenu(menu);
-        return menu;
-    }
-
-    @PutMapping("menu/id={id}")
+    @PutMapping("/menu/id={id}")
     public Menu modify(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
         Menu menuToModify = ms.findById(id);
         menuToModify.setDate(menu.getDate());
@@ -95,6 +91,20 @@ public class MenuController {
         menuToModify.setPunctuation(menu.getPunctuation());
 
         return ms.modifyMenu(menuToModify);
+    }
+
+    @DeleteMapping("/menu/id={id}")
+    public Menu delete(@PathVariable int id) throws NotFoundException {
+        Menu menu = ms.findById(id);
+        ms.deleteMenu(menu);
+        return menu;
+    }
+
+    @DeleteMapping("/menus")
+    public String deleteAll() {
+        ms.deleteAll();
+
+        return "All menus deleted";
     }
 
     @ExceptionHandler(NotFoundException.class)

@@ -67,14 +67,18 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
+    public Establishment modifyEstablishment(Establishment establishment) {
+        return er.save(establishment);
+    }
+
+    @Override
     public Establishment deleteEstablishment(Establishment establishment) {
         er.delete(establishment);
         return establishment;
     }
 
     @Override
-    public Establishment modifyEstablishment(Establishment establishment) {
-        return er.save(establishment);
+    public void deleteAll() {
+        er.deleteAll();
     }
-
 }

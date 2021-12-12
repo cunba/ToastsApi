@@ -49,6 +49,7 @@ public class ProductTypeController {
     @GetMapping("/type")
     public ProductType getTypeByNameAndType(@RequestParam(value = "name") String name,
             @RequestParam(value = "type") String type) {
+
         return pts.findByProductNameAndType(name, type);
     }
 
@@ -70,6 +71,13 @@ public class ProductTypeController {
         typeToModify.setType(type.getType());
 
         return pts.modifyType(typeToModify);
+    }
+
+    @DeleteMapping("/types")
+    public String deleteAll() {
+        pts.deleteAll();
+
+        return "All types deleted";
     }
 
     @ExceptionHandler(NotFoundException.class)

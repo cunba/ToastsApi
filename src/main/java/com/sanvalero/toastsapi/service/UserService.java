@@ -12,7 +12,9 @@ public interface UserService {
 
     User addUser(User user);
 
+    User modifyUser(User user);
+
     User deleteUser(User user);
 
-    User modifyUser(User user);
+    void deleteAll();
 }

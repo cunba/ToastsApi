@@ -8,7 +8,6 @@ import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Product;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.dto.ProductDTO;
 
 public interface ProductService {
     List<Product> findByDate(LocalDate date);
@@ -37,9 +36,11 @@ public interface ProductService {
 
     List<Product> findByTypes(List<ProductType> productTypeList);
 
-    Product addProduct(ProductDTO productDTO) throws NotFoundException;
-
-    Product deleteProduct(int id) throws NotFoundException;
+    Product addProduct(Product product);
 
     Product modifyProduct(Product product);
+
+    Product deleteProduct(Product product);
+
+    void deleteAll();
 }
