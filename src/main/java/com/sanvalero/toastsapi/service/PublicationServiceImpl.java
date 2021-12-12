@@ -93,8 +93,8 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public Publication deletePublication(Publication publication) {
-        // TODO Auto-generated method stub
-        return null;
+        pr.delete(publication);
+        return publication;
     }
 
     @Override
