@@ -34,7 +34,7 @@ public class Menu {
     @Column
     private float punctuation;
 
-    @JsonIgnore
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu")
     private List<Product> products;
 }

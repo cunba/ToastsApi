@@ -44,19 +44,19 @@ public class PublicationController {
         return ps.findAll();
     }
 
-    @GetMapping("/publication/id={id}")
+    @GetMapping("/publication/{id}")
     public Publication getById(@PathVariable int id) throws NotFoundException {
         return ps.findById(id);
     }
 
-    @GetMapping("/publications/date={dateString}")
+    @GetMapping("/publications/{dateString}")
     public List<Publication> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
         return ps.findByDate(date);
     }
 
-    @GetMapping("/publications/minDate={minDateString}-maxDate={maxDateString}")
+    @GetMapping("/publications/{minDateString}-{maxDateString}")
     public List<Publication> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -73,12 +73,12 @@ public class PublicationController {
         return ps.findByDateBetween(minDate, maxDate);
     }
 
-    @GetMapping("/publications/price={price}")
+    @GetMapping("/publications/{price}")
     public List<Publication> getByTotalPrice(@PathVariable float price) {
         return ps.findByTotalPrice(price);
     }
 
-    @GetMapping("/publications/minPrice={minPrice}-maxPrice={maxPrice}")
+    @GetMapping("/publications/{minPrice}-{maxPrice}")
     public List<Publication> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -92,12 +92,12 @@ public class PublicationController {
         return ps.findByTotalPriceBetween(minPrice, maxPrice);
     }
 
-    @GetMapping("/publications/punctuation={punctuation}")
+    @GetMapping("/publications/{punctuation}")
     public List<Publication> getByPunctuation(@PathVariable float punctuation) {
         return ps.findByTotalPunctuation(punctuation);
     }
 
-    @GetMapping("/publications/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
+    @GetMapping("/publications/{minPunctuation}-{maxPunctuation}")
     public List<Publication> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -139,7 +139,7 @@ public class PublicationController {
         return ps.addPublication(publication);
     }
 
-    @PutMapping("/publication/id={id}")
+    @PutMapping("/publication/{id}")
     public Publication update(@RequestBody PublicationDTO publicationDTO, @PathVariable int id)
             throws NotFoundException {
 
@@ -157,7 +157,7 @@ public class PublicationController {
         return ps.modifyPublication(publication);
     }
 
-    @DeleteMapping("/publication/id={id}")
+    @DeleteMapping("/publication/{id}")
     public Publication delete(@PathVariable int id) throws NotFoundException {
         Publication publication = ps.findById(id);
 

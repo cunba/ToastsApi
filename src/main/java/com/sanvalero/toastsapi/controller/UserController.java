@@ -30,7 +30,7 @@ public class UserController {
         return us.findAllUsers();
     }
 
-    @GetMapping("/user/id={id}")
+    @GetMapping("/user/{id}")
     public User getById(@PathVariable int id) throws NotFoundException {
         return us.findById(id);
     }
@@ -41,7 +41,7 @@ public class UserController {
         return us.addUser(user);
     }
 
-    @PutMapping("user/id={id}")
+    @PutMapping("user/{id}")
     public User update(@PathVariable int id, @RequestBody User user) throws NotFoundException {
         User userToUpdate = us.findById(id);
         userToUpdate.setActive(user.isActive());
@@ -57,7 +57,7 @@ public class UserController {
         return us.modifyUser(userToUpdate);
     }
 
-    @DeleteMapping("/user/id={id}")
+    @DeleteMapping("/user/{id}")
     public User delete(@PathVariable int id) throws NotFoundException {
         User user = us.findById(id);
         us.deleteUser(user);

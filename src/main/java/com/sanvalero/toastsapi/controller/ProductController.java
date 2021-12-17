@@ -48,19 +48,19 @@ public class ProductController {
         return ps.findAll();
     }
 
-    @GetMapping("/product/id={id}")
+    @GetMapping("/product/{id}")
     public Product getById(@PathVariable int id) throws NotFoundException {
         return ps.findById(id);
     }
 
-    @GetMapping("/products/date={dateString}")
+    @GetMapping("/products/{dateString}")
     public List<Product> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
         return ps.findByDate(date);
     }
 
-    @GetMapping("/products/minDate={minDateString}-maxDate={maxDateString}")
+    @GetMapping("/products/{minDateString}-{maxDateString}")
     public List<Product> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -77,17 +77,17 @@ public class ProductController {
         return ps.findByDateBetween(minDate, maxDate);
     }
 
-    @GetMapping("/products/inMenu={inMenu}")
+    @GetMapping("/products/{inMenu}")
     public List<Product> getByInMenu(@PathVariable boolean inMenu) {
         return ps.findByInMenu(inMenu);
     }
 
-    @GetMapping("/products/price={price}")
+    @GetMapping("/products/{price}")
     public List<Product> getByPrice(@PathVariable float price) {
         return ps.findByPrice(price);
     }
 
-    @GetMapping("/products/minPrice={minPrice}-maxPrice={maxPrice}")
+    @GetMapping("/products/{minPrice}-{maxPrice}")
     public List<Product> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -101,12 +101,12 @@ public class ProductController {
         return ps.findByPriceBetween(minPrice, maxPrice);
     }
 
-    @GetMapping("/products/punctuation={punctuation}")
+    @GetMapping("/products/{punctuation}")
     public List<Product> getByPunctuation(@PathVariable float punctuation) {
         return ps.findByPunctuation(punctuation);
     }
 
-    @GetMapping("/products/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
+    @GetMapping("/products/{minPunctuation}-{maxPunctuation}")
     public List<Product> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -160,7 +160,7 @@ public class ProductController {
         return ps.addProduct(product);
     }
 
-    @PutMapping("/product/id={id}")
+    @PutMapping("/product/{id}")
     public Product update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
         Product product = ps.findById(id);
 
@@ -182,7 +182,7 @@ public class ProductController {
         return ps.modifyProduct(product);
     }
 
-    @DeleteMapping("/product/id={id}")
+    @DeleteMapping("/product/{id}")
     public Product delete(@PathVariable int id) throws NotFoundException {
         Product product = ps.findById(id);
 

@@ -31,17 +31,17 @@ public class ProductTypeController {
         return pts.findAll();
     }
 
-    @GetMapping("/type/id={id}")
+    @GetMapping("/type/{id}")
     public ProductType getById(@PathVariable int id) throws NotFoundException {
         return pts.findById(id);
     }
 
-    @GetMapping("/type/name={name}")
+    @GetMapping("/type/{name}")
     public List<ProductType> getByName(@PathVariable String name) {
         return pts.findByProductName(name);
     }
 
-    @GetMapping("/type/type={type}")
+    @GetMapping("/type/{type}")
     public ProductType getByType(@PathVariable String type) {
         return pts.findByType(type);
     }
@@ -58,7 +58,7 @@ public class ProductTypeController {
         return pts.addType(type);
     }
 
-    @PutMapping("/type/id={id}")
+    @PutMapping("/type/{id}")
     public ProductType update(@PathVariable int id, @RequestBody ProductType type) throws NotFoundException {
         ProductType typeToModify = pts.findById(id);
         typeToModify.setProductName(type.getProductName());
@@ -67,7 +67,7 @@ public class ProductTypeController {
         return pts.modifyType(typeToModify);
     }
 
-    @DeleteMapping("/type/id={id}")
+    @DeleteMapping("/type/{id}")
     public ProductType delete(@PathVariable int id) throws NotFoundException {
         ProductType type = pts.findById(id);
         return pts.deleteType(type);

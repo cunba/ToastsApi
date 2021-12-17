@@ -41,11 +41,11 @@ public class Publication {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "publication_user")
     private User user;
     @ManyToOne
     @JoinColumn(name = "establishment_id")
-    @JsonBackReference
+    @JsonBackReference(value = "publication_establishment")
     private Establishment establishment;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "publication")

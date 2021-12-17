@@ -48,7 +48,7 @@ public class EstablishmentController {
         return es.findByCreationDate(creationDate);
     }
 
-    @GetMapping("/establishments/minDate={minDateString}-maxDate={maxDateString}")
+    @GetMapping("/establishments/{minDateString}-{maxDateString}")
     public List<Establishment> getByCreationDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -65,12 +65,12 @@ public class EstablishmentController {
         return es.findByCreationDateBetween(minDate, maxDate);
     }
 
-    @GetMapping("/establishments/open={open}")
+    @GetMapping("/establishments/{open}")
     public List<Establishment> getByOpen(@PathVariable boolean open) {
         return es.findByOpen(open);
     }
 
-    @GetMapping("/establishments/location={location}")
+    @GetMapping("/establishments/{location}")
     public List<Establishment> getByLocation(@PathVariable String location) {
         return es.findByLocation(location);
     }
@@ -80,7 +80,7 @@ public class EstablishmentController {
         return es.findByPunctuation(punctuation);
     }
 
-    @GetMapping("/establishments/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
+    @GetMapping("/establishments/{minPunctuation}-{maxPunctuation}")
     public List<Establishment> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -100,7 +100,7 @@ public class EstablishmentController {
         return es.addEstablishment(establishment);
     }
 
-    @PutMapping("/establishment/id={id}")
+    @PutMapping("/establishment/{id}")
     public Establishment update(@RequestBody Establishment establishment, @PathVariable int id)
             throws NotFoundException {
         Establishment establishmentToUpdate = es.findById(id);
@@ -114,7 +114,7 @@ public class EstablishmentController {
         return es.modifyEstablishment(establishmentToUpdate);
     }
 
-    @DeleteMapping("/establishment/id={id}")
+    @DeleteMapping("/establishment/{id}")
     public Establishment delete(@PathVariable int id) throws NotFoundException {
         Establishment establishment = es.findById(id);
         es.deleteEstablishment(establishment);

@@ -28,14 +28,14 @@ public class MenuController {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    @GetMapping("/menus/date={dateString}")
+    @GetMapping("/menus/{dateString}")
     public List<Menu> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
         return ms.findByDate(date);
     }
 
-    @GetMapping("/menus/minDate={minDateString}-maxDate={maxDateString}")
+    @GetMapping("/menus/{minDateString}-{maxDateString}")
     public List<Menu> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -52,12 +52,12 @@ public class MenuController {
         return ms.findByDateBetween(minDate, maxDate);
     }
 
-    @GetMapping("/menus/price={price}")
+    @GetMapping("/menus/{price}")
     public List<Menu> getByPrice(@PathVariable float price) {
         return ms.findByPrice(price);
     }
 
-    @GetMapping("/menus/minPrice={minPrice}-maxPrice={maxPrice}")
+    @GetMapping("/menus/{minPrice}-{maxPrice}")
     public List<Menu> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -71,12 +71,12 @@ public class MenuController {
         return ms.findByPriceBetween(minPrice, maxPrice);
     }
 
-    @GetMapping("/menus/punctuation={punctuation}")
+    @GetMapping("/menus/{punctuation}")
     public List<Menu> getByPunctuation(@PathVariable float punctuation) {
         return ms.findByPunctuation(punctuation);
     }
 
-    @GetMapping("/menus/minPunctuation={minPunctuation}-maxPunctuation={maxPunctuation}")
+    @GetMapping("/menus/{minPunctuation}-{maxPunctuation}")
     public List<Menu> getByPunbtuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -90,7 +90,7 @@ public class MenuController {
         return ms.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
-    @GetMapping("/menu/id={id}")
+    @GetMapping("/menu/{id}")
     public Menu getById(@PathVariable int id) throws NotFoundException {
         return ms.findById(id);
     }
@@ -106,7 +106,7 @@ public class MenuController {
         return ms.addMenu(menu);
     }
 
-    @PutMapping("/menu/id={id}")
+    @PutMapping("/menu/{id}")
     public Menu update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
         Menu menuToUpdate = ms.findById(id);
         menuToUpdate.setDate(menu.getDate());
@@ -116,7 +116,7 @@ public class MenuController {
         return ms.modifyMenu(menuToUpdate);
     }
 
-    @DeleteMapping("/menu/id={id}")
+    @DeleteMapping("/menu/{id}")
     public Menu delete(@PathVariable int id) throws NotFoundException {
         Menu menu = ms.findById(id);
         ms.deleteMenu(menu);
