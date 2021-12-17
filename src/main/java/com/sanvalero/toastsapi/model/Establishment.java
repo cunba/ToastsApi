@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,7 +37,6 @@ public class Establishment {
     @Column
     private float punctuation;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "establishment")
     private List<Publication> publications;
 }
