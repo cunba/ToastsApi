@@ -26,6 +26,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int countPublications(int id) {
+        return ur.countPublications(id);
+    }
+
+    @Override
+    public float sumPrice(int id) {
+        return ur.sumPrice(id);
+    }
+
+    @Override
     public User addUser(User user) {
         return ur.save(user);
     }
