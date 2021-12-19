@@ -117,10 +117,10 @@ public class MenuController {
     }
 
     @DeleteMapping("/menu/{id}")
-    public ResponseEntity<Menu> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         Menu menu = ms.findById(id);
         ms.deleteMenu(menu);
-        return new ResponseEntity<>(menu, HttpStatus.OK);
+        return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
     }
 
     @DeleteMapping("/menus")

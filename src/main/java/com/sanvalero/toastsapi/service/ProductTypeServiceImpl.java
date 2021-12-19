@@ -42,14 +42,13 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public ProductType addType(ProductType type) {
-        return ptr.save(type);
+    public List<ProductType> findByIds(Vector<Integer> ids) {
+        return (List<ProductType>) ptr.findAllById(ids);
     }
 
     @Override
-    public ProductType deleteType(ProductType type) {
-        ptr.delete(type);
-        return type;
+    public ProductType addType(ProductType type) {
+        return ptr.save(type);
     }
 
     @Override
@@ -58,8 +57,8 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public List<ProductType> findByIds(Vector<Integer> ids) {
-        return (List<ProductType>) ptr.findAllById(ids);
+    public void deleteType(ProductType type) {
+        ptr.delete(type);
     }
 
     @Override
