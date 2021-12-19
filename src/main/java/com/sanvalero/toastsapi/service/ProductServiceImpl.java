@@ -90,9 +90,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product deleteProduct(Product product) {
+    public void updatePrice(Product product) {
+        pr.save(product);
+    }
+
+    @Override
+    public void deleteProduct(Product product) {
         pr.delete(product);
-        return product;
     }
 
     @Override
