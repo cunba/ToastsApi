@@ -7,6 +7,7 @@ import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +30,10 @@ public interface PublicationRepository extends CrudRepository<Publication, Integ
     List<Publication> findByEstablishment(Establishment establishment);
 
     List<Publication> findByUser(User user);
+
+    @Query(value = "SELECT SUM(suma) FROM (SELECT SUM(price) AS suma FROM products WHERE publication_id = :id UNION ALL SELECT SUM(price) AS suma FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = :id)) T", nativeQuery = true)
+    float totalPrice(int id);
+
+    @Query(value = "SELECT SUM(suma)/SUM(num) FROM (SELECT SUM(punctuation) AS suma, COUNT(id) AS num FROM products WHERE publication_id = 1 UNION ALL SELECT SUM(punctuation) AS suma, COUNT(id) AS num FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = 1)) T", nativeQuery = true)
+    float totalPunctuation(int id);    
 }

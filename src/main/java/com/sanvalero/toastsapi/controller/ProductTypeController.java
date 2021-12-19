@@ -60,11 +60,11 @@ public class ProductTypeController {
 
     @PutMapping("/type/{id}")
     public ProductType update(@PathVariable int id, @RequestBody ProductType type) throws NotFoundException {
-        ProductType typeToModify = pts.findById(id);
-        typeToModify.setProductName(type.getProductName());
-        typeToModify.setType(type.getType());
+        ProductType typeToUpdate = pts.findById(id);
+        typeToUpdate.setProductName(type.getProductName());
+        typeToUpdate.setType(type.getType());
 
-        return pts.modifyType(typeToModify);
+        return pts.updateType(typeToUpdate);
     }
 
     @DeleteMapping("/type/{id}")

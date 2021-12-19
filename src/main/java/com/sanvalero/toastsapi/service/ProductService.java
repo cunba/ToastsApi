@@ -36,7 +36,7 @@ public interface ProductService {
 
     Product addProduct(Product product);
 
-    Product modifyProduct(Product product);
+    Product updateProduct(Product product);
 
     Product deleteProduct(Product product);
 

@@ -27,7 +27,7 @@ public interface EstablishmentService {
 
     Establishment addEstablishment(Establishment establishment);
     
-    Establishment modifyEstablishment(Establishment establishment);
+    Establishment updateEstablishment(Establishment establishment);
 
     Establishment deleteEstablishment(Establishment establishment);
 

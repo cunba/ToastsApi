@@ -53,7 +53,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public ProductType modifyType(ProductType type) {
+    public ProductType updateType(ProductType type) {
         return ptr.save(type);
     }
 

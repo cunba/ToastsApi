@@ -25,7 +25,7 @@ public interface MenuService {
 
     Menu addMenu(Menu menu);
 
-    Menu modifyMenu(Menu menu);
+    Menu updateMenu(Menu menu);
 
     Menu deleteMenu(Menu menu);
 

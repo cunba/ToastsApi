@@ -14,10 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,23 +28,29 @@ public class UserController {
     private UserService us;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return us.findAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public User getById(@PathVariable int id) throws NotFoundException {
-        return us.findById(id);
+    public ResponseEntity<User> getById(@PathVariable int id) throws NotFoundException {
+        return new ResponseEntity<>(us.findById(id), HttpStatus.OK);
     }
 
     @PostMapping("/user")
-    public User create(@RequestBody User user) {
+    public ResponseEntity<User> create(@RequestBody User user) {
         user.setCreationDate(LocalDate.now());
-        return us.addUser(user);
+        return new ResponseEntity<>(us.addUser(user), HttpStatus.OK);
     }
 
-    @PutMapping("user/{id}")
-    public User update(@PathVariable int id, @RequestBody User user) throws NotFoundException {
+    @PatchMapping("/user/{id}")
+    public ResponseEntity<String> updatepublicationsNumber(@PathVariable int id) {
+        us.countPublications(id);
+        return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User> update(@PathVariable int id, @RequestBody User user) throws NotFoundException {
         User userToUpdate = us.findById(id);
         userToUpdate.setActive(user.isActive());
         userToUpdate.setBirthDate(user.getBirthDate());
@@ -54,21 +62,29 @@ public class UserController {
         userToUpdate.setPublicationsNumber(user.getPublicationsNumber());
         userToUpdate.setSurname(user.getSurname());
         
-        return us.modifyUser(userToUpdate);
+        return new ResponseEntity<>(us.updateUser(userToUpdate), HttpStatus.OK);
+    }
+
+    @PatchMapping("/user/update")
+    public ResponseEntity<String> updatePublicationsNumber(@RequestParam(value = "id") int id) throws NotFoundException {
+        User user = us.findById(id);
+        user.setPublicationsNumber(us.countPublications(id));
+        us.updatePublicationsNumber(user);
+
+        return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")
-    public User delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         User user = us.findById(id);
         us.deleteUser(user);
-        return user;
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 
     @DeleteMapping("/users")
-    public String deleteAll() {
+    public ResponseEntity<String> deleteAll() {
         us.deleteAll();
-
-        return "All users deleted";
+        return new ResponseEntity<>("All users deleted", HttpStatus.OK);
     }
 
     @ExceptionHandler(NotFoundException.class)

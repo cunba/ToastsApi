@@ -179,7 +179,7 @@ public class ProductController {
         }
         product.setMenu(menu);
 
-        return ps.modifyProduct(product);
+        return ps.updateProduct(product);
     }
 
     @DeleteMapping("/product/{id}")

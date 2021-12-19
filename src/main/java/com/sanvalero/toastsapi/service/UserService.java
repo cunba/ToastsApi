@@ -10,9 +10,15 @@ public interface UserService {
 
     User findById(int id) throws NotFoundException;
 
+    int countPublications(int id);
+
+    float sumPrice(int id);
+
     User addUser(User user);
 
-    User modifyUser(User user);
+    User updateUser(User user);
+
+    void updatePublicationsNumber(User user);
 
     User deleteUser(User user);
 

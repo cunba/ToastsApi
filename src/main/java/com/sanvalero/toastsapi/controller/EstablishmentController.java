@@ -111,7 +111,7 @@ public class EstablishmentController {
         establishmentToUpdate.setPublications(establishment.getPublications());
         establishmentToUpdate.setPunctuation(establishment.getPunctuation());
 
-        return es.modifyEstablishment(establishmentToUpdate);
+        return es.updateEstablishment(establishmentToUpdate);
     }
 
     @DeleteMapping("/establishment/{id}")
