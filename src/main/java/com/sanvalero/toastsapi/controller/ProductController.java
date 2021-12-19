@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,24 +46,24 @@ public class ProductController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @GetMapping("/products")
-    public List<Product> getAll() {
-        return ps.findAll();
+    public ResponseEntity<List<Product>> getAll() {
+        return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/product/{id}")
-    public Product getById(@PathVariable int id) throws NotFoundException {
-        return ps.findById(id);
+    public ResponseEntity<Product> getById(@PathVariable int id) throws NotFoundException {
+        return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/products/{dateString}")
-    public List<Product> getByDate(@PathVariable String dateString) {
+    public ResponseEntity<List<Product>> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
-        return ps.findByDate(date);
+        return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
     @GetMapping("/products/{minDateString}-{maxDateString}")
-    public List<Product> getByDateBetween(@PathVariable String minDateString,
+    public ResponseEntity<List<Product>> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
@@ -74,21 +76,21 @@ public class ProductController {
             maxDate = changerDate;
         }
 
-        return ps.findByDateBetween(minDate, maxDate);
+        return new ResponseEntity<>(ps.findByDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
     @GetMapping("/products/{inMenu}")
-    public List<Product> getByInMenu(@PathVariable boolean inMenu) {
-        return ps.findByInMenu(inMenu);
+    public ResponseEntity<List<Product>> getByInMenu(@PathVariable boolean inMenu) {
+        return new ResponseEntity<>(ps.findByInMenu(inMenu), HttpStatus.OK);
     }
 
     @GetMapping("/products/{price}")
-    public List<Product> getByPrice(@PathVariable float price) {
-        return ps.findByPrice(price);
+    public ResponseEntity<List<Product>> getByPrice(@PathVariable float price) {
+        return new ResponseEntity<>(ps.findByPrice(price), HttpStatus.OK);
     }
 
     @GetMapping("/products/{minPrice}-{maxPrice}")
-    public List<Product> getByPriceBetween(@PathVariable float minPrice,
+    public ResponseEntity<List<Product>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
         float templatePrice = 0;
@@ -98,16 +100,16 @@ public class ProductController {
             maxPrice = templatePrice;
         }
 
-        return ps.findByPriceBetween(minPrice, maxPrice);
+        return new ResponseEntity<>(ps.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
     @GetMapping("/products/{punctuation}")
-    public List<Product> getByPunctuation(@PathVariable float punctuation) {
-        return ps.findByPunctuation(punctuation);
+    public ResponseEntity<List<Product>> getByPunctuation(@PathVariable float punctuation) {
+        return new ResponseEntity<>(ps.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/products/{minPunctuation}-{maxPunctuation}")
-    public List<Product> getByPunctuationBetween(@PathVariable float minPunctuation,
+    public ResponseEntity<List<Product>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
         float templatePunctuation = 0;
@@ -117,31 +119,31 @@ public class ProductController {
             maxPunctuation = templatePunctuation;
         }
 
-        return ps.findByPunctuationBetween(minPunctuation, maxPunctuation);
+        return new ResponseEntity<>(ps.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
     @GetMapping("products/type")
-    public List<Product> getByTypeId(@RequestParam(value = "id") int typeId) throws NotFoundException {
+    public ResponseEntity<List<Product>> getByTypeId(@RequestParam(value = "id") int typeId) throws NotFoundException {
         ProductType type = pts.findById(typeId);
-        return ps.findByType(type);
+        return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
     }
 
     @GetMapping("/products/menu")
-    public List<Product> getByMenu(@RequestParam(value = "id") int id) throws NotFoundException {
+    public ResponseEntity<List<Product>> getByMenu(@RequestParam(value = "id") int id) throws NotFoundException {
         Menu menu = ms.findById(id);
 
-        return ps.findByMenu(menu);
+        return new ResponseEntity<>(ps.findByMenu(menu), HttpStatus.OK);
     }
 
     @GetMapping("/products/publication")
-    public List<Product> getByPublication(@RequestParam(value = "id") int id) throws NotFoundException {
+    public ResponseEntity<List<Product>> getByPublication(@RequestParam(value = "id") int id) throws NotFoundException {
         Publication publication = publicationService.findById(id);
 
-        return ps.findByPublication(publication);
+        return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
     }
 
     @PostMapping("/product")
-    public Product create(@RequestBody ProductDTO productDTO) throws NotFoundException {
+    public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO) throws NotFoundException {
         ProductType type = pts.findById(productDTO.getTypeId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
 
@@ -154,14 +156,15 @@ public class ProductController {
         Menu menu = null;
         if (productDTO.isInMenu()) {
             menu = ms.findById(productDTO.getMenuId());
+            product.setPrice(0);
         }
         product.setMenu(menu);
 
-        return ps.addProduct(product);
+        return new ResponseEntity<>(ps.addProduct(product), HttpStatus.OK);
     }
 
     @PutMapping("/product/{id}")
-    public Product update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
         Product product = ps.findById(id);
 
         ProductType type = pts.findById(productDTO.getTypeId());
@@ -169,7 +172,6 @@ public class ProductController {
 
         product.setInMenu(productDTO.isInMenu());
         product.setPrice(productDTO.getPrice());
-        product.setPunctuation(productDTO.getPunctuation());
         product.setPublication(publication);
         product.setType(type);
 
@@ -179,21 +181,37 @@ public class ProductController {
         }
         product.setMenu(menu);
 
-        return ps.updateProduct(product);
+        return new ResponseEntity<>(ps.updateProduct(product), HttpStatus.OK);
+    }
+
+    @PatchMapping("/product/update-price")
+    public ResponseEntity<String> updatePrice(@RequestParam(value = "id") int id,
+            @RequestBody Map<Float, Object> price) throws NotFoundException {
+
+        Product product = ps.findById(id);
+
+        ModelMapper mapper = new ModelMapper();
+        Product productPrice = mapper.map(price, Product.class);
+
+        product.setPrice(productPrice.getPrice());
+        ps.updatePrice(product);
+
+        return new ResponseEntity<>("Price updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{id}")
-    public Product delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         Product product = ps.findById(id);
+        ps.deleteProduct(product);
 
-        return ps.deleteProduct(product);
+        return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
     }
 
     @DeleteMapping("/products")
-    public String deleteAll() {
+    public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 
-        return "All products deleted";
+        return new ResponseEntity<>("All products deleted.", HttpStatus.OK);
     }
 
     @ExceptionHandler(NotFoundException.class)

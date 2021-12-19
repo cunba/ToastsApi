@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -134,6 +133,8 @@ public class PublicationController {
 
         ModelMapper mapper = new ModelMapper();
         Publication publication = mapper.map(publicationDTO, Publication.class);
+        publication.setTotalPrice(0);
+        publication.setTotalPunctuation(0);
         publication.setDate(LocalDate.now());
         publication.setEstablishment(establishment);
         publication.setUser(user);
@@ -142,6 +143,22 @@ public class PublicationController {
     }
 
     @PatchMapping("/publication/update")
+    public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO,
+            @RequestParam(value = "id") int id) throws NotFoundException {
+
+        Publication publication = ps.findById(id);
+
+        Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
+
+        publication.setPhoto(publicationDTO.getPhoto());
+        publication.setTotalPrice(ps.totalPrice(publication.getId()));
+        publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
+        publication.setEstablishment(establishment);
+
+        return new ResponseEntity<>(ps.updatePublication(publication), HttpStatus.OK);
+    }
+
+    @PatchMapping("/publication/update-price-punctuation")
     public ResponseEntity<String> totalPricePunctuation(@RequestParam(value = "id") int id) throws NotFoundException {
         Publication publication = ps.findById(id);
         publication.setTotalPrice(ps.totalPrice(id));
@@ -149,24 +166,6 @@ public class PublicationController {
         ps.updatePricePunctuation(publication);
 
         return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
-    }
-
-    @PutMapping("/publication/{id}")
-    public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO, @PathVariable int id)
-            throws NotFoundException {
-
-        Publication publication = ps.findById(id);
-
-        Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
-        User user = us.findById(publicationDTO.getUserId());
-
-        publication.setPhoto(publicationDTO.getPhoto());
-        publication.setTotalPrice(publicationDTO.getTotalPrice());
-        publication.setTotalPunctuation(publicationDTO.getTotalPunctuation());
-        publication.setEstablishment(establishment);
-        publication.setUser(user);
-
-        return new ResponseEntity<>(ps.updatePublication(publication), HttpStatus.OK);
     }
 
     @DeleteMapping("/publication/{id}")

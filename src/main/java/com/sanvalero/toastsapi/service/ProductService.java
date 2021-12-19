@@ -38,7 +38,9 @@ public interface ProductService {
 
     Product updateProduct(Product product);
 
-    Product deleteProduct(Product product);
+    void updatePrice(Product product);
+
+    void deleteProduct(Product product);
 
     void deleteAll();
 }
