@@ -41,12 +41,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return ur.save(user);
+    public void updatePublicationsNumber(User user) {
+        ur.save(user);
     }
 
     @Override
-    public void updatePublicationsNumber(User user) {
+    public void updateMoneySpent(User user) {
+        ur.save(user);
+    }
+
+    @Override
+    public void updatePassword(User user) {
+        ur.save(user);
+    }
+
+    @Override
+    public void disable(User user) {
+        ur.save(user);
+    }
+
+    @Override
+    public void activate(User user) {
         ur.save(user);
     }
 
