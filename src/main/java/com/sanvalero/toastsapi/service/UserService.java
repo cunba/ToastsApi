@@ -16,9 +16,15 @@ public interface UserService {
 
     User addUser(User user);
 
-    User updateUser(User user);
-
     void updatePublicationsNumber(User user);
+
+    void updateMoneySpent(User user);
+
+    void updatePassword(User user);
+
+    void disable(User user);
+
+    void activate(User user);
 
     User deleteUser(User user);
 
