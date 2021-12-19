@@ -9,6 +9,7 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.dto.PublicationBetweenDTO;
 import com.sanvalero.toastsapi.model.dto.PublicationDTO;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 import com.sanvalero.toastsapi.service.PublicationService;
@@ -128,8 +129,18 @@ public class PublicationController {
 
     @GetMapping("/publications/product-")
     public ResponseEntity<List<Publication>> getByProductType(@RequestParam(value = "type") String productType) {
-        System.out.println(productType);
         return new ResponseEntity<>(ps.findByProductType(productType), HttpStatus.OK);
+    }
+
+    @GetMapping("/publications/")
+    public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
+            @RequestBody PublicationBetweenDTO pbDTO) {
+
+        List<Publication> publications = ps.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(
+                pbDTO.getMinDate(), pbDTO.getMaxDate(), pbDTO.getMinPrice(), pbDTO.getMaxPrice(),
+                pbDTO.getMinPunctuation(), pbDTO.getMaxPunctuation());
+
+        return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 
     @PostMapping("/publication")

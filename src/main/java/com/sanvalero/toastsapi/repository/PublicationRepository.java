@@ -31,6 +31,8 @@ public interface PublicationRepository extends CrudRepository<Publication, Integ
 
     List<Publication> findByUser(User user);
 
+    List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation);
+
     @Query(value = "SELECT * FROM publications WHERE id IN (SELECT publication_id FROM products WHERE type_id IN (SELECT id FROM products_types WHERE product_name = :type))", nativeQuery = true)
     List<Publication> findByProductType(String type);
 
