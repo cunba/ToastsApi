@@ -28,28 +28,28 @@ public class EstablishmentController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @GetMapping("/establishments")
-    public List<Establishment> getAll() {
-        return es.findAll();
+    public ResponseEntity<List<Establishment>> getAll() {
+        return new ResponseEntity<>(es.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/establishment/id={id}")
-    public Establishment getById(@PathVariable int id) throws NotFoundException {
-        return es.findById(id);
+    public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
+        return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/establishment/name={name}")
-    public Establishment getByName(@PathVariable String name) {
-        return es.findByName(name);
+    public ResponseEntity<Establishment> getByName(@PathVariable String name) {
+        return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/date={creationDateString}")
-    public List<Establishment> getByCreationDate(@PathVariable String creationDateString) {
+    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable String creationDateString) {
         LocalDate creationDate = LocalDate.parse(creationDateString, formatter);
-        return es.findByCreationDate(creationDate);
+        return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/{minDateString}-{maxDateString}")
-    public List<Establishment> getByCreationDateBetween(@PathVariable String minDateString,
+    public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
@@ -62,26 +62,26 @@ public class EstablishmentController {
             maxDate = changerDate;
         }
 
-        return es.findByCreationDateBetween(minDate, maxDate);
+        return new ResponseEntity<>(es.findByCreationDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/{open}")
-    public List<Establishment> getByOpen(@PathVariable boolean open) {
-        return es.findByOpen(open);
+    public ResponseEntity<List<Establishment>> getByOpen(@PathVariable boolean open) {
+        return new ResponseEntity<>(es.findByOpen(open), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/{location}")
-    public List<Establishment> getByLocation(@PathVariable String location) {
-        return es.findByLocation(location);
+    public ResponseEntity<List<Establishment>> getByLocation(@PathVariable String location) {
+        return new ResponseEntity<>(es.findByLocation(location), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/punctuation={punctuation}")
-    public List<Establishment> getByPunctuation(@PathVariable float punctuation) {
-        return es.findByPunctuation(punctuation);
+    public ResponseEntity<List<Establishment>> getByPunctuation(@PathVariable float punctuation) {
+        return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/{minPunctuation}-{maxPunctuation}")
-    public List<Establishment> getByPunctuationBetween(@PathVariable float minPunctuation,
+    public ResponseEntity<List<Establishment>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
         float templatePunctuation = 0;
@@ -91,17 +91,17 @@ public class EstablishmentController {
             maxPunctuation = templatePunctuation;
         }
 
-        return es.findByPunctuationBetween(minPunctuation, maxPunctuation);
+        return new ResponseEntity<>(es.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
     @PostMapping("/establishment")
-    public Establishment create(@RequestBody Establishment establishment) {
+    public ResponseEntity<Establishment> create(@RequestBody Establishment establishment) {
         establishment.setCreationDate(LocalDate.now());
-        return es.addEstablishment(establishment);
+        return new ResponseEntity<>(es.addEstablishment(establishment), HttpStatus.OK);
     }
 
     @PutMapping("/establishment/{id}")
-    public Establishment update(@RequestBody Establishment establishment, @PathVariable int id)
+    public ResponseEntity<Establishment> update(@RequestBody Establishment establishment, @PathVariable int id)
             throws NotFoundException {
         Establishment establishmentToUpdate = es.findById(id);
         establishmentToUpdate.setCreationDate(establishment.getCreationDate());
@@ -111,21 +111,21 @@ public class EstablishmentController {
         establishmentToUpdate.setPublications(establishment.getPublications());
         establishmentToUpdate.setPunctuation(establishment.getPunctuation());
 
-        return es.updateEstablishment(establishmentToUpdate);
+        return new ResponseEntity<>(es.updateEstablishment(establishmentToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/establishment/{id}")
-    public Establishment delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         Establishment establishment = es.findById(id);
         es.deleteEstablishment(establishment);
-        return establishment;
+        return new ResponseEntity<>("Establishment deleted.", HttpStatus.OK);
     }
 
     @DeleteMapping("/establishments")
-    public String deleteAll() {
+    public ResponseEntity<String> deleteAll() {
         es.deleteAll();
 
-        return "All establishments deleted";
+        return new ResponseEntity<>("All establishments deleted.", HttpStatus.OK);
     }
 
     @ExceptionHandler(NotFoundException.class)

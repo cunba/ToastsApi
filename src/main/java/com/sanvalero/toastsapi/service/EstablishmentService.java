@@ -29,7 +29,7 @@ public interface EstablishmentService {
     
     Establishment updateEstablishment(Establishment establishment);
 
-    Establishment deleteEstablishment(Establishment establishment);
+    void deleteEstablishment(Establishment establishment);
 
     void deleteAll();
 }

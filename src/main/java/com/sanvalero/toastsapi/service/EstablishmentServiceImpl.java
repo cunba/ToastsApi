@@ -72,9 +72,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public Establishment deleteEstablishment(Establishment establishment) {
+    public void deleteEstablishment(Establishment establishment) {
         er.delete(establishment);
-        return establishment;
     }
 
     @Override
