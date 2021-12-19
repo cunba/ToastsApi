@@ -21,9 +21,9 @@ public interface ProductTypeService {
 
     ProductType addType(ProductType type);
 
-    ProductType deleteType(ProductType type);
-
     ProductType updateType(ProductType type);
+
+    void deleteType(ProductType type);
 
     void deleteAll();
 }
