@@ -67,9 +67,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu deleteMenu(Menu menu) {
+    public void deleteMenu(Menu menu) {
         mr.delete(menu);
-        return menu;
     }
 
     @Override

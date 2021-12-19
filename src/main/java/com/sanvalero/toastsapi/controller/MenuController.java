@@ -29,14 +29,14 @@ public class MenuController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @GetMapping("/menus/{dateString}")
-    public List<Menu> getByDate(@PathVariable String dateString) {
+    public ResponseEntity<List<Menu>> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
-        return ms.findByDate(date);
+        return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
     }
 
     @GetMapping("/menus/{minDateString}-{maxDateString}")
-    public List<Menu> getByDateBetween(@PathVariable String minDateString,
+    public ResponseEntity<List<Menu>> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
         LocalDate minDate = LocalDate.parse(minDateString, formatter);
@@ -49,16 +49,16 @@ public class MenuController {
             maxDate = changerDate;
         }
 
-        return ms.findByDateBetween(minDate, maxDate);
+        return new ResponseEntity<>(ms.findByDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
     @GetMapping("/menus/{price}")
-    public List<Menu> getByPrice(@PathVariable float price) {
-        return ms.findByPrice(price);
+    public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) {
+        return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
     @GetMapping("/menus/{minPrice}-{maxPrice}")
-    public List<Menu> getByPriceBetween(@PathVariable float minPrice,
+    public ResponseEntity<List<Menu>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
         float templatePrice = 0;
@@ -68,16 +68,16 @@ public class MenuController {
             maxPrice = templatePrice;
         }
 
-        return ms.findByPriceBetween(minPrice, maxPrice);
+        return new ResponseEntity<>(ms.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
     @GetMapping("/menus/{punctuation}")
-    public List<Menu> getByPunctuation(@PathVariable float punctuation) {
-        return ms.findByPunctuation(punctuation);
+    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) {
+        return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/menus/{minPunctuation}-{maxPunctuation}")
-    public List<Menu> getByPunbtuationBetween(@PathVariable float minPunctuation,
+    public ResponseEntity<List<Menu>> getByPunbtuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
         float templatePunctuation = 0;
@@ -87,47 +87,47 @@ public class MenuController {
             maxPunctuation = templatePunctuation;
         }
 
-        return ms.findByPunctuationBetween(minPunctuation, maxPunctuation);
+        return new ResponseEntity<>(ms.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
     @GetMapping("/menu/{id}")
-    public Menu getById(@PathVariable int id) throws NotFoundException {
-        return ms.findById(id);
+    public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
+        return new ResponseEntity<>(ms.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/menus")
-    public List<Menu> getAll() {
-        return ms.findAll();
+    public ResponseEntity<List<Menu>> getAll() {
+        return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/menu")
-    public Menu create(@RequestBody Menu menu) {
+    public ResponseEntity<Menu> create(@RequestBody Menu menu) {
         menu.setDate(LocalDate.now());
-        return ms.addMenu(menu);
+        return new ResponseEntity<>(ms.addMenu(menu), HttpStatus.OK);
     }
 
     @PutMapping("/menu/{id}")
-    public Menu update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
+    public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
         Menu menuToUpdate = ms.findById(id);
         menuToUpdate.setDate(menu.getDate());
         menuToUpdate.setPrice(menu.getPrice());
         menuToUpdate.setPunctuation(menu.getPunctuation());
 
-        return ms.updateMenu(menuToUpdate);
+        return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/menu/{id}")
-    public Menu delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Menu> delete(@PathVariable int id) throws NotFoundException {
         Menu menu = ms.findById(id);
         ms.deleteMenu(menu);
-        return menu;
+        return new ResponseEntity<>(menu, HttpStatus.OK);
     }
 
     @DeleteMapping("/menus")
-    public String deleteAll() {
+    public ResponseEntity<String> deleteAll() {
         ms.deleteAll();
 
-        return "All menus deleted";
+        return new ResponseEntity<>("All menus deleted", HttpStatus.OK);
     }
 
     @ExceptionHandler(NotFoundException.class)
