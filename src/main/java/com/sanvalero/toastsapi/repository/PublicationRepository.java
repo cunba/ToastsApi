@@ -31,6 +31,9 @@ public interface PublicationRepository extends CrudRepository<Publication, Integ
 
     List<Publication> findByUser(User user);
 
+    @Query(value = "SELECT * FROM publications WHERE id IN (SELECT publication_id FROM products WHERE type_id IN (SELECT id FROM products_types WHERE product_name = :type))", nativeQuery = true)
+    List<Publication> findByProductType(String type);
+
     @Query(value = "SELECT SUM(suma) FROM (SELECT SUM(price) AS suma FROM products WHERE publication_id = :id UNION ALL SELECT SUM(price) AS suma FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = :id)) T", nativeQuery = true)
     float totalPrice(int id);
 

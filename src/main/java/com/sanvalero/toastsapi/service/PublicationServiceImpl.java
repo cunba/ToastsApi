@@ -59,6 +59,11 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    public List<Publication> findByProductType(String type) {
+        return pr.findByProductType(type);
+    }
+
+    @Override
     public List<Publication> findAll() {
         return pr.findAll();
     }

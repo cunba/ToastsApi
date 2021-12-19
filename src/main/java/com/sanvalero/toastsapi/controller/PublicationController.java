@@ -126,6 +126,12 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
     }
 
+    @GetMapping("/publications/product-")
+    public ResponseEntity<List<Publication>> getByProductType(@RequestParam(value = "type") String productType) {
+        System.out.println(productType);
+        return new ResponseEntity<>(ps.findByProductType(productType), HttpStatus.OK);
+    }
+
     @PostMapping("/publication")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());

@@ -25,6 +25,8 @@ public interface PublicationService {
 
     List<Publication> findByUser(User user);
 
+    List<Publication> findByProductType(String type);
+
     List<Publication> findAll();
 
     Publication findById(int id) throws NotFoundException;
