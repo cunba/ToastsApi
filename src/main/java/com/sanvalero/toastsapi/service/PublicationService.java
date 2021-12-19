@@ -29,11 +29,17 @@ public interface PublicationService {
 
     Publication findById(int id) throws NotFoundException;
 
+    float totalPrice(int id);
+
+    float totalPunctuation(int id);
+
+    void updatePricePunctuation(Publication publication);
+
     Publication addPublication(Publication publication);
 
-    Publication modifyPublication(Publication publication);
+    Publication updatePublication(Publication publication);
 
-    Publication deletePublication(Publication publication);
+    void deletePublication(Publication publication);
 
     void deleteAll();
 }

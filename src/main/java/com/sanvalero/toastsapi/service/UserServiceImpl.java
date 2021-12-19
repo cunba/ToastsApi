@@ -41,8 +41,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User modifyUser(User user) {
+    public User updateUser(User user) {
         return ur.save(user);
+    }
+
+    @Override
+    public void updatePublicationsNumber(User user) {
+        ur.save(user);
     }
 
     @Override

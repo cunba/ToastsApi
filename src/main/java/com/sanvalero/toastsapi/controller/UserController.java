@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,8 +44,9 @@ public class UserController {
     }
 
     @PatchMapping("/user/{id}")
-    public ResponseEntity<String> updatepublicationsNumber() {
-        return new ResponseEntity<>("Publications number updated", HttpStatus.OK);
+    public ResponseEntity<String> updatepublicationsNumber(@PathVariable int id) {
+        us.countPublications(id);
+        return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}")
@@ -60,7 +62,16 @@ public class UserController {
         userToUpdate.setPublicationsNumber(user.getPublicationsNumber());
         userToUpdate.setSurname(user.getSurname());
         
-        return new ResponseEntity<>(us.modifyUser(userToUpdate), HttpStatus.OK);
+        return new ResponseEntity<>(us.updateUser(userToUpdate), HttpStatus.OK);
+    }
+
+    @PatchMapping("/user/update")
+    public ResponseEntity<String> updatePublicationsNumber(@RequestParam(value = "id") int id) throws NotFoundException {
+        User user = us.findById(id);
+        user.setPublicationsNumber(us.countPublications(id));
+        us.updatePublicationsNumber(user);
+
+        return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")

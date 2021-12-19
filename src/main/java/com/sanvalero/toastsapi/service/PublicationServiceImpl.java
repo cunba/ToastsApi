@@ -69,19 +69,33 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    public float totalPrice(int id) {
+        return pr.totalPrice(id);
+    }
+
+    @Override
+    public float totalPunctuation(int id) {
+        return pr.totalPunctuation(id);
+    }
+
+    @Override
+    public void updatePricePunctuation(Publication publication) {
+        pr.save(publication);
+    }
+
+    @Override
     public Publication addPublication(Publication publication) {
         return pr.save(publication);
     }
 
     @Override
-    public Publication modifyPublication(Publication publication) {
+    public Publication updatePublication(Publication publication) {
         return pr.save(publication);
     }
 
     @Override
-    public Publication deletePublication(Publication publication) {
+    public void deletePublication(Publication publication) {
         pr.delete(publication);
-        return publication;
     }
 
     @Override

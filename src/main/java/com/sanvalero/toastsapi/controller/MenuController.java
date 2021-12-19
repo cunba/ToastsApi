@@ -113,7 +113,7 @@ public class MenuController {
         menuToUpdate.setPrice(menu.getPrice());
         menuToUpdate.setPunctuation(menu.getPunctuation());
 
-        return ms.modifyMenu(menuToUpdate);
+        return ms.updateMenu(menuToUpdate);
     }
 
     @DeleteMapping("/menu/{id}")

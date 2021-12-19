@@ -23,7 +23,7 @@ public interface ProductTypeService {
 
     ProductType deleteType(ProductType type);
 
-    ProductType modifyType(ProductType type);
+    ProductType updateType(ProductType type);
 
     void deleteAll();
 }

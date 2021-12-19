@@ -16,7 +16,9 @@ public interface UserService {
 
     User addUser(User user);
 
-    User modifyUser(User user);
+    User updateUser(User user);
+
+    void updatePublicationsNumber(User user);
 
     User deleteUser(User user);
 
