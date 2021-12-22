@@ -7,12 +7,8 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
-import com.sanvalero.toastsapi.model.dto.PublicationDTO;
-import com.sanvalero.toastsapi.repository.EstablishmentRepository;
 import com.sanvalero.toastsapi.repository.PublicationRepository;
-import com.sanvalero.toastsapi.repository.UserRepository;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +17,6 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Autowired
     private PublicationRepository pr;
-    @Autowired
-    private EstablishmentRepository er;
-    @Autowired
-    private UserRepository ur;
 
     @Override
     public List<Publication> findByDate(LocalDate date) {
@@ -67,6 +59,19 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    public List<Publication> findByProductType(String type) {
+        return pr.findByProductType(type);
+    }
+
+    @Override
+    public List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
+            LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation) {
+
+        return pr.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(minDate, maxDate, minPrice, maxPrice,
+                minPunctuation, maxPunctuation);
+    }
+
+    @Override
     public List<Publication> findAll() {
         return pr.findAll();
     }
@@ -77,29 +82,38 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException {
-        Establishment establishment = er.findById(publicationDTO.getEstablishmentId())
-            .orElseThrow(NotFoundException::new);
-        User user = ur.findById(publicationDTO.getUserId())
-            .orElseThrow(NotFoundException::new);
+    public float totalPrice(int id) {
+        return pr.totalPrice(id);
+    }
 
-        ModelMapper mapper = new ModelMapper();
-        Publication publication = mapper.map(publicationDTO, Publication.class);
-        publication.setEstablishment(establishment);
-        publication.setUser(user);
+    @Override
+    public float totalPunctuation(int id) {
+        return pr.totalPunctuation(id);
+    }
 
+    @Override
+    public void updatePricePunctuation(Publication publication) {
+        pr.save(publication);
+    }
+
+    @Override
+    public Publication addPublication(Publication publication) {
         return pr.save(publication);
     }
 
     @Override
-    public Publication deletePublication(Publication publication) {
-        // TODO Auto-generated method stub
-        return null;
+    public Publication updatePublication(Publication publication) {
+        return pr.save(publication);
     }
 
     @Override
-    public Publication modifyPublication(Publication publication) {
-        return pr.save(publication);
+    public void deletePublication(Publication publication) {
+        pr.delete(publication);
     }
-    
+
+    @Override
+    public void deleteAll() {
+        pr.deleteAll();
+    }
+
 }

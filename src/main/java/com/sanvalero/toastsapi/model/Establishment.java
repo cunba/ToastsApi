@@ -1,15 +1,21 @@
 package com.sanvalero.toastsapi.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -17,12 +23,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity(name = "establishments")
 public class Establishment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
     @Column(name = "creation_date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
     @Column
     private String location;
@@ -31,6 +37,6 @@ public class Establishment {
     @Column
     private float punctuation;
 
-    @OneToMany(mappedBy = "establishment")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "establishment")
     private List<Publication> publications;
 }

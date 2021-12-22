@@ -7,7 +7,6 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
-import com.sanvalero.toastsapi.model.dto.PublicationDTO;
 
 public interface PublicationService {
     List<Publication> findByDate(LocalDate date);
@@ -26,13 +25,25 @@ public interface PublicationService {
 
     List<Publication> findByUser(User user);
 
+    List<Publication> findByProductType(String type);
+
+    List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctiation);
+
     List<Publication> findAll();
 
     Publication findById(int id) throws NotFoundException;
 
-    Publication addPublication(PublicationDTO publicationDTO) throws NotFoundException;
+    float totalPrice(int id);
 
-    Publication deletePublication(Publication publication);
+    float totalPunctuation(int id);
 
-    Publication modifyPublication(Publication publication);
+    void updatePricePunctuation(Publication publication);
+
+    Publication addPublication(Publication publication);
+
+    Publication updatePublication(Publication publication);
+
+    void deletePublication(Publication publication);
+
+    void deleteAll();
 }

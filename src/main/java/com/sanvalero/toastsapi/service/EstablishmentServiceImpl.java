@@ -17,7 +17,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     private EstablishmentRepository er;
 
     @Override
-    public List<Establishment> findByName(String name) {
+    public Establishment findByName(String name) {
         return er.findByName(name);
     }
 
@@ -67,14 +67,17 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public Establishment deleteEstablishment(Establishment establishment) {
-        er.delete(establishment);
-        return establishment;
-    }
-
-    @Override
-    public Establishment modifyEstablishment(Establishment establishment) {
+    public Establishment updateEstablishment(Establishment establishment) {
         return er.save(establishment);
     }
 
+    @Override
+    public void deleteEstablishment(Establishment establishment) {
+        er.delete(establishment);
+    }
+
+    @Override
+    public void deleteAll() {
+        er.deleteAll();
+    }
 }

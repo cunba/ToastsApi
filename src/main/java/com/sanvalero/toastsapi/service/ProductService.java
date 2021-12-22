@@ -8,7 +8,6 @@ import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Product;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.dto.ProductDTO;
 
 public interface ProductService {
     List<Product> findByDate(LocalDate date);
@@ -23,7 +22,7 @@ public interface ProductService {
 
     List<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    List<Product> findByWithMenu(boolean withMenu);
+    List<Product> findByInMenu(boolean inMenu);
 
     List<Product> findByMenu(Menu menu);
 
@@ -35,11 +34,13 @@ public interface ProductService {
 
     List<Product> findByType(ProductType productType);
 
-    List<Product> findByTypes(List<ProductType> productTypeList);
+    Product addProduct(Product product);
 
-    Product addProduct(ProductDTO productDTO) throws NotFoundException;
+    Product updateProduct(Product product);
 
-    Product deleteProduct(int id) throws NotFoundException;
+    void updatePrice(Product product);
 
-    Product modifyProduct(Product product);
+    void deleteProduct(Product product);
+
+    void deleteAll();
 }

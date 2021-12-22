@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.util.List;
+import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
@@ -16,18 +17,18 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     private ProductTypeRepository ptr;
 
     @Override
-    public List<ProductType> findByName(String name) {
-        return ptr.findByName(name);
+    public List<ProductType> findByProductName(String name) {
+        return ptr.findByProductName(name);
     }
 
     @Override
-    public List<ProductType> findByType(String type) {
+    public ProductType findByType(String type) {
         return ptr.findByType(type);
     }
 
     @Override
-    public List<ProductType> findByNameAndType(String name, String type) {
-        return ptr.findByNameAndType(name, type);
+    public ProductType findByProductNameAndType(String name, String type) {
+        return ptr.findByProductNameAndType(name, type);
     }
 
     @Override
@@ -41,19 +42,28 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
+    public List<ProductType> findByIds(Vector<Integer> ids) {
+        return (List<ProductType>) ptr.findAllById(ids);
+    }
+
+    @Override
     public ProductType addType(ProductType type) {
         return ptr.save(type);
     }
 
     @Override
-    public ProductType deleteType(ProductType type) {
-        ptr.delete(type);
-        return type;
+    public ProductType updateType(ProductType type) {
+        return ptr.save(type);
     }
 
     @Override
-    public ProductType modifyType(ProductType type) {
-        return ptr.save(type);
+    public void deleteType(ProductType type) {
+        ptr.delete(type);
+    }
+
+    @Override
+    public void deleteAll() {
+        ptr.deleteAll();
     }
 
 }
