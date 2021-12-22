@@ -16,6 +16,8 @@ import com.sanvalero.toastsapi.service.PublicationService;
 import com.sanvalero.toastsapi.service.UserService;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,7 @@ public class PublicationController {
     private EstablishmentService es;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final Logger logger = LoggerFactory.getLogger(PublicationController.class);
 
     @GetMapping("/publications")
     public ResponseEntity<List<Publication>> getAll() {
@@ -115,6 +118,7 @@ public class PublicationController {
     @GetMapping("/publications/establishment")
     public ResponseEntity<List<Publication>> getByEstablishmentId(@RequestParam(value = "id") int id)
             throws NotFoundException {
+
         Establishment establishment = es.findById(id);
 
         return new ResponseEntity<>(ps.findByEstablishment(establishment), HttpStatus.OK);
@@ -145,8 +149,11 @@ public class PublicationController {
 
     @PostMapping("/publication")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
+        logger.info("begin create publication");
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
         User user = us.findById(publicationDTO.getUserId());
+        logger.info("Establishment found: " + establishment.getId());
+        logger.info("User found: " + user.getId());
 
         ModelMapper mapper = new ModelMapper();
         Publication publication = mapper.map(publicationDTO, Publication.class);
@@ -155,6 +162,8 @@ public class PublicationController {
         publication.setDate(LocalDate.now());
         publication.setEstablishment(establishment);
         publication.setUser(user);
+        logger.info("Publication mapped");
+        logger.info("end create publication");
 
         return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.OK);
     }
@@ -163,32 +172,45 @@ public class PublicationController {
     public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO,
             @RequestParam(value = "id") int id) throws NotFoundException {
 
+        logger.info("begin update publication");
         Publication publication = ps.findById(id);
+        logger.info("Publication found: " + publication.getId());
 
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
+        logger.info("Establishment found: " + establishment.getId());
 
         publication.setPhoto(publicationDTO.getPhoto());
         publication.setTotalPrice(ps.totalPrice(publication.getId()));
         publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
         publication.setEstablishment(establishment);
+        logger.info("Publication properties updated");
+        logger.info("end update publication");
 
         return new ResponseEntity<>(ps.updatePublication(publication), HttpStatus.OK);
     }
 
     @PatchMapping("/publication/update-price-punctuation")
     public ResponseEntity<String> totalPricePunctuation(@RequestParam(value = "id") int id) throws NotFoundException {
+        logger.info("begin set total price punctuation");
         Publication publication = ps.findById(id);
+        logger.info("Publication found: " + publication.getId());
+
         publication.setTotalPrice(ps.totalPrice(id));
         publication.setTotalPunctuation(ps.totalPunctuation(id));
         ps.updatePricePunctuation(publication);
+        logger.info("Publication price and punctuation updated");
+        logger.info("end set total price punctuation");
 
         return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
     }
 
     @DeleteMapping("/publication/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+        logger.info("begin delete publication");
         Publication publication = ps.findById(id);
+        logger.info("Publication found:" + publication.getId());
         ps.deletePublication(publication);
+        logger.info("Publication deleted");
 
         return new ResponseEntity<>("Publication deleted.", HttpStatus.OK);
     }
@@ -203,6 +225,7 @@ public class PublicationController {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

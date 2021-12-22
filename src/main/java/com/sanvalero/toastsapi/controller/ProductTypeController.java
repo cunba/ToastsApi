@@ -7,6 +7,8 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.service.ProductTypeService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ public class ProductTypeController {
 
     @Autowired
     private ProductTypeService pts;
+
+    private final Logger logger = LoggerFactory.getLogger(ProductTypeController.class);
 
     @GetMapping("/types")
     public ResponseEntity<List<ProductType>> getAllTypes() {
@@ -60,17 +64,26 @@ public class ProductTypeController {
 
     @PutMapping("/type/{id}")
     public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type) throws NotFoundException {
+        logger.info("begin update type");
         ProductType typeToUpdate = pts.findById(id);
+        logger.info("Type found: " + typeToUpdate.getId());
         typeToUpdate.setProductName(type.getProductName());
         typeToUpdate.setType(type.getType());
+        logger.info("Type properties updated");
+        logger.info("end update type");
 
         return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/type/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+        logger.info("begin delete type");
         ProductType type = pts.findById(id);
+        logger.info("Type found: " + type.getId());
         pts.deleteType(type);
+        logger.info("Type deleted");
+        logger.info("end delete type");
+        
         return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
     }
 
@@ -84,6 +97,7 @@ public class ProductTypeController {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 

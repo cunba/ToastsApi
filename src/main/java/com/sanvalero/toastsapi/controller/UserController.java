@@ -10,6 +10,8 @@ import com.sanvalero.toastsapi.model.User;
 import com.sanvalero.toastsapi.service.UserService;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService us;
+
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -48,9 +52,13 @@ public class UserController {
     public ResponseEntity<String> updatePublicationsNumber(@RequestParam(value = "id") int id)
             throws NotFoundException {
 
+        logger.info("begin update publications number");
         User user = us.findById(id);
+        logger.info("User found: " + user.getId());
         user.setPublicationsNumber(us.countPublications(id));
         us.updatePublicationsNumber(user);
+        logger.info("User publication number updated");
+        logger.info("end update publications number");
 
         return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
     }
@@ -59,9 +67,13 @@ public class UserController {
     public ResponseEntity<String> updateMoneySpent(@RequestParam(value = "id") int id)
             throws NotFoundException {
 
+        logger.info("begin update money spent");
         User user = us.findById(id);
+        logger.info("USer found: " + user.getId());
         user.setMoneySpent(us.sumPrice(id));
         us.updateMoneySpent(user);
+        logger.info("User money spent updated");
+        logger.info("end update money spent");
 
         return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
     }
@@ -70,39 +82,55 @@ public class UserController {
     public ResponseEntity<String> updatePassword(@RequestParam(value = "id") int id,
             @RequestBody Map<String, Object> password) throws NotFoundException {
 
+        logger.info("begin update password");
         User user = us.findById(id);
-
+        logger.info("User found: " + user.getId());
         ModelMapper mapper = new ModelMapper();
         User userPassword = mapper.map(password, User.class);
-
+        logger.info("User mapped");
         user.setPassword(userPassword.getPassword());
         us.updatePassword(user);
+        logger.info("User password updated");
+        logger.info("end update password");
 
         return new ResponseEntity<>("Password updated.", HttpStatus.OK);
     }
 
     @PatchMapping("/user/disable")
     public ResponseEntity<String> disable(@RequestParam(value = "id") int id) throws NotFoundException {
+        logger.info("begin disable user");
         User user = us.findById(id);
+        logger.info("User found: " + user.getId());
         user.setActive(false);
         us.disable(user);
+        logger.info("User disabled");
+        logger.info("end disable user");
 
         return new ResponseEntity<>("User disabled.", HttpStatus.OK);
     }
 
     @PatchMapping("/user/activate")
     public ResponseEntity<String> activate(@RequestParam(value = "id") int id) throws NotFoundException {
+        logger.info("begin activate user");
         User user = us.findById(id);
+        logger.info("User found: " + user.getId());
         user.setActive(true);
         us.activate(user);
+        logger.info("User activated");
+        logger.info("end activate user");
 
         return new ResponseEntity<>("User activated.", HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+        logger.info("Begin delete user");
         User user = us.findById(id);
+        logger.info("User found: " + user.getId());
         us.deleteUser(user);
+        logger.info("User deleted");
+        logger.info("end delete user");
+
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 
@@ -115,6 +143,7 @@ public class UserController {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

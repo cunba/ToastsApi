@@ -9,6 +9,8 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.service.MenuService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class MenuController {
     private MenuService ms;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
     @GetMapping("/menus/{dateString}")
     public ResponseEntity<List<Menu>> getByDate(@PathVariable String dateString) {
@@ -108,18 +111,27 @@ public class MenuController {
 
     @PutMapping("/menu/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
+        logger.info("begin update menu");
         Menu menuToUpdate = ms.findById(id);
+        logger.info("Menu found: " + menu.getId());
         menuToUpdate.setDate(menu.getDate());
         menuToUpdate.setPrice(menu.getPrice());
         menuToUpdate.setPunctuation(menu.getPunctuation());
+        logger.info("Menu properties updated");
+        logger.info("end update menu");
 
         return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/menu/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+        logger.info("begin delete menu");
         Menu menu = ms.findById(id);
+        logger.info("Menu found: " + menu.getId());
         ms.deleteMenu(menu);
+        logger.info("Menu deleted");
+        logger.info("end delete menu");
+        
         return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
     }
 
@@ -133,6 +145,7 @@ public class MenuController {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
