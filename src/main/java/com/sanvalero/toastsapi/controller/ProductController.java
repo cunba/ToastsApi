@@ -18,6 +18,8 @@ import com.sanvalero.toastsapi.service.ProductTypeService;
 import com.sanvalero.toastsapi.service.PublicationService;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,7 @@ public class ProductController {
     private PublicationService publicationService;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAll() {
@@ -144,8 +147,12 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO) throws NotFoundException {
+        logger.info("begin create product");
         ProductType type = pts.findById(productDTO.getTypeId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
+
+        logger.info("Product type found: " + type.getId());
+        logger.info("Publication found: " + publication.getId());
 
         ModelMapper mapper = new ModelMapper();
         Product product = mapper.map(productDTO, Product.class);
@@ -153,33 +160,50 @@ public class ProductController {
         product.setType(type);
         product.setPublication(publication);
 
+        logger.info("Product mapped");
+
         Menu menu = null;
         if (productDTO.isInMenu()) {
             menu = ms.findById(productDTO.getMenuId());
             product.setPrice(0);
+            logger.info("Menu found: " + menu.getId());
         }
         product.setMenu(menu);
+        logger.info("Product created");
+        logger.info("end create product");
 
         return new ResponseEntity<>(ps.addProduct(product), HttpStatus.OK);
     }
 
     @PutMapping("/product/{id}")
     public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
+        logger.info("begin update product");
         Product product = ps.findById(id);
+
+        logger.info("Product found: " + product.getId());
 
         ProductType type = pts.findById(productDTO.getTypeId());
         Publication publication = publicationService.findById(productDTO.getPublicationId());
+
+        logger.info("Product type found: " + type.getId());
+        logger.info("Publication found: " + publication.getId());
 
         product.setInMenu(productDTO.isInMenu());
         product.setPrice(productDTO.getPrice());
         product.setPublication(publication);
         product.setType(type);
 
+        logger.info("Prodcut new properties set");
+
         Menu menu = null;
         if (productDTO.isInMenu()) {
             menu = ms.findById(productDTO.getMenuId());
+            logger.info("Menu found: " + menu.getId());
         }
         product.setMenu(menu);
+        logger.info("Product properties updated");
+
+        logger.info("end update product");
 
         return new ResponseEntity<>(ps.updateProduct(product), HttpStatus.OK);
     }
@@ -188,21 +212,33 @@ public class ProductController {
     public ResponseEntity<String> updatePrice(@RequestParam(value = "id") int id,
             @RequestBody Map<Float, Object> price) throws NotFoundException {
 
+        logger.info("begin update price of product");
         Product product = ps.findById(id);
+
+        logger.info("Product found: " + product.getId());
 
         ModelMapper mapper = new ModelMapper();
         Product productPrice = mapper.map(price, Product.class);
 
+        logger.info("Product mapped");
+
         product.setPrice(productPrice.getPrice());
         ps.updatePrice(product);
+
+        logger.info("Product price updated");
+        logger.info("end update price of product");
 
         return new ResponseEntity<>("Price updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+        logger.info("begin delete product");
         Product product = ps.findById(id);
+        logger.info("Product found: " + product.getId());
         ps.deleteProduct(product);
+        logger.info("Product deleted");
+        logger.info("end delete product");
 
         return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
     }
@@ -217,6 +253,7 @@ public class ProductController {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

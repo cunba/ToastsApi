@@ -9,6 +9,8 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class EstablishmentController {
     @Autowired
     private EstablishmentService es;
+
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
     @GetMapping("/establishments")
     public ResponseEntity<List<Establishment>> getAll() {
@@ -103,21 +107,31 @@ public class EstablishmentController {
     @PutMapping("/establishment/{id}")
     public ResponseEntity<Establishment> update(@RequestBody Establishment establishment, @PathVariable int id)
             throws NotFoundException {
+
+        logger.info("begin update establishment");
         Establishment establishmentToUpdate = es.findById(id);
+        logger.info("Establishment found: " + establishment.getId());
         establishmentToUpdate.setCreationDate(establishment.getCreationDate());
         establishmentToUpdate.setLocation(establishment.getLocation());
         establishmentToUpdate.setName(establishment.getName());
         establishmentToUpdate.setOpen(establishment.isOpen());
         establishmentToUpdate.setPublications(establishment.getPublications());
         establishmentToUpdate.setPunctuation(establishment.getPunctuation());
+        logger.info("Establishments properties updated");
+        logger.info("end update establishment");
 
         return new ResponseEntity<>(es.updateEstablishment(establishmentToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/establishment/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+        logger.info("begin delete establishment");
         Establishment establishment = es.findById(id);
+        logger.info("Establishment found: " + establishment.getId());
         es.deleteEstablishment(establishment);
+        logger.info("Establishment deleted");
+        logger.info("end delete establishment");
+        
         return new ResponseEntity<>("Establishment deleted.", HttpStatus.OK);
     }
 
@@ -131,6 +145,7 @@ public class EstablishmentController {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
         ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
