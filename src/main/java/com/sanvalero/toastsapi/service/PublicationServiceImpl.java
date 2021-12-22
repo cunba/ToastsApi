@@ -64,6 +64,14 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    public List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
+            LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation) {
+
+        return pr.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(minDate, maxDate, minPrice, maxPrice,
+                minPunctuation, maxPunctuation);
+    }
+
+    @Override
     public List<Publication> findAll() {
         return pr.findAll();
     }

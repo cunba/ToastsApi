@@ -27,6 +27,8 @@ public interface PublicationService {
 
     List<Publication> findByProductType(String type);
 
+    List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctiation);
+
     List<Publication> findAll();
 
     Publication findById(int id) throws NotFoundException;
