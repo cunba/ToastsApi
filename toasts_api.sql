@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-12-2021 a las 21:43:59
+-- Tiempo de generación: 22-12-2021 a las 19:25:30
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -80,10 +80,11 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `date`, `price`, `punctuation`) VALUES
-(1, '2021-12-12', '5.00', '5.0'),
+(1, '2021-12-12', '3.50', '3.5'),
 (2, '2021-12-12', '3.00', '5.0'),
 (3, '2021-12-12', '3.00', '5.0'),
-(4, '2021-12-12', '3.00', '5.0');
+(4, '2021-12-12', '3.00', '5.0'),
+(5, '2021-12-17', '3.00', '5.0');
 
 -- --------------------------------------------------------
 
@@ -107,12 +108,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `date`, `in_menu`, `price`, `punctuation`, `type_id`, `menu_id`, `publication_id`) VALUES
-(1, '2021-12-12', 1, 0, 0, 2, 2, 1),
+(1, '2021-12-12', 1, 1, 0, 2, 2, 1),
 (2, '2021-12-12', 1, 0, 0, 2, 1, 1),
 (3, '2021-12-12', 1, 0, 0, 2, 1, 3),
 (4, '2021-12-12', 0, 0, 0, 14, NULL, 3),
 (5, '2021-12-12', 0, 0, 0, 10, NULL, 3),
-(6, '2021-12-12', 0, 0, 0, 10, NULL, 1);
+(6, '2021-12-12', 0, 0, 0, 10, NULL, 1),
+(7, '2021-12-19', 0, 2, 5, 2, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -168,9 +170,12 @@ CREATE TABLE `publications` (
 --
 
 INSERT INTO `publications` (`id`, `date`, `total_price`, `total_punctuation`, `photo`, `establishment_id`, `user_id`) VALUES
-(1, '2021-12-12', 0, 0, 'string.jpg', 1, 3),
+(1, '2021-12-12', 9.5, 2.25, 'photo.jpg', 1, 3),
 (2, '2021-12-12', 0, 0, 'string.jpg', 2, 2),
-(3, '2021-12-12', 0, 0, 'string.jpg', 2, 1);
+(3, '2021-12-12', 0, 0, 'string.jpg', 2, 1),
+(5, '2021-12-19', 0, 0, 'string.jpg', 2, 3),
+(6, '2021-12-19', 0, 0, 'string.jpg', 2, 1),
+(7, '2021-12-19', 0, 0, 'string.jpg', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -180,15 +185,15 @@ INSERT INTO `publications` (`id`, `date`, `total_price`, `total_punctuation`, `p
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `surname` varchar(30) NOT NULL,
-  `birth_date` date NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `creation_date` date NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `money_spent` float NOT NULL,
-  `publications_number` int(10) NOT NULL
+  `name` varchar(30) DEFAULT NULL,
+  `surname` varchar(30) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `password` varchar(30) DEFAULT NULL,
+  `creation_date` date DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `money_spent` float DEFAULT NULL,
+  `publications_number` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -196,9 +201,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `surname`, `birth_date`, `email`, `password`, `creation_date`, `active`, `money_spent`, `publications_number`) VALUES
-(1, 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '282629_Prueba', '2021-12-11', 1, 0, 0),
-(2, 'Marta', 'Bagüés', '1997-06-18', 'martabags@gmail.com', '282629_Marta', '2021-12-12', 1, 0, 0),
-(3, 'Carmen', 'Baranda', '1961-07-20', 'martabags@gmail.com', '282629_Mama', '2021-12-12', 1, 0, 0);
+(1, 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '282629_Pruebita', '2021-12-19', 1, 0, 1),
+(2, 'Marta', 'Bagüés', '1997-06-18', 'martabags@gmail.com', 'suidgkl', '2021-12-19', 1, 0, 1),
+(3, 'Carmen', 'Baranda', '1961-07-20', 'martabags@gmail.com', '282629_Mama', '2021-12-12', 1, 9, 2),
+(4, NULL, NULL, NULL, NULL, '282629_Pruebita', NULL, 0, 0, 0);
 
 --
 -- Índices para tablas volcadas
@@ -259,13 +265,13 @@ ALTER TABLE `establishments`
 -- AUTO_INCREMENT de la tabla `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `products_types`
@@ -277,13 +283,13 @@ ALTER TABLE `products_types`
 -- AUTO_INCREMENT de la tabla `publications`
 --
 ALTER TABLE `publications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
