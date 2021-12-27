@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c205a80c-fa5e-4cee-a337-0d188c53c56c",
+		"_postman_id": "1d42bc67-da48-4bbf-84f1-fe42db1f892f",
 		"name": "ToastApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -33,7 +33,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/9",
+							"raw": "http://localhost:8080/type/id/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -41,7 +41,8 @@
 							"port": "8080",
 							"path": [
 								"type",
-								"9"
+								"id",
+								"1"
 							]
 						}
 					},
@@ -53,7 +54,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/Tostada",
+							"raw": "http://localhost:8080/type/name/Tostada",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -61,6 +62,7 @@
 							"port": "8080",
 							"path": [
 								"type",
+								"name",
 								"Tostada"
 							]
 						}
@@ -73,14 +75,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type?name=Tostada&type=de tomate",
+							"raw": "http://localhost:8080/type/name-and-type/?name=Tostada&type=de tomate",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"type"
+								"type",
+								"name-and-type",
+								""
 							],
 							"query": [
 								{
@@ -111,14 +115,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/type",
+							"raw": "http://localhost:8080/type/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"type"
+								"type",
+								"create"
 							]
 						}
 					},
@@ -139,7 +144,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/type/9",
+							"raw": "http://localhost:8080/type/update/9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -147,6 +152,7 @@
 							"port": "8080",
 							"path": [
 								"type",
+								"update",
 								"9"
 							]
 						}
@@ -159,7 +165,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/4",
+							"raw": "http://localhost:8080/type/delete/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -167,6 +173,7 @@
 							"port": "8080",
 							"path": [
 								"type",
+								"delete",
 								"4"
 							]
 						}
@@ -179,14 +186,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/types",
+							"raw": "http://localhost:8080/types/delete",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"types"
+								"types",
+								"delete"
 							]
 						}
 					},
@@ -222,7 +230,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menu/1",
+							"raw": "http://localhost:8080/menu/id/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -230,6 +238,7 @@
 							"port": "8080",
 							"path": [
 								"menu",
+								"id",
 								"1"
 							]
 						}
@@ -242,7 +251,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/11-11-2021",
+							"raw": "http://localhost:8080/menus/date/11-11-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -250,6 +259,7 @@
 							"port": "8080",
 							"path": [
 								"menus",
+								"date",
 								"11-11-2021"
 							]
 						}
@@ -262,7 +272,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/11-11-2021-11-12-2021",
+							"raw": "http://localhost:8080/menus/dates/11-11-2021/20-12-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -270,7 +280,9 @@
 							"port": "8080",
 							"path": [
 								"menus",
-								"11-11-2021-11-12-2021"
+								"dates",
+								"11-11-2021",
+								"20-12-2021"
 							]
 						}
 					},
@@ -282,7 +294,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/1.55",
+							"raw": "http://localhost:8080/menus/price/1.55",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -290,6 +302,7 @@
 							"port": "8080",
 							"path": [
 								"menus",
+								"price",
 								"1.55"
 							]
 						}
@@ -302,7 +315,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/1-2",
+							"raw": "http://localhost:8080/menus/prices/0-10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -310,7 +323,8 @@
 							"port": "8080",
 							"path": [
 								"menus",
-								"1-2"
+								"prices",
+								"0-10"
 							]
 						}
 					},
@@ -322,7 +336,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/1.5",
+							"raw": "http://localhost:8080/menus/punctuation/1.5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -330,6 +344,7 @@
 							"port": "8080",
 							"path": [
 								"menus",
+								"punctuation",
 								"1.5"
 							]
 						}
@@ -342,7 +357,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/1-2",
+							"raw": "http://localhost:8080/menus/punctuations/1-5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -350,7 +365,8 @@
 							"port": "8080",
 							"path": [
 								"menus",
-								"1-2"
+								"punctuations",
+								"1-5"
 							]
 						}
 					},
@@ -371,14 +387,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/menu",
+							"raw": "http://localhost:8080/menu/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"menu"
+								"menu",
+								"create"
 							]
 						}
 					},
@@ -399,7 +416,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/menu/14",
+							"raw": "http://localhost:8080/menu/update/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -407,7 +424,8 @@
 							"port": "8080",
 							"path": [
 								"menu",
-								"14"
+								"update",
+								"3"
 							]
 						}
 					},
@@ -419,7 +437,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menu/14",
+							"raw": "http://localhost:8080/menu/delete/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -427,7 +445,8 @@
 							"port": "8080",
 							"path": [
 								"menu",
-								"14"
+								"delete",
+								"1"
 							]
 						}
 					},
@@ -439,14 +458,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus",
+							"raw": "http://localhost:8080/menus/delete",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"menus"
+								"menus",
+								"delete"
 							]
 						}
 					},
@@ -482,7 +502,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/3",
+							"raw": "http://localhost:8080/user/id/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -490,6 +510,7 @@
 							"port": "8080",
 							"path": [
 								"user",
+								"id",
 								"3"
 							]
 						}
@@ -511,14 +532,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user",
+							"raw": "http://localhost:8080/user/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"user"
+								"user",
+								"create"
 							]
 						}
 					},
@@ -530,7 +552,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/update-publications-number?id=3",
+							"raw": "http://localhost:8080/user/update-publications-number/?id=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -538,7 +560,8 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"update-publications-number"
+								"update-publications-number",
+								""
 							],
 							"query": [
 								{
@@ -556,7 +579,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/update-money-spent?id=3",
+							"raw": "http://localhost:8080/user/update-money-spent/?id=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -564,7 +587,8 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"update-money-spent"
+								"update-money-spent",
+								""
 							],
 							"query": [
 								{
@@ -591,7 +615,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/update-password?id=1",
+							"raw": "http://localhost:8080/user/update-password/?id=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -599,12 +623,13 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"update-password"
+								"update-password",
+								""
 							],
 							"query": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
@@ -617,7 +642,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/disable?id=1",
+							"raw": "http://localhost:8080/user/disable/?id=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -625,7 +650,8 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"disable"
+								"disable",
+								""
 							],
 							"query": [
 								{
@@ -643,7 +669,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/activate?id=1",
+							"raw": "http://localhost:8080/user/activate/?id=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -651,7 +677,8 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"activate"
+								"activate",
+								""
 							],
 							"query": [
 								{
@@ -669,7 +696,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/id=5",
+							"raw": "http://localhost:8080/user/delete/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -677,7 +704,8 @@
 							"port": "8080",
 							"path": [
 								"user",
-								"id=5"
+								"delete",
+								"5"
 							]
 						}
 					},
@@ -689,14 +717,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users",
+							"raw": "http://localhost:8080/users/delete",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"users"
+								"users",
+								"delete"
 							]
 						}
 					},
@@ -732,7 +761,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/10",
+							"raw": "http://localhost:8080/establishment/id/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -740,7 +769,8 @@
 							"port": "8080",
 							"path": [
 								"establishment",
-								"10"
+								"id",
+								"2"
 							]
 						}
 					},
@@ -752,7 +782,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/Criollo",
+							"raw": "http://localhost:8080/establishment/name/Criollo",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -760,6 +790,7 @@
 							"port": "8080",
 							"path": [
 								"establishment",
+								"name",
 								"Criollo"
 							]
 						}
@@ -772,7 +803,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/14-11-2021",
+							"raw": "http://localhost:8080/establishments/date/14-11-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -780,6 +811,7 @@
 							"port": "8080",
 							"path": [
 								"establishments",
+								"date",
 								"14-11-2021"
 							]
 						}
@@ -792,7 +824,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/11-11-2021-11-12-2021",
+							"raw": "http://localhost:8080/establishments/dates/11-11-2021/11-12-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -800,7 +832,9 @@
 							"port": "8080",
 							"path": [
 								"establishments",
-								"11-11-2021-11-12-2021"
+								"dates",
+								"11-11-2021",
+								"11-12-2021"
 							]
 						}
 					},
@@ -812,7 +846,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/true",
+							"raw": "http://localhost:8080/establishments/open/true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -820,6 +854,7 @@
 							"port": "8080",
 							"path": [
 								"establishments",
+								"open",
 								"true"
 							]
 						}
@@ -832,7 +867,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/coordenadas",
+							"raw": "http://localhost:8080/establishments/location/coordenadas",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -840,6 +875,7 @@
 							"port": "8080",
 							"path": [
 								"establishments",
+								"location",
 								"coordenadas"
 							]
 						}
@@ -852,7 +888,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/5.5",
+							"raw": "http://localhost:8080/establishments/punctuation/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -860,7 +896,8 @@
 							"port": "8080",
 							"path": [
 								"establishments",
-								"5.5"
+								"punctuation",
+								"5"
 							]
 						}
 					},
@@ -872,7 +909,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/0-5.5",
+							"raw": "http://localhost:8080/establishments/punctuations/0-5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -880,7 +917,8 @@
 							"port": "8080",
 							"path": [
 								"establishments",
-								"0-5.5"
+								"punctuations",
+								"0-5"
 							]
 						}
 					},
@@ -901,14 +939,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/establishment",
+							"raw": "http://localhost:8080/establishment/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"establishment"
+								"establishment",
+								"create"
 							]
 						}
 					},
@@ -929,7 +968,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/establishment/13",
+							"raw": "http://localhost:8080/establishment/update/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -937,7 +976,8 @@
 							"port": "8080",
 							"path": [
 								"establishment",
-								"13"
+								"update",
+								"1"
 							]
 						}
 					},
@@ -949,7 +989,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/1",
+							"raw": "http://localhost:8080/establishment/delete/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -957,6 +997,7 @@
 							"port": "8080",
 							"path": [
 								"establishment",
+								"delete",
 								"1"
 							]
 						}
@@ -969,14 +1010,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments",
+							"raw": "http://localhost:8080/establishments/delete",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"establishments"
+								"establishments",
+								"delete"
 							]
 						}
 					},
@@ -1012,7 +1054,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/product/1",
+							"raw": "http://localhost:8080/product/id/10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1020,7 +1062,8 @@
 							"port": "8080",
 							"path": [
 								"product",
-								"1"
+								"id",
+								"10"
 							]
 						}
 					},
@@ -1032,7 +1075,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/12-12-2021",
+							"raw": "http://localhost:8080/products/date/27-12-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1040,7 +1083,8 @@
 							"port": "8080",
 							"path": [
 								"products",
-								"12-12-2021"
+								"date",
+								"27-12-2021"
 							]
 						}
 					},
@@ -1052,7 +1096,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/12-11-2021-12-12-2021",
+							"raw": "http://localhost:8080/products/dates/12-11-2021/27-12-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1060,7 +1104,9 @@
 							"port": "8080",
 							"path": [
 								"products",
-								"12-11-2021-12-12-2021"
+								"dates",
+								"12-11-2021",
+								"27-12-2021"
 							]
 						}
 					},
@@ -1072,7 +1118,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/true",
+							"raw": "http://localhost:8080/products/inMenu/true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1080,6 +1126,7 @@
 							"port": "8080",
 							"path": [
 								"products",
+								"inMenu",
 								"true"
 							]
 						}
@@ -1092,7 +1139,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/0",
+							"raw": "http://localhost:8080/products/price/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1100,6 +1147,7 @@
 							"port": "8080",
 							"path": [
 								"products",
+								"price",
 								"0"
 							]
 						}
@@ -1112,7 +1160,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/0-5",
+							"raw": "http://localhost:8080/products/prices/0-5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1120,6 +1168,7 @@
 							"port": "8080",
 							"path": [
 								"products",
+								"prices",
 								"0-5"
 							]
 						}
@@ -1132,7 +1181,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/0",
+							"raw": "http://localhost:8080/products/punctuation/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1140,6 +1189,7 @@
 							"port": "8080",
 							"path": [
 								"products",
+								"punctuation",
 								"0"
 							]
 						}
@@ -1152,7 +1202,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/0-5",
+							"raw": "http://localhost:8080/products/punctuations/0-5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1160,6 +1210,7 @@
 							"port": "8080",
 							"path": [
 								"products",
+								"punctuations",
 								"0-5"
 							]
 						}
@@ -1172,7 +1223,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/type?id=14",
+							"raw": "http://localhost:8080/products/type?id=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1185,7 +1236,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "14"
+									"value": "2"
 								}
 							]
 						}
@@ -1224,7 +1275,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/publication?id=1",
+							"raw": "http://localhost:8080/products/publication?id=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1237,7 +1288,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "3"
 								}
 							]
 						}
@@ -1251,7 +1302,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 0,\n\t\"punctuation\": 0,\n\t\"typeId\": 2,\n    \"menuId\": 1,\n\t\"publicationId\": 3\n}",
+							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 0,\n\t\"punctuation\": 0,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1259,14 +1310,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product",
+							"raw": "http://localhost:8080/product/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"product"
+								"product",
+								"create"
 							]
 						}
 					},
@@ -1287,14 +1339,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product",
+							"raw": "http://localhost:8080/product/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"product"
+								"product",
+								"create"
 							]
 						}
 					},
@@ -1307,7 +1360,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 0,\n\t\"punctuation\": 0,\n\t\"typeId\": 2,\n    \"menuId\": 1\n}",
+							"raw": "{\n\n\t\"inMenu\": false,\n\t\"price\": 0,\n\t\"punctuation\": 0,\n\t\"typeId\": 2,\n    \"menuId\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1315,7 +1368,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/1",
+							"raw": "http://localhost:8080/product/update/10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1323,7 +1376,8 @@
 							"port": "8080",
 							"path": [
 								"product",
-								"1"
+								"update",
+								"10"
 							]
 						}
 					},
@@ -1344,7 +1398,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/7",
+							"raw": "http://localhost:8080/product/update/11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1352,7 +1406,8 @@
 							"port": "8080",
 							"path": [
 								"product",
-								"7"
+								"update",
+								"11"
 							]
 						}
 					},
@@ -1364,7 +1419,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/product/9",
+							"raw": "http://localhost:8080/product/delete/9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1372,6 +1427,7 @@
 							"port": "8080",
 							"path": [
 								"product",
+								"delete",
 								"9"
 							]
 						}
@@ -1384,14 +1440,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products",
+							"raw": "http://localhost:8080/products/delete",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"products"
+								"products",
+								"delete"
 							]
 						}
 					},
@@ -1427,7 +1484,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publication/1",
+							"raw": "http://localhost:8080/publication/id/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1435,6 +1492,7 @@
 							"port": "8080",
 							"path": [
 								"publication",
+								"id",
 								"1"
 							]
 						}
@@ -1447,7 +1505,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/12-12-2021",
+							"raw": "http://localhost:8080/publications/date/12-12-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1455,6 +1513,7 @@
 							"port": "8080",
 							"path": [
 								"publications",
+								"date",
 								"12-12-2021"
 							]
 						}
@@ -1467,7 +1526,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/11-11-2021-12-12-2021",
+							"raw": "http://localhost:8080/publications/dates/11-11-2021/12-12-2021",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1475,7 +1534,9 @@
 							"port": "8080",
 							"path": [
 								"publications",
-								"11-11-2021-12-12-2021"
+								"dates",
+								"11-11-2021",
+								"12-12-2021"
 							]
 						}
 					},
@@ -1487,7 +1548,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/0",
+							"raw": "http://localhost:8080/publications/price/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1495,6 +1556,7 @@
 							"port": "8080",
 							"path": [
 								"publications",
+								"price",
 								"0"
 							]
 						}
@@ -1507,7 +1569,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/0-5",
+							"raw": "http://localhost:8080/publications/prices/0-5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1515,6 +1577,7 @@
 							"port": "8080",
 							"path": [
 								"publications",
+								"prices",
 								"0-5"
 							]
 						}
@@ -1527,7 +1590,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/0",
+							"raw": "http://localhost:8080/publications/punctuation/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1535,6 +1598,7 @@
 							"port": "8080",
 							"path": [
 								"publications",
+								"punctuation",
 								"0"
 							]
 						}
@@ -1547,7 +1611,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/0-5",
+							"raw": "http://localhost:8080/publications/punctuations/0-5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1555,6 +1619,7 @@
 							"port": "8080",
 							"path": [
 								"publications",
+								"punctuations",
 								"0-5"
 							]
 						}
@@ -1567,7 +1632,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/establishment?id=4",
+							"raw": "http://localhost:8080/publications/establishment?id=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1580,7 +1645,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "4"
+									"value": "1"
 								}
 							]
 						}
@@ -1657,7 +1722,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publications/",
+							"raw": "http://localhost:8080/publications/dates-prices-punctuations/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1665,6 +1730,7 @@
 							"port": "8080",
 							"path": [
 								"publications",
+								"dates-prices-punctuations",
 								""
 							]
 						}
@@ -1686,14 +1752,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publication",
+							"raw": "http://localhost:8080/publication/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"publication"
+								"publication",
+								"create"
 							]
 						}
 					},
@@ -1775,7 +1842,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publication/4",
+							"raw": "http://localhost:8080/publication/delete/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1783,7 +1850,8 @@
 							"port": "8080",
 							"path": [
 								"publication",
-								"4"
+								"delete",
+								"1"
 							]
 						}
 					},
@@ -1795,14 +1863,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications",
+							"raw": "http://localhost:8080/publications/delete",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"publications"
+								"publications",
+								"delete"
 							]
 						}
 					},

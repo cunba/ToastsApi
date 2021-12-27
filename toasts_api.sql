@@ -203,8 +203,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `surname`, `birth_date`, `email`, `password`, `creation_date`, `active`, `money_spent`, `publications_number`) VALUES
 (1, 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '282629_Pruebita', '2021-12-19', 1, 0, 1),
 (2, 'Marta', 'Bagüés', '1997-06-18', 'martabags@gmail.com', 'suidgkl', '2021-12-19', 1, 0, 1),
-(3, 'Carmen', 'Baranda', '1961-07-20', 'martabags@gmail.com', '282629_Mama', '2021-12-12', 1, 9, 2),
-(4, NULL, NULL, NULL, NULL, '282629_Pruebita', NULL, 0, 0, 0);
+(3, 'Carmen', 'Baranda', '1961-07-20', 'martabags@gmail.com', '282629_Mama', '2021-12-12', 1, 9, 2);
 
 --
 -- Índices para tablas volcadas
