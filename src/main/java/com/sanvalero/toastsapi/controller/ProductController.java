@@ -53,19 +53,19 @@ public class ProductController {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/product/id/{id}")
     public ResponseEntity<Product> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{dateString}")
+    @GetMapping("/products/date/{dateString}")
     public ResponseEntity<List<Product>> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{minDateString}-{maxDateString}")
+    @GetMapping("/products/dates/{minDateString}/{maxDateString}")
     public ResponseEntity<List<Product>> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -82,17 +82,17 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{inMenu}")
+    @GetMapping("/products/inMenu/{inMenu}")
     public ResponseEntity<List<Product>> getByInMenu(@PathVariable boolean inMenu) {
         return new ResponseEntity<>(ps.findByInMenu(inMenu), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{price}")
+    @GetMapping("/products/price/{price}")
     public ResponseEntity<List<Product>> getByPrice(@PathVariable float price) {
         return new ResponseEntity<>(ps.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{minPrice}-{maxPrice}")
+    @GetMapping("/products/prices/{minPrice}-{maxPrice}")
     public ResponseEntity<List<Product>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -106,12 +106,12 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{punctuation}")
+    @GetMapping("/products/punctuation/{punctuation}")
     public ResponseEntity<List<Product>> getByPunctuation(@PathVariable float punctuation) {
         return new ResponseEntity<>(ps.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{minPunctuation}-{maxPunctuation}")
+    @GetMapping("/products/punctuations/{minPunctuation}-{maxPunctuation}")
     public ResponseEntity<List<Product>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -145,7 +145,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
     }
 
-    @PostMapping("/product")
+    @PostMapping("/product/create")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO) throws NotFoundException {
         logger.info("begin create product");
         ProductType type = pts.findById(productDTO.getTypeId());
@@ -175,7 +175,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.addProduct(product), HttpStatus.OK);
     }
 
-    @PutMapping("/product/{id}")
+    @PutMapping("/product/update/{id}")
     public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
         logger.info("begin update product");
         Product product = ps.findById(id);
@@ -183,14 +183,11 @@ public class ProductController {
         logger.info("Product found: " + product.getId());
 
         ProductType type = pts.findById(productDTO.getTypeId());
-        Publication publication = publicationService.findById(productDTO.getPublicationId());
 
         logger.info("Product type found: " + type.getId());
-        logger.info("Publication found: " + publication.getId());
 
         product.setInMenu(productDTO.isInMenu());
         product.setPrice(productDTO.getPrice());
-        product.setPublication(publication);
         product.setType(type);
 
         logger.info("Prodcut new properties set");
@@ -231,7 +228,7 @@ public class ProductController {
         return new ResponseEntity<>("Price updated.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/product/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete product");
         Product product = ps.findById(id);
@@ -243,7 +240,7 @@ public class ProductController {
         return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/products")
+    @DeleteMapping("/products/delete")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 

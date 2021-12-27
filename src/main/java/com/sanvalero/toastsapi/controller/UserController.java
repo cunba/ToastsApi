@@ -37,18 +37,18 @@ public class UserController {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/id/{id}")
     public ResponseEntity<User> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(us.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user/create")
     public ResponseEntity<User> create(@RequestBody User user) {
         user.setCreationDate(LocalDate.now());
         return new ResponseEntity<>(us.addUser(user), HttpStatus.OK);
     }
 
-    @PatchMapping("/user/update-publications-number")
+    @PatchMapping("/user/update-publications-number/")
     public ResponseEntity<String> updatePublicationsNumber(@RequestParam(value = "id") int id)
             throws NotFoundException {
 
@@ -63,7 +63,7 @@ public class UserController {
         return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
     }
 
-    @PatchMapping("/user/update-money-spent")
+    @PatchMapping("/user/update-money-spent/")
     public ResponseEntity<String> updateMoneySpent(@RequestParam(value = "id") int id)
             throws NotFoundException {
 
@@ -78,7 +78,7 @@ public class UserController {
         return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
     }
 
-    @PatchMapping("/user/update-password")
+    @PatchMapping("/user/update-password/")
     public ResponseEntity<String> updatePassword(@RequestParam(value = "id") int id,
             @RequestBody Map<String, Object> password) throws NotFoundException {
 
@@ -96,7 +96,7 @@ public class UserController {
         return new ResponseEntity<>("Password updated.", HttpStatus.OK);
     }
 
-    @PatchMapping("/user/disable")
+    @PatchMapping("/user/disable/")
     public ResponseEntity<String> disable(@RequestParam(value = "id") int id) throws NotFoundException {
         logger.info("begin disable user");
         User user = us.findById(id);
@@ -109,7 +109,7 @@ public class UserController {
         return new ResponseEntity<>("User disabled.", HttpStatus.OK);
     }
 
-    @PatchMapping("/user/activate")
+    @PatchMapping("/user/activate/")
     public ResponseEntity<String> activate(@RequestParam(value = "id") int id) throws NotFoundException {
         logger.info("begin activate user");
         User user = us.findById(id);
@@ -122,7 +122,7 @@ public class UserController {
         return new ResponseEntity<>("User activated.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("Begin delete user");
         User user = us.findById(id);
@@ -134,7 +134,7 @@ public class UserController {
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/users/delete")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
         return new ResponseEntity<>("All users deleted", HttpStatus.OK);

@@ -31,14 +31,14 @@ public class MenuController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @GetMapping("/menus/{dateString}")
+    @GetMapping("/menus/date/{dateString}")
     public ResponseEntity<List<Menu>> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
         return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{minDateString}-{maxDateString}")
+    @GetMapping("/menus/dates/{minDateString}/{maxDateString}")
     public ResponseEntity<List<Menu>> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -55,12 +55,12 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{price}")
+    @GetMapping("/menus/price/{price}")
     public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) {
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{minPrice}-{maxPrice}")
+    @GetMapping("/menus/prices/{minPrice}-{maxPrice}")
     public ResponseEntity<List<Menu>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -74,12 +74,12 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{punctuation}")
+    @GetMapping("/menus/punctuation/{punctuation}")
     public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) {
         return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{minPunctuation}-{maxPunctuation}")
+    @GetMapping("/menus/punctuations/{minPunctuation}-{maxPunctuation}")
     public ResponseEntity<List<Menu>> getByPunbtuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -93,7 +93,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menu/{id}")
+    @GetMapping("/menu/id/{id}")
     public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(ms.findById(id), HttpStatus.OK);
     }
@@ -103,18 +103,17 @@ public class MenuController {
         return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/menu")
+    @PostMapping("/menu/create")
     public ResponseEntity<Menu> create(@RequestBody Menu menu) {
         menu.setDate(LocalDate.now());
         return new ResponseEntity<>(ms.addMenu(menu), HttpStatus.OK);
     }
 
-    @PutMapping("/menu/{id}")
+    @PutMapping("/menu/update/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
         logger.info("begin update menu");
         Menu menuToUpdate = ms.findById(id);
         logger.info("Menu found: " + menu.getId());
-        menuToUpdate.setDate(menu.getDate());
         menuToUpdate.setPrice(menu.getPrice());
         menuToUpdate.setPunctuation(menu.getPunctuation());
         logger.info("Menu properties updated");
@@ -123,7 +122,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
     }
 
-    @DeleteMapping("/menu/{id}")
+    @DeleteMapping("/menu/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
         Menu menu = ms.findById(id);
@@ -135,7 +134,7 @@ public class MenuController {
         return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/menus")
+    @DeleteMapping("/menus/delete")
     public ResponseEntity<String> deleteAll() {
         ms.deleteAll();
 

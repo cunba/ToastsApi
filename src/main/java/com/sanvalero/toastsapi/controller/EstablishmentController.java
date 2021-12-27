@@ -36,23 +36,23 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/establishment/id={id}")
+    @GetMapping("/establishment/id/{id}")
     public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/establishment/name={name}")
+    @GetMapping("/establishment/name/{name}")
     public ResponseEntity<Establishment> getByName(@PathVariable String name) {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date={creationDateString}")
+    @GetMapping("/establishments/date/{creationDateString}")
     public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable String creationDateString) {
         LocalDate creationDate = LocalDate.parse(creationDateString, formatter);
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/{minDateString}-{maxDateString}")
+    @GetMapping("/establishments/dates/{minDateString}/{maxDateString}")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -69,22 +69,22 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/{open}")
+    @GetMapping("/establishments/open/{open}")
     public ResponseEntity<List<Establishment>> getByOpen(@PathVariable boolean open) {
         return new ResponseEntity<>(es.findByOpen(open), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/{location}")
+    @GetMapping("/establishments/location/{location}")
     public ResponseEntity<List<Establishment>> getByLocation(@PathVariable String location) {
         return new ResponseEntity<>(es.findByLocation(location), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/punctuation={punctuation}")
+    @GetMapping("/establishments/punctuation/{punctuation}")
     public ResponseEntity<List<Establishment>> getByPunctuation(@PathVariable float punctuation) {
         return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/{minPunctuation}-{maxPunctuation}")
+    @GetMapping("/establishments/punctuations/{minPunctuation}-{maxPunctuation}")
     public ResponseEntity<List<Establishment>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -98,13 +98,13 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @PostMapping("/establishment")
+    @PostMapping("/establishment/create")
     public ResponseEntity<Establishment> create(@RequestBody Establishment establishment) {
         establishment.setCreationDate(LocalDate.now());
         return new ResponseEntity<>(es.addEstablishment(establishment), HttpStatus.OK);
     }
 
-    @PutMapping("/establishment/{id}")
+    @PutMapping("/establishment/update/{id}")
     public ResponseEntity<Establishment> update(@RequestBody Establishment establishment, @PathVariable int id)
             throws NotFoundException {
 
@@ -123,7 +123,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.updateEstablishment(establishmentToUpdate), HttpStatus.OK);
     }
 
-    @DeleteMapping("/establishment/{id}")
+    @DeleteMapping("/establishment/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete establishment");
         Establishment establishment = es.findById(id);
@@ -135,7 +135,7 @@ public class EstablishmentController {
         return new ResponseEntity<>("Establishment deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/establishments")
+    @DeleteMapping("/establishments/delete")
     public ResponseEntity<String> deleteAll() {
         es.deleteAll();
 

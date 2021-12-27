@@ -48,19 +48,19 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/publication/{id}")
+    @GetMapping("/publication/id/{id}")
     public ResponseEntity<Publication> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{dateString}")
+    @GetMapping("/publications/date/{dateString}")
     public ResponseEntity<List<Publication>> getByDate(@PathVariable String dateString) {
         LocalDate date = LocalDate.parse(dateString, formatter);
 
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{minDateString}-{maxDateString}")
+    @GetMapping("/publications/dates/{minDateString}/{maxDateString}")
     public ResponseEntity<List<Publication>> getByDateBetween(@PathVariable String minDateString,
             @PathVariable String maxDateString) {
 
@@ -77,12 +77,12 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{price}")
+    @GetMapping("/publications/price/{price}")
     public ResponseEntity<List<Publication>> getByTotalPrice(@PathVariable float price) {
         return new ResponseEntity<>(ps.findByTotalPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{minPrice}-{maxPrice}")
+    @GetMapping("/publications/prices/{minPrice}-{maxPrice}")
     public ResponseEntity<List<Publication>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -96,12 +96,12 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{punctuation}")
+    @GetMapping("/publications/punctuation/{punctuation}")
     public ResponseEntity<List<Publication>> getByPunctuation(@PathVariable float punctuation) {
         return new ResponseEntity<>(ps.findByTotalPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{minPunctuation}-{maxPunctuation}")
+    @GetMapping("/publications/punctuations/{minPunctuation}-{maxPunctuation}")
     public ResponseEntity<List<Publication>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -136,7 +136,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByProductType(productType), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/")
+    @GetMapping("/publications/dates-prices-punctuations/")
     public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
             @RequestBody PublicationBetweenDTO pbDTO) {
 
@@ -147,7 +147,7 @@ public class PublicationController {
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 
-    @PostMapping("/publication")
+    @PostMapping("/publication/create")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         logger.info("begin create publication");
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
@@ -204,7 +204,7 @@ public class PublicationController {
         return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/publication/{id}")
+    @DeleteMapping("/publication/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete publication");
         Publication publication = ps.findById(id);
@@ -215,7 +215,7 @@ public class PublicationController {
         return new ResponseEntity<>("Publication deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/publications")
+    @DeleteMapping("/publications/delete")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 
