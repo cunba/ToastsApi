@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 @RestController
 public class UserController {
@@ -138,6 +139,13 @@ public class UserController {
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
         return new ResponseEntity<>("All users deleted", HttpStatus.OK);
+    }
+
+    @ExceptionHandler(BadRequest.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequest br) {
+        ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
+        logger.error(br.getMessage(), br);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
