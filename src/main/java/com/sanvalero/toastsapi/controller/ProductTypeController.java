@@ -103,7 +103,7 @@ public class ProductTypeController {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

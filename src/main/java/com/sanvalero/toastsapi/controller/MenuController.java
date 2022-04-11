@@ -1,7 +1,7 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -28,22 +28,24 @@ public class MenuController {
     @Autowired
     private MenuService ms;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @GetMapping("/menus/date/{dateString}")
-    public ResponseEntity<List<Menu>> getByDate(@PathVariable String dateString) {
-        LocalDate date = LocalDate.parse(dateString, formatter);
+    @GetMapping("/menus/date/{dateTimestamp}")
+    public ResponseEntity<List<Menu>> getByDate(@PathVariable long dateTimestamp) {
+        Timestamp timestamp = new Timestamp(dateTimestamp);
+        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
 
         return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/dates/{minDateString}/{maxDateString}")
-    public ResponseEntity<List<Menu>> getByDateBetween(@PathVariable String minDateString,
-            @PathVariable String maxDateString) {
+    @GetMapping("/menus/dates/{minDateTimestamp}-{maxDateTimestamp}")
+    public ResponseEntity<List<Menu>> getByDateBetween(@PathVariable long minDateTimestamp,
+            @PathVariable long maxDateTimestamp) {
 
-        LocalDate minDate = LocalDate.parse(minDateString, formatter);
-        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
         if (minDate.isAfter(maxDate)) {
@@ -130,7 +132,7 @@ public class MenuController {
         ms.deleteMenu(menu);
         logger.info("Menu deleted");
         logger.info("end delete menu");
-        
+
         return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
     }
 
@@ -150,7 +152,7 @@ public class MenuController {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

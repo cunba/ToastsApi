@@ -1,7 +1,7 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +45,6 @@ public class ProductController {
     @Autowired
     private PublicationService publicationService;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
@@ -58,19 +57,22 @@ public class ProductController {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/products/date/{dateString}")
-    public ResponseEntity<List<Product>> getByDate(@PathVariable String dateString) {
-        LocalDate date = LocalDate.parse(dateString, formatter);
+    @GetMapping("/products/date/{dateTimestamp}")
+    public ResponseEntity<List<Product>> getByDate(@PathVariable long dateTimestamp) {
+        Timestamp timestamp = new Timestamp(dateTimestamp);
+        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
 
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/products/dates/{minDateString}/{maxDateString}")
-    public ResponseEntity<List<Product>> getByDateBetween(@PathVariable String minDateString,
-            @PathVariable String maxDateString) {
+    @GetMapping("/products/date/{minDateTimestamp}-{maxDateTimestamp}")
+    public ResponseEntity<List<Product>> getByDateBetween(@PathVariable long minDateTimestamp,
+            @PathVariable long maxDateTimestamp) {
 
-        LocalDate minDate = LocalDate.parse(minDateString, formatter);
-        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
         if (minDate.isAfter(maxDate)) {
@@ -176,7 +178,8 @@ public class ProductController {
     }
 
     @PutMapping("/product/update/{id}")
-    public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id)
+            throws NotFoundException {
         logger.info("begin update product");
         Product product = ps.findById(id);
 
@@ -256,7 +259,7 @@ public class ProductController {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

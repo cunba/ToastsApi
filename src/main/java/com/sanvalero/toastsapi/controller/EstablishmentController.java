@@ -1,7 +1,7 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -28,7 +28,6 @@ public class EstablishmentController {
     @Autowired
     private EstablishmentService es;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
     @GetMapping("/establishments")
@@ -47,17 +46,21 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/date/{creationDateString}")
-    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable String creationDateString) {
-        LocalDate creationDate = LocalDate.parse(creationDateString, formatter);
+    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long creationDateTimestamp) {
+        Timestamp timestamp = new Timestamp(creationDateTimestamp);
+        LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
+
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/dates/{minDateString}/{maxDateString}")
-    public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable String minDateString,
-            @PathVariable String maxDateString) {
+    @GetMapping("/establishments/dates/{minDateTimestamp}-{maxDateTimestamp}")
+    public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable long minDateTimestamp,
+            @PathVariable long maxDateTimestamp) {
 
-        LocalDate minDate = LocalDate.parse(minDateString, formatter);
-        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
         if (minDate.isAfter(maxDate)) {
@@ -131,7 +134,7 @@ public class EstablishmentController {
         es.deleteEstablishment(establishment);
         logger.info("Establishment deleted");
         logger.info("end delete establishment");
-        
+
         return new ResponseEntity<>("Establishment deleted.", HttpStatus.OK);
     }
 
@@ -151,7 +154,7 @@ public class EstablishmentController {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

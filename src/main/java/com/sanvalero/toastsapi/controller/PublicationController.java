@@ -1,7 +1,7 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -40,7 +40,6 @@ public class PublicationController {
     @Autowired
     private EstablishmentService es;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(PublicationController.class);
 
     @GetMapping("/publications")
@@ -53,19 +52,22 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date/{dateString}")
-    public ResponseEntity<List<Publication>> getByDate(@PathVariable String dateString) {
-        LocalDate date = LocalDate.parse(dateString, formatter);
+    @GetMapping("/publications/date/{dateTimestamp}")
+    public ResponseEntity<List<Publication>> getByDate(@PathVariable long dateTimestamp) {
+        Timestamp timestamp = new Timestamp(dateTimestamp);
+        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
 
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/dates/{minDateString}/{maxDateString}")
-    public ResponseEntity<List<Publication>> getByDateBetween(@PathVariable String minDateString,
-            @PathVariable String maxDateString) {
+    @GetMapping("/publications/dates/{minDateTimestamp}-{maxDateTimestamp}")
+    public ResponseEntity<List<Publication>> getByDateBetween(@PathVariable long minDateTimestamp,
+            @PathVariable long maxDateTimestamp) {
 
-        LocalDate minDate = LocalDate.parse(minDateString, formatter);
-        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
         if (minDate.isAfter(maxDate)) {
@@ -231,7 +233,7 @@ public class PublicationController {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
