@@ -3,7 +3,6 @@ package com.sanvalero.toastsapi.controller;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -211,7 +210,7 @@ public class ProductController {
 
     @PatchMapping("/products/price")
     public ResponseEntity<String> updatePrice(@RequestParam(value = "id") int id,
-            @RequestParam float price) throws NotFoundException {
+            @RequestParam(value = "price") float price) throws NotFoundException {
 
         logger.info("begin update price of product");
         Product product = ps.findById(id);
