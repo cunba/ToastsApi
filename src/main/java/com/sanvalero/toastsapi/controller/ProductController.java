@@ -211,19 +211,14 @@ public class ProductController {
 
     @PatchMapping("/products/price")
     public ResponseEntity<String> updatePrice(@RequestParam(value = "id") int id,
-            @RequestBody Map<Float, Object> price) throws NotFoundException {
+            @RequestParam float price) throws NotFoundException {
 
         logger.info("begin update price of product");
         Product product = ps.findById(id);
 
         logger.info("Product found: " + product.getId());
 
-        ModelMapper mapper = new ModelMapper();
-        Product productPrice = mapper.map(price, Product.class);
-
-        logger.info("Product mapped");
-
-        product.setPrice(productPrice.getPrice());
+        product.setPrice(price);
         ps.updatePrice(product);
 
         logger.info("Product price updated");
