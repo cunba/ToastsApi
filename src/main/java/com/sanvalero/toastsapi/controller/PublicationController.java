@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 @RestController
 public class PublicationController {
@@ -225,8 +225,8 @@ public class PublicationController {
         return new ResponseEntity<>("All publications deleted", HttpStatus.OK);
     }
 
-    @ExceptionHandler(BadRequest.class)
-    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequest br) {
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
         ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
         logger.error(br.getMessage(), br);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
