@@ -40,7 +40,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/date/between/")
+    @GetMapping("/menus/date/between")
     public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
             @RequestParam(value = "maxDate") long maxDateTimestamp) {
 
@@ -64,7 +64,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/price/between/")
+    @GetMapping("/menus/price/between")
     public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice) {
 

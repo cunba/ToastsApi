@@ -66,7 +66,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/products/date/between/")
+    @GetMapping("/products/date/between")
     public ResponseEntity<List<Product>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
             @RequestParam(value = "maxDate") long maxDateTimestamp) {
 
@@ -95,7 +95,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/products/price/between/")
+    @GetMapping("/products/price/between")
     public ResponseEntity<List<Product>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -114,7 +114,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/products/punctuation/between/")
+    @GetMapping("/products/punctuation/between")
     public ResponseEntity<List<Product>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 

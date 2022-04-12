@@ -61,7 +61,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date/between/")
+    @GetMapping("/publications/date/between")
     public ResponseEntity<List<Publication>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
             @RequestParam(value = "maxDate") long maxDateTimestamp) {
 
@@ -104,7 +104,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/punctuation/between/")
+    @GetMapping("/publications/punctuation/between")
     public ResponseEntity<List<Publication>> getByPunctuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
@@ -139,7 +139,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByProductType(productType), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date-price-punctuation/between/")
+    @GetMapping("/publications/date-price-punctuation/between")
     public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
             @RequestBody PublicationBetweenDTO pbDTO) {
 

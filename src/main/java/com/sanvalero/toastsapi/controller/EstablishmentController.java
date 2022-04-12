@@ -55,7 +55,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/between/")
+    @GetMapping("/establishments/date/between")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable(value = "minDate") long minDateTimestamp,
             @PathVariable(value = "maxDate") long maxDateTimestamp) {
 
@@ -89,7 +89,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/punctuation/between/")
+    @GetMapping("/establishments/punctuation/between")
     public ResponseEntity<List<Establishment>> getByPunctuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
