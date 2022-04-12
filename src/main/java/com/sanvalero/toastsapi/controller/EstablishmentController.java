@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
@@ -36,12 +37,12 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/establishment/id/{id}")
+    @GetMapping("/establishments/{id}")
     public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/establishment/name/{name}")
+    @GetMapping("/establishments/name/{name}")
     public ResponseEntity<Establishment> getByName(@PathVariable String name) {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
@@ -54,9 +55,9 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/dates/{minDateTimestamp}-{maxDateTimestamp}")
-    public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable long minDateTimestamp,
-            @PathVariable long maxDateTimestamp) {
+    @GetMapping("/establishments/date/between/")
+    public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable(value = "minDate") long minDateTimestamp,
+            @PathVariable(value = "maxDate") long maxDateTimestamp) {
 
         Timestamp minTimestamp = new Timestamp(minDateTimestamp);
         LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
@@ -88,9 +89,9 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/punctuations/{minPunctuation}-{maxPunctuation}")
-    public ResponseEntity<List<Establishment>> getByPunctuationBetween(@PathVariable float minPunctuation,
-            @PathVariable float maxPunctuation) {
+    @GetMapping("/establishments/punctuation/between/")
+    public ResponseEntity<List<Establishment>> getByPunctuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
@@ -102,13 +103,13 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @PostMapping("/establishment/create")
+    @PostMapping("/establishments/create")
     public ResponseEntity<Establishment> create(@RequestBody Establishment establishment) {
         establishment.setCreationDate(LocalDate.now());
         return new ResponseEntity<>(es.addEstablishment(establishment), HttpStatus.OK);
     }
 
-    @PutMapping("/establishment/update/{id}")
+    @PutMapping("/establishments/update/{id}")
     public ResponseEntity<Establishment> update(@RequestBody Establishment establishment, @PathVariable int id)
             throws NotFoundException {
 
@@ -127,7 +128,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.updateEstablishment(establishmentToUpdate), HttpStatus.OK);
     }
 
-    @DeleteMapping("/establishment/delete/{id}")
+    @DeleteMapping("/establishments/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete establishment");
         Establishment establishment = es.findById(id);

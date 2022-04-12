@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
@@ -39,9 +40,9 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/dates/{minDateTimestamp}-{maxDateTimestamp}")
-    public ResponseEntity<List<Menu>> getByDateBetween(@PathVariable long minDateTimestamp,
-            @PathVariable long maxDateTimestamp) {
+    @GetMapping("/menus/date/between/")
+    public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
+            @RequestParam(value = "maxDate") long maxDateTimestamp) {
 
         Timestamp minTimestamp = new Timestamp(minDateTimestamp);
         LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
@@ -63,9 +64,9 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/prices/{minPrice}-{maxPrice}")
-    public ResponseEntity<List<Menu>> getByPriceBetween(@PathVariable float minPrice,
-            @PathVariable float maxPrice) {
+    @GetMapping("/menus/price/between/")
+    public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
+            @RequestParam(value = "maxPrice") float maxPrice) {
 
         float templatePrice = 0;
         if (minPrice > maxPrice) {
@@ -82,9 +83,9 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/punctuations/{minPunctuation}-{maxPunctuation}")
-    public ResponseEntity<List<Menu>> getByPunbtuationBetween(@PathVariable float minPunctuation,
-            @PathVariable float maxPunctuation) {
+    @GetMapping("/menus/punctuation/betweem")
+    public ResponseEntity<List<Menu>> getByPunbtuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
@@ -96,7 +97,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menu/id/{id}")
+    @GetMapping("/menus/{id}")
     public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(ms.findById(id), HttpStatus.OK);
     }
@@ -106,13 +107,13 @@ public class MenuController {
         return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/menu/create")
+    @PostMapping("/menus")
     public ResponseEntity<Menu> create(@RequestBody Menu menu) {
         menu.setDate(LocalDate.now());
         return new ResponseEntity<>(ms.addMenu(menu), HttpStatus.OK);
     }
 
-    @PutMapping("/menu/update/{id}")
+    @PutMapping("/menus/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
         logger.info("begin update menu");
         Menu menuToUpdate = ms.findById(id);
@@ -125,7 +126,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
     }
 
-    @DeleteMapping("/menu/delete/{id}")
+    @DeleteMapping("/menus/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
         Menu menu = ms.findById(id);
@@ -137,7 +138,7 @@ public class MenuController {
         return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/menus/delete")
+    @DeleteMapping("/menus")
     public ResponseEntity<String> deleteAll() {
         ms.deleteAll();
 

@@ -36,35 +36,36 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/type/id/{id}")
+    @GetMapping("/types/{id}")
     public ResponseEntity<ProductType> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(pts.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/type/name/{name}")
+    @GetMapping("/types/name/{name}")
     public ResponseEntity<List<ProductType>> getByName(@PathVariable String name) {
         return new ResponseEntity<>(pts.findByProductName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/type/type/{type}")
+    @GetMapping("/types/type/{type}")
     public ResponseEntity<ProductType> getByType(@PathVariable String type) {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/type/name-and-type/")
+    @GetMapping("/types/name-and-type/")
     public ResponseEntity<ProductType> getByNameAndType(@RequestParam(value = "name") String name,
             @RequestParam(value = "type") String type) {
 
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }
 
-    @PostMapping("/type/create")
+    @PostMapping("/types")
     public ResponseEntity<ProductType> create(@RequestBody ProductType type) {
         return new ResponseEntity<>(pts.addType(type), HttpStatus.OK);
     }
 
-    @PutMapping("/type/update/{id}")
-    public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type) throws NotFoundException {
+    @PutMapping("/types/{id}")
+    public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type)
+            throws NotFoundException {
         logger.info("begin update type");
         ProductType typeToUpdate = pts.findById(id);
         logger.info("Type found: " + typeToUpdate.getId());
@@ -76,7 +77,7 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
     }
 
-    @DeleteMapping("/type/delete/{id}")
+    @DeleteMapping("/types/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete type");
         ProductType type = pts.findById(id);
@@ -84,11 +85,11 @@ public class ProductTypeController {
         pts.deleteType(type);
         logger.info("Type deleted");
         logger.info("end delete type");
-        
+
         return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/types/delete")
+    @DeleteMapping("/types")
     public ResponseEntity<String> deleteAll() {
         pts.deleteAll();
 
