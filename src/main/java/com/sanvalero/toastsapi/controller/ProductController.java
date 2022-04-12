@@ -128,7 +128,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @GetMapping("products/type")
+    @GetMapping("/products/type")
     public ResponseEntity<List<Product>> getByTypeId(@RequestParam(value = "id") int typeId) throws NotFoundException {
         ProductType type = pts.findById(typeId);
         return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
