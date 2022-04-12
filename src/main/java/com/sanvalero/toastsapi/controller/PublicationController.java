@@ -10,7 +10,6 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.User;
-import com.sanvalero.toastsapi.model.dto.PublicationBetweenDTO;
 import com.sanvalero.toastsapi.model.dto.PublicationDTO;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 import com.sanvalero.toastsapi.service.PublicationService;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,7 +85,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/price/betweem")
+    @GetMapping("/publications/price/between")
     public ResponseEntity<List<Publication>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice) {
 
@@ -105,7 +105,8 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/punctuation/between")
-    public ResponseEntity<List<Publication>> getByPunctuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
+    public ResponseEntity<List<Publication>> getByPunctuationBetween(
+            @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
         float templatePunctuation = 0;
@@ -139,13 +140,43 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByProductType(productType), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date-price-punctuation/between")
+    @GetMapping("/publications/date/price/punctuation/between")
     public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
-            @RequestBody PublicationBetweenDTO pbDTO) {
+            @RequestParam(value = "minDate") long minDateTimestamp,
+            @RequestParam(value = "maxDate") long maxDateTimestamp,
+            @RequestParam(value = "minDate") float minPrice,
+            @RequestParam(value = "maxDate") float maxPrice,
+            @RequestParam(value = "minDate") float minPunctuation,
+            @RequestParam(value = "maxDate") float maxPunctuation) {
+
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
+
+        LocalDate changerDate = LocalDate.now();
+        if (minDate.isAfter(maxDate)) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
+        }
+
+        float changerPrice = 0;
+        if (minPrice > maxPrice) {
+            changerPrice = minPrice;
+            minPrice = maxPrice;
+            maxPrice = changerPrice;
+        }
+
+        float changerPunctuation = 0;
+        if (minPunctuation > maxPunctuation) {
+            changerPunctuation = minPunctuation;
+            minPunctuation = maxPunctuation;
+            maxPunctuation = changerPunctuation;
+        }
 
         List<Publication> publications = ps.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(
-                pbDTO.getMinDate(), pbDTO.getMaxDate(), pbDTO.getMinPrice(), pbDTO.getMaxPrice(),
-                pbDTO.getMinPunctuation(), pbDTO.getMaxPunctuation());
+                minDate, maxDate, minPrice, maxPrice, minPunctuation, maxPunctuation);
 
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
@@ -171,7 +202,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.OK);
     }
 
-    @PatchMapping("/publications")
+    @PutMapping("/publications")
     public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO,
             @RequestParam(value = "id") int id) throws NotFoundException {
 
@@ -186,10 +217,12 @@ public class PublicationController {
         publication.setTotalPrice(ps.totalPrice(publication.getId()));
         publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
         publication.setEstablishment(establishment);
+
+        Publication toPrint = ps.updatePublication(publication);
         logger.info("Publication properties updated");
         logger.info("end update publication");
 
-        return new ResponseEntity<>(ps.updatePublication(publication), HttpStatus.OK);
+        return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
     @PatchMapping("/publications/price-punctuation")

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sanvalero.toastsapi.model.utils.Location;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,7 @@ public class Establishment {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
     @Column
-    private String location;
+    private Location location;
     @Column
     private boolean open;
     @Column

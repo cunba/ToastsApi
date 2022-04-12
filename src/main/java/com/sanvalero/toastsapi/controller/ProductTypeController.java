@@ -51,9 +51,9 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/types/name-and-type/")
-    public ResponseEntity<ProductType> getByNameAndType(@RequestParam(value = "name") String name,
-            @RequestParam(value = "type") String type) {
+    @GetMapping("/types/type/name")
+    public ResponseEntity<ProductType> getByNameAndType(@RequestParam(value = "type") String type,
+            @RequestParam(value = "name") String name) {
 
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }

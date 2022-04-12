@@ -8,8 +8,10 @@ import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
+import com.sanvalero.toastsapi.model.dto.EstablishmentDTO;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,7 +50,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/{creationDateString}")
+    @GetMapping("/establishments/date/{creationDateTimestamp}")
     public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long creationDateTimestamp) {
         Timestamp timestamp = new Timestamp(creationDateTimestamp);
         LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
@@ -56,7 +59,8 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/date/between")
-    public ResponseEntity<List<Establishment>> getByCreationDateBetween(@PathVariable(value = "minDate") long minDateTimestamp,
+    public ResponseEntity<List<Establishment>> getByCreationDateBetween(
+            @PathVariable(value = "minDate") long minDateTimestamp,
             @PathVariable(value = "maxDate") long maxDateTimestamp) {
 
         Timestamp minTimestamp = new Timestamp(minDateTimestamp);
@@ -90,7 +94,8 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/punctuation/between")
-    public ResponseEntity<List<Establishment>> getByPunctuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
+    public ResponseEntity<List<Establishment>> getByPunctuationBetween(
+            @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
         float templatePunctuation = 0;
@@ -103,29 +108,52 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @PostMapping("/establishments/create")
-    public ResponseEntity<Establishment> create(@RequestBody Establishment establishment) {
+    @PostMapping("/establishments")
+    public ResponseEntity<Establishment> create(@RequestBody EstablishmentDTO establishmentDTO) {
+        logger.info("begin create establishment");
+        ModelMapper mapper = new ModelMapper();
+        Establishment establishment = mapper.map(establishmentDTO, Establishment.class);
         establishment.setCreationDate(LocalDate.now());
-        return new ResponseEntity<>(es.addEstablishment(establishment), HttpStatus.OK);
+        establishment.setPunctuation(0);
+
+        logger.info("Establishment mapped");
+        Establishment toPrint = es.addEstablishment(establishment);
+        logger.info("Establishment created");
+        logger.info("end create establishment");
+        return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
     @PutMapping("/establishments/update/{id}")
-    public ResponseEntity<Establishment> update(@RequestBody Establishment establishment, @PathVariable int id)
+    public ResponseEntity<Establishment> update(@RequestBody EstablishmentDTO establishmentDTO, @PathVariable int id)
             throws NotFoundException {
 
         logger.info("begin update establishment");
         Establishment establishmentToUpdate = es.findById(id);
-        logger.info("Establishment found: " + establishment.getId());
-        establishmentToUpdate.setCreationDate(establishment.getCreationDate());
-        establishmentToUpdate.setLocation(establishment.getLocation());
-        establishmentToUpdate.setName(establishment.getName());
-        establishmentToUpdate.setOpen(establishment.isOpen());
-        establishmentToUpdate.setPublications(establishment.getPublications());
-        establishmentToUpdate.setPunctuation(establishment.getPunctuation());
-        logger.info("Establishments properties updated");
+        logger.info("Establishment found: " + establishmentToUpdate.getId());
+        establishmentToUpdate.setLocation(establishmentDTO.getLocation());
+        establishmentToUpdate.setName(establishmentDTO.getName());
+        establishmentToUpdate.setOpen(establishmentDTO.isOpen());
+        logger.info("Properties setted");
+        Establishment toPrint = es.updateEstablishment(establishmentToUpdate);
+        logger.info("Establishments updated");
         logger.info("end update establishment");
 
-        return new ResponseEntity<>(es.updateEstablishment(establishmentToUpdate), HttpStatus.OK);
+        return new ResponseEntity<>(toPrint, HttpStatus.OK);
+    }
+
+    @PatchMapping("/establishments/punctuation")
+    public ResponseEntity<String> updatePunctuation(@RequestParam(value = "id") int id,
+            @RequestParam(value = "punctuation") float punctuation) throws NotFoundException {
+
+        logger.info("begin update punctuation");
+        Establishment establishment = es.findById(id);
+        logger.info("Establishment found: " + id);
+        establishment.setPunctuation(es.sumPunctuation(id));
+        es.updatePunctuation(establishment);
+        logger.info("Establishment punctuation updated");
+        logger.info("end update punctuation");
+
+        return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("/establishments/delete/{id}")

@@ -8,8 +8,10 @@ import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
+import com.sanvalero.toastsapi.model.dto.MenuDTO;
 import com.sanvalero.toastsapi.service.MenuService;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +85,9 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/punctuation/betweem")
-    public ResponseEntity<List<Menu>> getByPunbtuationBetween(@RequestParam(value = "minPunctuation") float minPunctuation,
+    @GetMapping("/menus/punctuation/between")
+    public ResponseEntity<List<Menu>> getByPunbtuationBetween(
+            @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
         float templatePunctuation = 0;
@@ -108,18 +111,26 @@ public class MenuController {
     }
 
     @PostMapping("/menus")
-    public ResponseEntity<Menu> create(@RequestBody Menu menu) {
+    public ResponseEntity<Menu> create(@RequestBody MenuDTO menuDTO) {
+        logger.info("begin create menu");
+        ModelMapper mapper = new ModelMapper();
+        Menu menu = mapper.map(menuDTO, Menu.class);
         menu.setDate(LocalDate.now());
-        return new ResponseEntity<>(ms.addMenu(menu), HttpStatus.OK);
+        logger.info("Menu mapped");
+        Menu toPrint = ms.addMenu(menu);
+        logger.info("Menu created");
+        logger.info("end create establishment");
+
+        return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
     @PutMapping("/menus/{id}")
-    public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody Menu menu) throws NotFoundException {
+    public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
         logger.info("begin update menu");
         Menu menuToUpdate = ms.findById(id);
-        logger.info("Menu found: " + menu.getId());
-        menuToUpdate.setPrice(menu.getPrice());
-        menuToUpdate.setPunctuation(menu.getPunctuation());
+        logger.info("Menu found: " + id);
+        menuToUpdate.setPrice(menuDTO.getPrice());
+        menuToUpdate.setPunctuation(menuDTO.getPunctuation());
         logger.info("Menu properties updated");
         logger.info("end update menu");
 

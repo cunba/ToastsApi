@@ -32,4 +32,8 @@ public interface EstablishmentService {
     void deleteEstablishment(Establishment establishment);
 
     void deleteAll();
+
+    float sumPunctuation(int id);
+
+    void updatePunctuation(Establishment establishment);
 }
