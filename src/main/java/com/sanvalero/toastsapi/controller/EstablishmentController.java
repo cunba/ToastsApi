@@ -9,6 +9,7 @@ import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.dto.EstablishmentDTO;
+import com.sanvalero.toastsapi.model.utils.Location;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 
 import org.modelmapper.ModelMapper;
@@ -84,7 +85,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/location/{location}")
-    public ResponseEntity<List<Establishment>> getByLocation(@PathVariable String location) {
+    public ResponseEntity<List<Establishment>> getByLocation(@PathVariable Location location) {
         return new ResponseEntity<>(es.findByLocation(location), HttpStatus.OK);
     }
 
@@ -123,7 +124,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
-    @PutMapping("/establishments/update/{id}")
+    @PutMapping("/establishments/{id}")
     public ResponseEntity<Establishment> update(@RequestBody EstablishmentDTO establishmentDTO, @PathVariable int id)
             throws NotFoundException {
 
@@ -142,8 +143,7 @@ public class EstablishmentController {
     }
 
     @PatchMapping("/establishments/punctuation")
-    public ResponseEntity<String> updatePunctuation(@RequestParam(value = "id") int id,
-            @RequestParam(value = "punctuation") float punctuation) throws NotFoundException {
+    public ResponseEntity<String> updatePunctuation(@RequestParam(value = "id") int id) throws NotFoundException {
 
         logger.info("begin update punctuation");
         Establishment establishment = es.findById(id);

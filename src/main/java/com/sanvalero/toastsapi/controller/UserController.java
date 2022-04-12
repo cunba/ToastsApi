@@ -2,7 +2,6 @@ package com.sanvalero.toastsapi.controller;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -10,7 +9,6 @@ import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.User;
 import com.sanvalero.toastsapi.service.UserService;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +47,7 @@ public class UserController {
         return new ResponseEntity<>(us.addUser(user), HttpStatus.OK);
     }
 
-    @PatchMapping("/users/publications-number/")
+    @PatchMapping("/users/publications-number")
     public ResponseEntity<String> updatePublicationsNumber(@RequestParam(value = "id") int id)
             throws NotFoundException {
 
@@ -64,7 +62,7 @@ public class UserController {
         return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
     }
 
-    @PatchMapping("/users/money-spent/")
+    @PatchMapping("/users/money-spent")
     public ResponseEntity<String> updateMoneySpent(@RequestParam(value = "id") int id)
             throws NotFoundException {
 
@@ -79,17 +77,14 @@ public class UserController {
         return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
     }
 
-    @PatchMapping("/users/password/")
+    @PatchMapping("/users/password")
     public ResponseEntity<String> updatePassword(@RequestParam(value = "id") int id,
-            @RequestBody Map<String, Object> password) throws NotFoundException {
+            @RequestParam String password) throws NotFoundException {
 
         logger.info("begin update password");
         User user = us.findById(id);
         logger.info("User found: " + user.getId());
-        ModelMapper mapper = new ModelMapper();
-        User userPassword = mapper.map(password, User.class);
-        logger.info("User mapped");
-        user.setPassword(userPassword.getPassword());
+        user.setPassword(password);
         us.updatePassword(user);
         logger.info("User password updated");
         logger.info("end update password");
@@ -97,7 +92,7 @@ public class UserController {
         return new ResponseEntity<>("Password updated.", HttpStatus.OK);
     }
 
-    @PatchMapping("/users/disable/")
+    @PatchMapping("/users/disable")
     public ResponseEntity<String> disable(@RequestParam(value = "id") int id) throws NotFoundException {
         logger.info("begin disable user");
         User user = us.findById(id);
@@ -110,7 +105,7 @@ public class UserController {
         return new ResponseEntity<>("User disabled.", HttpStatus.OK);
     }
 
-    @PatchMapping("/users/activate/")
+    @PatchMapping("/users/activate")
     public ResponseEntity<String> activate(@RequestParam(value = "id") int id) throws NotFoundException {
         logger.info("begin activate user");
         User user = us.findById(id);

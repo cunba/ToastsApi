@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
+import com.sanvalero.toastsapi.model.utils.Location;
 
 public interface EstablishmentService {
     Establishment findByName(String name);
@@ -15,7 +16,7 @@ public interface EstablishmentService {
 
     List<Establishment> findByOpen(boolean open);
 
-    List<Establishment> findByLocation(String location);
+    List<Establishment> findByLocation(Location location);
 
     List<Establishment> findByPunctuation(float punctuation);
 

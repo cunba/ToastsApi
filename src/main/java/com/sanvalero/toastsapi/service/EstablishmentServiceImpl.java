@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
+import com.sanvalero.toastsapi.model.utils.Location;
 import com.sanvalero.toastsapi.repository.EstablishmentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public List<Establishment> findByLocation(String location) {
+    public List<Establishment> findByLocation(Location location) {
         return er.findByLocation(location);
     }
 
