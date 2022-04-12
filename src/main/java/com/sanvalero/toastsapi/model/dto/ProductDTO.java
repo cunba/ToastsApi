@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDTO {
 
-    private int id;
     private boolean inMenu;
     private float price;
     private float punctuation;
