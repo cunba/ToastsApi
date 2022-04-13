@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByUsername(String username) throws NotFoundException {
+        return ur.findByUsername(username);
+    }
+
+    @Override
     public int countPublications(int id) {
         return ur.countPublications(id);
     }

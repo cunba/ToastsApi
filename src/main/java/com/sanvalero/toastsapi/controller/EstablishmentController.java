@@ -9,7 +9,6 @@ import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.dto.EstablishmentDTO;
-import com.sanvalero.toastsapi.model.utils.Location;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 
 import org.modelmapper.ModelMapper;
@@ -85,7 +84,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/location/{location}")
-    public ResponseEntity<List<Establishment>> getByLocation(@PathVariable Location location) {
+    public ResponseEntity<List<Establishment>> getByLocation(@PathVariable String location) {
         return new ResponseEntity<>(es.findByLocation(location), HttpStatus.OK);
     }
 

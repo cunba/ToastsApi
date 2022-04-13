@@ -7,13 +7,17 @@ import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.dto.UserDTO;
 import com.sanvalero.toastsapi.service.UserService;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +46,13 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> create(@RequestBody User user) {
+    public ResponseEntity<User> create(@RequestBody UserDTO userDTO) {
+        ModelMapper mapper = new ModelMapper();
+        User user = mapper.map(userDTO, User.class);
+        user.setPassword(bCryptPasswordEncoder().encode(userDTO.getPassword()));
         user.setCreationDate(LocalDate.now());
+        user.setMoneySpent(0);
+        user.setPublicationsNumber(0);
         return new ResponseEntity<>(us.addUser(user), HttpStatus.OK);
     }
 
@@ -155,5 +164,9 @@ public class UserController {
         ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(); 
     }
 }

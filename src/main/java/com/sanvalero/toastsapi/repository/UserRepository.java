@@ -11,4 +11,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query(value = "SELECT SUM(total_price) FROM publications WHERE user_id = :id", nativeQuery = true)
     float sumPrice(int id);
+
+    User findByUsername(String username);
 }

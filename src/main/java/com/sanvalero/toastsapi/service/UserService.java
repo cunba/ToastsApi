@@ -10,6 +10,8 @@ public interface UserService {
 
     User findById(int id) throws NotFoundException;
 
+    User findByUsername(String username) throws NotFoundException;
+
     int countPublications(int id);
 
     float sumPrice(int id);
