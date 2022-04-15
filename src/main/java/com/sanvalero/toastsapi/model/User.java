@@ -13,6 +13,10 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,4 +55,9 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Publication> publications;
+
+    @Bean
+    public static PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

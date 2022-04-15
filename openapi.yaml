@@ -41,13 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    example: "500"
-                  message:
-                    type: "string"
-                    example: "Internal server error"
+                $ref: "#/components/schemas/Exception"
           
     post:
       tags:
@@ -74,13 +68,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
     delete:
       tags:
@@ -100,13 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   
   /products/{id}:
@@ -136,37 +118,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
       
     put:
       tags:
@@ -200,37 +164,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
       
     delete:
       tags:
@@ -258,37 +204,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
       
   /products/date/{date}:
     get:
@@ -319,25 +247,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
           
   /products/date/between:
     get:
@@ -375,25 +291,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
           
   /products/inMenu/{inMenu}:
     get:
@@ -424,25 +328,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   /products/price:
     patch:
@@ -479,25 +371,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
           
   /products/price/{price}:
     get:
@@ -527,25 +407,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   /products/price/between:
     get:
@@ -581,25 +449,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   /products/punctuation/{punctuation}:
     get:
@@ -629,25 +485,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   /products/punctuation/between/:
     get:
@@ -683,25 +527,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   /products/type:
     get:
@@ -733,38 +565,20 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
                   
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
   /products/menu:
     get:
@@ -796,33 +610,20 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                type: "object"
-                format: "#/components/schemas/Exception"
-                
+                $ref: "#/components/schemas/Exception" 
+  
   /products/publication:
     get:
       tags:
@@ -853,37 +654,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
                 
   /types:
@@ -907,13 +690,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
     post:
       tags:
@@ -939,25 +716,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -977,13 +742,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /types/{id}:
     get:
@@ -1012,37 +771,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     put:
       tags:
@@ -1076,37 +817,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                 
     delete:
       tags:
@@ -1135,37 +858,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /types/name/{name}:
     get:
@@ -1195,25 +900,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /types/type/{type}:
     get:
@@ -1243,25 +936,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /types/type/name:
     get:
@@ -1297,25 +978,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
                     
   /menus:
@@ -1339,13 +1008,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     post:
       tags:
       - "Menu"
@@ -1369,25 +1032,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -1407,13 +1058,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /menus/{id}:
     get:
@@ -1442,37 +1087,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
     put:
       tags:
@@ -1505,37 +1132,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -1563,37 +1172,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /menus/date/{date}:
     get:
@@ -1623,25 +1214,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /menus/date/between:
     get:
@@ -1677,25 +1256,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /menus/price/{price}:
     get:
@@ -1725,25 +1292,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /menus/price/between:
     get:
@@ -1779,25 +1334,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /menus/punctuation/{punctuation}:
     get:
@@ -1827,25 +1370,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /menus/punctuation/between:
     get:
@@ -1881,25 +1412,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
                     
   /publications:
@@ -1923,13 +1442,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     post:
       tags:
       - "Publication"
@@ -1953,25 +1466,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -1991,13 +1492,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/{id}:
     get:
@@ -2026,37 +1521,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
     put:
       tags:
@@ -2089,37 +1566,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -2147,25 +1606,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/price-punctuation:
     patch:
@@ -2194,25 +1641,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/date/{date}:
     get:
@@ -2242,25 +1677,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /publications/date/between:
     get:
@@ -2296,25 +1719,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/price/{price}:
     get:
@@ -2344,25 +1755,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /publications/price/between:
     get:
@@ -2398,25 +1797,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/punctuation/{punctuation}:
     get:
@@ -2446,25 +1833,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /publications/punctuation/between:
     get:
@@ -2500,25 +1875,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/establishment:
     get:
@@ -2550,37 +1913,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/user:
     get:
@@ -2612,37 +1957,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/product:
     get:
@@ -2674,37 +2001,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /publications/date/price/puntuation/between:
     get:
@@ -2764,37 +2073,19 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
                     
   /establishments:
@@ -2818,13 +2109,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     post:
       tags:
       - "Establishment"
@@ -2848,25 +2133,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -2886,13 +2159,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishments/{id}:
     get:
@@ -2921,25 +2188,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
     put:
       tags:
@@ -2972,25 +2227,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -3018,25 +2261,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishment/name/{name}:
     get:
@@ -3066,25 +2297,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishment/open/{open}:
     get:
@@ -3114,13 +2333,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishment/location/{location}:
     get:
@@ -3149,13 +2362,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishments/date/{date}:
     get:
@@ -3185,25 +2392,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /establishments/date/between:
     get:
@@ -3239,25 +2434,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishments/punctuation:
     patch:
@@ -3287,25 +2470,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /establishments/punctuation/{punctuation}:
     get:
@@ -3335,25 +2506,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Bad request exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
   /establishment/punctuation/between:
     get:
@@ -3389,13 +2548,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
                     
   /users:
@@ -3419,13 +2572,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     post:
       tags:
       - "User"
@@ -3449,13 +2596,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -3475,13 +2616,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /users/{id}:
     get:
@@ -3510,25 +2645,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
     
     put:
       tags:
@@ -3561,25 +2684,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
     delete:
       tags:
@@ -3607,25 +2718,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "404"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /users/publications-number:
     patch:
@@ -3654,25 +2753,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /users/money-spent:
     patch:
@@ -3701,25 +2788,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /users/password:
     patch:
@@ -3753,25 +2828,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /users/disable:
     patch:
@@ -3800,25 +2863,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
   /users/activate:
     patch:
@@ -3847,25 +2898,13 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "400"
-                  message:
-                    type: "string"
-                    default: "Not found exception"
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
-                properties:
-                  internalError:
-                    type: "string"
-                    default: "500"
-                  message:
-                    type: "string"
-                    default: "Internal server error"
+                $ref: "#/components/schemas/Exception"
                     
                     
                     
@@ -4118,4 +3157,14 @@ components:
           type: "string"
           example: "a25540@svalero.com"
         password:
+          type: "string"
+
+
+    Exception:
+      properties:
+        code: 
+          type: "string"
+        error:
+          type: "string"
+        message:
           type: "string"

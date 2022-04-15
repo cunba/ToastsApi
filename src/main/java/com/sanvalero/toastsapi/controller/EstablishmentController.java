@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EstablishmentController {
     @Autowired
     private EstablishmentService es;
+    private long dateFrom = 1640995200000L;
 
     private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
@@ -42,7 +43,12 @@ public class EstablishmentController {
 
     @GetMapping("/establishments/{id}")
     public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
+        try {
+            es.findById(id);
+            return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Stablishment with ID " + id + "does not exists.");
+        }
     }
 
     @GetMapping("/establishments/name/{name}")
@@ -51,31 +57,39 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/date/{creationDateTimestamp}")
-    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long creationDateTimestamp) {
-        Timestamp timestamp = new Timestamp(creationDateTimestamp);
-        LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
-
-        return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
+    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long creationDateTimestamp)
+            throws BadRequestException {
+        if (creationDateTimestamp < dateFrom) {
+            throw new BadRequestException("The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        } else {
+            Timestamp timestamp = new Timestamp(creationDateTimestamp);
+            LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
+            return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/establishments/date/between")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(
             @PathVariable(value = "minDate") long minDateTimestamp,
-            @PathVariable(value = "maxDate") long maxDateTimestamp) {
+            @PathVariable(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
 
-        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
-        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
-        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
-        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
+        if (minDateTimestamp < dateFrom || maxDateTimestamp < dateFrom) {
+            throw new BadRequestException("The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        } else {
+            Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+            LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+            Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+            LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
-        LocalDate changerDate = LocalDate.now();
-        if (minDate.isAfter(maxDate)) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
+            LocalDate changerDate = LocalDate.now();
+            if (minDate.isAfter(maxDate)) {
+                changerDate = minDate;
+                minDate = maxDate;
+                maxDate = changerDate;
+            }
+
+            return new ResponseEntity<>(es.findByCreationDateBetween(minDate, maxDate), HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(es.findByCreationDateBetween(minDate, maxDate), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/open/{open}")
@@ -120,7 +134,7 @@ public class EstablishmentController {
         Establishment toPrint = es.addEstablishment(establishment);
         logger.info("Establishment created");
         logger.info("end create establishment");
-        return new ResponseEntity<>(toPrint, HttpStatus.OK);
+        return new ResponseEntity<>(toPrint, HttpStatus.CREATED);
     }
 
     @PutMapping("/establishments/{id}")
@@ -176,21 +190,21 @@ public class EstablishmentController {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
         logger.error(br.getMessage(), br);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

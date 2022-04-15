@@ -199,7 +199,7 @@ public class PublicationController {
         logger.info("Publication mapped");
         logger.info("end create publication");
 
-        return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.OK);
+        return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.CREATED);
     }
 
     @PutMapping("/publications")
@@ -260,21 +260,21 @@ public class PublicationController {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
         logger.error(br.getMessage(), br);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

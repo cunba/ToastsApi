@@ -14,10 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService us;
+    // @Autowired
+    // private PasswordEncoder passwordEncoder;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -49,11 +49,11 @@ public class UserController {
     public ResponseEntity<User> create(@RequestBody UserDTO userDTO) {
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
-        user.setPassword(bCryptPasswordEncoder().encode(userDTO.getPassword()));
+        user.setPassword(User.encoder().encode(userDTO.getPassword()));
         user.setCreationDate(LocalDate.now());
         user.setMoneySpent(0);
         user.setPublicationsNumber(0);
-        return new ResponseEntity<>(us.addUser(user), HttpStatus.OK);
+        return new ResponseEntity<>(us.addUser(user), HttpStatus.CREATED);
     }
 
     @PatchMapping("/users/publications-number")
@@ -93,7 +93,7 @@ public class UserController {
         logger.info("begin update password");
         User user = us.findById(id);
         logger.info("User found: " + user.getId());
-        user.setPassword(password);
+        user.setPassword(User.encoder().encode(password));
         us.updatePassword(user);
         logger.info("User password updated");
         logger.info("end update password");
@@ -147,26 +147,22 @@ public class UserController {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
         logger.error(br.getMessage(), br);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder(); 
     }
 }
