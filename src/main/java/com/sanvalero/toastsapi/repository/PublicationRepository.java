@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.UserModel;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -29,7 +29,7 @@ public interface PublicationRepository extends CrudRepository<Publication, Integ
 
     List<Publication> findByEstablishment(Establishment establishment);
 
-    List<Publication> findByUser(User user);
+    List<Publication> findByUser(UserModel user);
 
     List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation);
 

@@ -3,7 +3,7 @@ package com.sanvalero.toastsapi.service;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
-import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,17 @@ public class UserServiceImpl implements UserService {
     private UserRepository ur;
 
     @Override
-    public List<User> findAllUsers() {
-        return (List<User>) ur.findAll();
+    public List<UserModel> findAllUsers() {
+        return (List<UserModel>) ur.findAll();
     }
 
     @Override
-    public User findById(int id) throws NotFoundException {
+    public UserModel findById(int id) throws NotFoundException {
         return ur.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public User findByUsername(String username) throws NotFoundException {
+    public List<UserModel> findByUsername(String username) {
         return ur.findByUsername(username);
     }
 
@@ -41,37 +41,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
+    public UserModel addUser(UserModel user) {
         return ur.save(user);
     }
 
     @Override
-    public void updatePublicationsNumber(User user) {
+    public void updatePublicationsNumber(UserModel user) {
         ur.save(user);
     }
 
     @Override
-    public void updateMoneySpent(User user) {
+    public void updateMoneySpent(UserModel user) {
         ur.save(user);
     }
 
     @Override
-    public void updatePassword(User user) {
+    public void updatePassword(UserModel user) {
         ur.save(user);
     }
 
     @Override
-    public void disable(User user) {
+    public void disable(UserModel user) {
         ur.save(user);
     }
 
     @Override
-    public void activate(User user) {
+    public void activate(UserModel user) {
         ur.save(user);
     }
 
     @Override
-    public User deleteUser(User user) {
+    public UserModel deleteUser(UserModel user) {
         ur.delete(user);
         return user;
     }

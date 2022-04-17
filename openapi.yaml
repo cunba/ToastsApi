@@ -2970,10 +2970,6 @@ components:
         productName:
           type: "string"
           example: "de tomate"
-        products:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Product"
             
     TypeDTO:
       properties:
@@ -3001,10 +2997,6 @@ components:
         puntuation:
           type: "number"
           example: 4.5
-        products:
-          type: "array"
-          items: 
-            $ref: "#/components/schemas/Product"
             
     MenuDTO:
       properties:
@@ -3038,10 +3030,6 @@ components:
           $ref: "#/components/schemas/User"
         establishment:
           $ref: "#/components/schemas/Establishment"
-        products:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Product"
             
     PublicationDTO:
       properties:
@@ -3076,10 +3064,6 @@ components:
         punctuation:
           type: "number"
           example: 4.5
-        publications:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Publication"
             
     EstablishmentDTO:
       properties:
@@ -3136,10 +3120,6 @@ components:
         publicationsNumber:
           type: "integer"
           example: 17
-        publications:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Publication"
             
     UserDTO:
       properties:

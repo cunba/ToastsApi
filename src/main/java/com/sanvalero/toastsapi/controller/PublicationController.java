@@ -9,7 +9,7 @@ import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.model.dto.PublicationDTO;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 import com.sanvalero.toastsapi.service.PublicationService;
@@ -130,7 +130,7 @@ public class PublicationController {
 
     @GetMapping("/publications/user")
     public ResponseEntity<List<Publication>> getByUserId(@RequestParam(value = "id") int id) throws NotFoundException {
-        User user = us.findById(id);
+        UserModel user = us.findById(id);
 
         return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
     }
@@ -185,7 +185,7 @@ public class PublicationController {
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         logger.info("begin create publication");
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
-        User user = us.findById(publicationDTO.getUserId());
+        UserModel user = us.findById(publicationDTO.getUserId());
         logger.info("Establishment found: " + establishment.getId());
         logger.info("User found: " + user.getId());
 
