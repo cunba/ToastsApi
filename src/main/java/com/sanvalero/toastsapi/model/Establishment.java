@@ -3,6 +3,7 @@ package com.sanvalero.toastsapi.model;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Establishment {
     @Column(name = "creation_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
-    @Column
+    @Embedded
     private Location location;
     @Column
     private boolean open;

@@ -819,12 +819,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Type"
-        "400":
-          description: "Bad request"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
         "401":
           description: "Unauthorize exception"
           content:
@@ -886,12 +880,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Type"
-        "400":
-          description: "Bad request"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
         "401":
           description: "Unauthorize exception"
           content:
@@ -938,12 +926,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Type"
-        "400":
-          description: "Bad request"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
         "401":
           description: "Unauthorize exception"
           content:
@@ -984,13 +966,6 @@ paths:
             application/json:
               schema:
                 type: "string"
-        
-        "400":
-          description: "Bad request"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
         "401":
           description: "Unauthorize exception"
           content:
@@ -1069,12 +1044,6 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Type"
-        "400":
-          description: "Bad request"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
         "401":
           description: "Unauthorize exception"
           content:
@@ -1117,12 +1086,6 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Type"
-        "400":
-          description: "Bad request"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
         "401":
           description: "Unauthorize exception"
           content:
