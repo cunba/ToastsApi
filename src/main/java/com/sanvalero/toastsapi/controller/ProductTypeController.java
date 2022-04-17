@@ -2,7 +2,6 @@ package com.sanvalero.toastsapi.controller;
 
 import java.util.List;
 
-import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
@@ -38,7 +37,16 @@ public class ProductTypeController {
 
     @GetMapping("/types/{id}")
     public ResponseEntity<ProductType> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(pts.findById(id), HttpStatus.OK);
+        logger.info("begin getting types by id");
+        try {
+            ProductType toPrint = pts.findById(id);
+            logger.info("Type found");
+            logger.info("end getting types by id");
+            return new ResponseEntity<>(toPrint, HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception wiwth id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + "does not exists.");
+        }
     }
 
     @GetMapping("/types/name/{name}")
@@ -66,27 +74,38 @@ public class ProductTypeController {
     @PutMapping("/types/{id}")
     public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type)
             throws NotFoundException {
-        logger.info("begin update type");
-        ProductType typeToUpdate = pts.findById(id);
-        logger.info("Type found: " + typeToUpdate.getId());
-        typeToUpdate.setProductName(type.getProductName());
-        typeToUpdate.setType(type.getType());
-        logger.info("Type properties updated");
-        logger.info("end update type");
 
-        return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
+        logger.info("begin update type");
+        try {
+            ProductType typeToUpdate = pts.findById(id);
+            logger.info("Type found: " + typeToUpdate.getId());
+            typeToUpdate.setProductName(type.getProductName());
+            typeToUpdate.setType(type.getType());
+            logger.info("Type properties updated");
+            logger.info("end update type");
+
+            return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception wiwth id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + "does not exists.");
+        }
     }
 
     @DeleteMapping("/types/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
-        logger.info("begin delete type");
-        ProductType type = pts.findById(id);
-        logger.info("Type found: " + type.getId());
-        pts.deleteType(type);
-        logger.info("Type deleted");
-        logger.info("end delete type");
+        try {
+            logger.info("begin delete type");
+            ProductType type = pts.findById(id);
+            logger.info("Type found: " + type.getId());
+            pts.deleteType(type);
+            logger.info("Type deleted");
+            logger.info("end delete type");
 
-        return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception wiwth id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + "does not exists.");
+        }
     }
 
     @DeleteMapping("/types")
@@ -94,13 +113,6 @@ public class ProductTypeController {
         pts.deleteAll();
 
         return new ResponseEntity<>("All types deleted.", HttpStatus.OK);
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
-        logger.error(br.getMessage(), br);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)

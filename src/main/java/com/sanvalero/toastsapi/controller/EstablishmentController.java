@@ -47,8 +47,8 @@ public class EstablishmentController {
             es.findById(id);
             return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            logger.error("Not found exception.", nfe);
-            throw new NotFoundException("Stablishment with ID " + id + "does not exists.");
+            logger.error("Establishment not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Establishment with ID " + id + " does not exists.");
         }
     }
 
@@ -61,7 +61,7 @@ public class EstablishmentController {
     public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long creationDateTimestamp)
             throws BadRequestException {
         if (creationDateTimestamp < dateFrom) {
-            logger.error("Date error.", new BadRequestException());
+            logger.error("Establishment get by date error.", new BadRequestException());
             throw new BadRequestException(
                     "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         } else {
@@ -77,7 +77,7 @@ public class EstablishmentController {
             @PathVariable(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
 
         if (minDateTimestamp < dateFrom || maxDateTimestamp < dateFrom) {
-            logger.error("Date error.", new BadRequestException());
+            logger.error("Establishment get by date between error.", new BadRequestException());
             throw new BadRequestException(
                     "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
@@ -106,7 +106,7 @@ public class EstablishmentController {
     public ResponseEntity<List<Establishment>> getByPunctuation(@PathVariable float punctuation)
             throws BadRequestException {
         if (punctuation < 0 || punctuation > 5) {
-            logger.error("The punctuation must be between 0 and 5.", new BadRequestException());
+            logger.error("Establishment get by puntuation error.", new BadRequestException());
             throw new BadRequestException("The punctuation must be between 0 and 5.");
         }
         return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
@@ -118,7 +118,7 @@ public class EstablishmentController {
             @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
 
         if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
-            logger.error("Punctuation error.", new BadRequestException());
+            logger.error("Establishment get by puntuation between error.", new BadRequestException());
             throw new BadRequestException("The punctuation must be between 0 and 5.");
         }
 
@@ -137,6 +137,7 @@ public class EstablishmentController {
         logger.info("begin create establishment");
         ModelMapper mapper = new ModelMapper();
         Establishment establishment = mapper.map(establishmentDTO, Establishment.class);
+        // establishment.setLocation(establishmentDTO.getLocation().toString());
         establishment.setCreationDate(LocalDate.now());
         establishment.setPunctuation(0);
 
@@ -155,7 +156,7 @@ public class EstablishmentController {
         try {
             Establishment establishmentToUpdate = es.findById(id);
             logger.info("Establishment found: " + establishmentToUpdate.getId());
-            establishmentToUpdate.setLocation(establishmentDTO.getLocation());
+            // establishmentToUpdate.setLocation(establishmentDTO.getLocation().toString());
             establishmentToUpdate.setName(establishmentDTO.getName());
             establishmentToUpdate.setOpen(establishmentDTO.isOpen());
             logger.info("Properties setted");
@@ -165,8 +166,8 @@ public class EstablishmentController {
 
             return new ResponseEntity<>(toPrint, HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            logger.error("Not found exception for establishment with id " + id + ".", nfe);
-            throw new NotFoundException("Establishment with ID " + id + "does not exists.");
+            logger.error("Establihsment not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Establishment with ID " + id + " does not exists.");
         }
 
     }
@@ -184,8 +185,8 @@ public class EstablishmentController {
 
             return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            logger.error("Not found exception for establishment with id " + id + ".", nfe);
-            throw new NotFoundException("Establishment with ID " + id + "does not exists.");
+            logger.error("Establihsment not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Establishment with ID " + id + " does not exists.");
         }
     }
 
@@ -201,7 +202,7 @@ public class EstablishmentController {
 
             return new ResponseEntity<>("Establishment deleted.", HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            logger.error("Not found exception for establishment with id " + id + ".", nfe);
+            logger.error("Establihsment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + "does not exists.");
         }
     }
