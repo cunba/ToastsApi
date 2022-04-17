@@ -10,4 +10,9 @@ import lombok.NoArgsConstructor;
 public class Location {
     private float latitude;
     private float longitude;
+
+    @Override
+    public String toString() {
+        return this.latitude + ", " + this.longitude;
+    }
 }
