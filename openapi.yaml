@@ -36,6 +36,12 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Product"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -62,6 +68,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
                 
         "500":
           description: "Internal server error"
@@ -83,6 +95,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -115,6 +133,12 @@ paths:
                 $ref: "#/components/schemas/Product"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -165,6 +189,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -201,6 +231,12 @@ paths:
                 type: "string"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -244,6 +280,12 @@ paths:
                   $ref: "#/components/schemas/Product"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -292,6 +334,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -325,6 +373,12 @@ paths:
                   $ref: "#/components/schemas/Product"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -372,6 +426,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -404,6 +464,12 @@ paths:
                   $ref: "#/components/schemas/Product"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -450,6 +516,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -482,6 +554,12 @@ paths:
                   $ref: "#/components/schemas/Product"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -528,6 +606,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -562,6 +646,12 @@ paths:
                   $ref: "#/components/schemas/Product"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -611,6 +701,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -655,6 +751,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -685,6 +787,12 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Type"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -717,6 +825,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -737,6 +851,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -768,6 +888,12 @@ paths:
                 $ref: "#/components/schemas/Type"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -818,6 +944,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -859,6 +991,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -895,8 +1033,8 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Type"
-        "400":
-          description: "Bad request"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -933,6 +1071,12 @@ paths:
                   $ref: "#/components/schemas/Type"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -979,6 +1123,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1003,6 +1153,12 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Menu"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1033,6 +1189,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1053,6 +1215,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1084,6 +1252,12 @@ paths:
                 $ref: "#/components/schemas/Menu"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1133,6 +1307,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -1169,6 +1349,12 @@ paths:
                 type: "string"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1215,6 +1401,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1257,6 +1449,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1289,6 +1487,12 @@ paths:
                   $ref: "#/components/schemas/Menu"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1335,6 +1539,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1367,6 +1577,12 @@ paths:
                   $ref: "#/components/schemas/Menu"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1413,6 +1629,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1437,6 +1659,12 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Publication"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1467,6 +1695,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1487,6 +1721,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1518,6 +1758,12 @@ paths:
                 $ref: "#/components/schemas/Publication"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1567,6 +1813,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -1601,6 +1853,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -1636,6 +1894,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -1674,6 +1938,12 @@ paths:
                   $ref: "#/components/schemas/Publication"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1720,6 +1990,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1752,6 +2028,12 @@ paths:
                   $ref: "#/components/schemas/Publication"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1798,6 +2080,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1830,6 +2118,12 @@ paths:
                   $ref: "#/components/schemas/Publication"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1876,6 +2170,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -1910,6 +2210,12 @@ paths:
                   $ref: "#/components/schemas/Publication"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -1958,6 +2264,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -1998,6 +2310,12 @@ paths:
                   $ref: "#/components/schemas/Publication"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -2074,6 +2392,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2104,6 +2428,12 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Establishment"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2128,8 +2458,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Establishment"
-        "400":
-          description: "Bad request"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -2154,6 +2484,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2183,6 +2519,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Establishment"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2222,6 +2564,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Establishment"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2256,6 +2604,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2292,8 +2646,8 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Establishment"
-        "404":
-          description: "Not found"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -2328,42 +2682,19 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Establishment"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
-                    
-  /establishment/location/{location}:
-    get:
-      tags:
-      - "Establishment"
-      summary: "Get establishment by location"
-      description: "Get establishments that are in the indicated location."
-      operationId: "getEstablishmentByLocation"
-      parameters:
-      - name: "location"
-        in: "path"
-        required: true
-        schema:
-          $ref: "#/components/schemas/Location"
-      responses:
-        "200":
-          description: "Ok"
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/Establishment"
-        "500":
-          description: "Internal server error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Exception"
-                    
+                             
   /establishments/date/{date}:
     get:
       tags:
@@ -2389,6 +2720,12 @@ paths:
                   $ref: "#/components/schemas/Establishment"
         "400":
           description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
           content:
             application/json:
               schema:
@@ -2435,6 +2772,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2465,6 +2808,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2507,6 +2856,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2543,6 +2898,18 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/Establishment"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2567,6 +2934,12 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/User"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2591,6 +2964,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2611,6 +2990,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "500":
           description: "Internal server error"
           content:
@@ -2640,6 +3025,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2679,6 +3070,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2713,6 +3110,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2748,6 +3151,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2783,6 +3192,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2823,6 +3238,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2858,6 +3279,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -2893,6 +3320,12 @@ paths:
             application/json:
               schema:
                 type: "string"
+        "401":
+          description: "Unauthorize exception"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exception"
         "404":
           description: "Not found"
           content:
@@ -3071,7 +3504,7 @@ components:
           type: "string"
           example: "Casa Paco"
         location:
-          type: "string"
+          $ref: "#/components/schemas/Location"
         open:
           type: "boolean"
           example: false

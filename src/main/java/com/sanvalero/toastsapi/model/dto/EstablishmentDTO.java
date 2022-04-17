@@ -1,5 +1,7 @@
 package com.sanvalero.toastsapi.model.dto;
 
+import com.sanvalero.toastsapi.model.utils.Location;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EstablishmentDTO {
     private String name;
-    private String location;
+    private Location location;
     private boolean open;
 }
