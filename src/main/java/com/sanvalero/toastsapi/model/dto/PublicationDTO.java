@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PublicationDTO {
 
-    private int id;
     private String photo;
     private int userId;
     private int establishmentId;

@@ -1,10 +1,10 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
+import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
@@ -45,7 +45,6 @@ public class ProductController {
     @Autowired
     private PublicationService publicationService;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
@@ -53,24 +52,27 @@ public class ProductController {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/product/id/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<Product> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/products/date/{dateString}")
-    public ResponseEntity<List<Product>> getByDate(@PathVariable String dateString) {
-        LocalDate date = LocalDate.parse(dateString, formatter);
+    @GetMapping("/products/date/{dateTimestamp}")
+    public ResponseEntity<List<Product>> getByDate(@PathVariable long dateTimestamp) {
+        Timestamp timestamp = new Timestamp(dateTimestamp);
+        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
 
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/products/dates/{minDateString}/{maxDateString}")
-    public ResponseEntity<List<Product>> getByDateBetween(@PathVariable String minDateString,
-            @PathVariable String maxDateString) {
+    @GetMapping("/products/date/between")
+    public ResponseEntity<List<Product>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
+            @RequestParam(value = "maxDate") long maxDateTimestamp) {
 
-        LocalDate minDate = LocalDate.parse(minDateString, formatter);
-        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
         if (minDate.isAfter(maxDate)) {
@@ -92,7 +94,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/products/prices/{minPrice}-{maxPrice}")
+    @GetMapping("/products/price/between")
     public ResponseEntity<List<Product>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) {
 
@@ -111,7 +113,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/products/punctuations/{minPunctuation}-{maxPunctuation}")
+    @GetMapping("/products/punctuation/between")
     public ResponseEntity<List<Product>> getByPunctuationBetween(@PathVariable float minPunctuation,
             @PathVariable float maxPunctuation) {
 
@@ -125,7 +127,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @GetMapping("products/type")
+    @GetMapping("/products/type")
     public ResponseEntity<List<Product>> getByTypeId(@RequestParam(value = "id") int typeId) throws NotFoundException {
         ProductType type = pts.findById(typeId);
         return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
@@ -145,7 +147,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
     }
 
-    @PostMapping("/product/create")
+    @PostMapping("/products")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO) throws NotFoundException {
         logger.info("begin create product");
         ProductType type = pts.findById(productDTO.getTypeId());
@@ -172,11 +174,12 @@ public class ProductController {
         logger.info("Product created");
         logger.info("end create product");
 
-        return new ResponseEntity<>(ps.addProduct(product), HttpStatus.OK);
+        return new ResponseEntity<>(ps.addProduct(product), HttpStatus.CREATED);
     }
 
-    @PutMapping("/product/update/{id}")
-    public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id) throws NotFoundException {
+    @PutMapping("/products/{id}")
+    public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id)
+            throws NotFoundException {
         logger.info("begin update product");
         Product product = ps.findById(id);
 
@@ -205,21 +208,16 @@ public class ProductController {
         return new ResponseEntity<>(ps.updateProduct(product), HttpStatus.OK);
     }
 
-    @PatchMapping("/product/update-price")
+    @PatchMapping("/products/price")
     public ResponseEntity<String> updatePrice(@RequestParam(value = "id") int id,
-            @RequestBody Map<Float, Object> price) throws NotFoundException {
+            @RequestParam(value = "price") float price) throws NotFoundException {
 
         logger.info("begin update price of product");
         Product product = ps.findById(id);
 
         logger.info("Product found: " + product.getId());
 
-        ModelMapper mapper = new ModelMapper();
-        Product productPrice = mapper.map(price, Product.class);
-
-        logger.info("Product mapped");
-
-        product.setPrice(productPrice.getPrice());
+        product.setPrice(price);
         ps.updatePrice(product);
 
         logger.info("Product price updated");
@@ -228,7 +226,7 @@ public class ProductController {
         return new ResponseEntity<>("Price updated.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/product/delete/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete product");
         Product product = ps.findById(id);
@@ -240,23 +238,30 @@ public class ProductController {
         return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/products/delete")
+    @DeleteMapping("/products")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 
         return new ResponseEntity<>("All products deleted.", HttpStatus.OK);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
+        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
+        logger.error(br.getMessage(), br);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

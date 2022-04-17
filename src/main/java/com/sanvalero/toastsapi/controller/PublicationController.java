@@ -1,15 +1,15 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.User;
-import com.sanvalero.toastsapi.model.dto.PublicationBetweenDTO;
+import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.model.dto.PublicationDTO;
 import com.sanvalero.toastsapi.service.EstablishmentService;
 import com.sanvalero.toastsapi.service.PublicationService;
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,6 @@ public class PublicationController {
     @Autowired
     private EstablishmentService es;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(PublicationController.class);
 
     @GetMapping("/publications")
@@ -48,24 +48,27 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/publication/id/{id}")
+    @GetMapping("/publications/{id}")
     public ResponseEntity<Publication> getById(@PathVariable int id) throws NotFoundException {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date/{dateString}")
-    public ResponseEntity<List<Publication>> getByDate(@PathVariable String dateString) {
-        LocalDate date = LocalDate.parse(dateString, formatter);
+    @GetMapping("/publications/date/{dateTimestamp}")
+    public ResponseEntity<List<Publication>> getByDate(@PathVariable long dateTimestamp) {
+        Timestamp timestamp = new Timestamp(dateTimestamp);
+        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
 
         return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/dates/{minDateString}/{maxDateString}")
-    public ResponseEntity<List<Publication>> getByDateBetween(@PathVariable String minDateString,
-            @PathVariable String maxDateString) {
+    @GetMapping("/publications/date/between")
+    public ResponseEntity<List<Publication>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
+            @RequestParam(value = "maxDate") long maxDateTimestamp) {
 
-        LocalDate minDate = LocalDate.parse(minDateString, formatter);
-        LocalDate maxDate = LocalDate.parse(maxDateString, formatter);
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
         if (minDate.isAfter(maxDate)) {
@@ -82,9 +85,9 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/prices/{minPrice}-{maxPrice}")
-    public ResponseEntity<List<Publication>> getByPriceBetween(@PathVariable float minPrice,
-            @PathVariable float maxPrice) {
+    @GetMapping("/publications/price/between")
+    public ResponseEntity<List<Publication>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
+            @RequestParam(value = "maxPrice") float maxPrice) {
 
         float templatePrice = 0;
         if (minPrice > maxPrice) {
@@ -101,9 +104,10 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/punctuations/{minPunctuation}-{maxPunctuation}")
-    public ResponseEntity<List<Publication>> getByPunctuationBetween(@PathVariable float minPunctuation,
-            @PathVariable float maxPunctuation) {
+    @GetMapping("/publications/punctuation/between")
+    public ResponseEntity<List<Publication>> getByPunctuationBetween(
+            @RequestParam(value = "minPunctuation") float minPunctuation,
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) {
 
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
@@ -126,32 +130,62 @@ public class PublicationController {
 
     @GetMapping("/publications/user")
     public ResponseEntity<List<Publication>> getByUserId(@RequestParam(value = "id") int id) throws NotFoundException {
-        User user = us.findById(id);
+        UserModel user = us.findById(id);
 
         return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/product-")
+    @GetMapping("/publications/product/")
     public ResponseEntity<List<Publication>> getByProductType(@RequestParam(value = "type") String productType) {
         return new ResponseEntity<>(ps.findByProductType(productType), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/dates-prices-punctuations/")
+    @GetMapping("/publications/date/price/punctuation/between")
     public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
-            @RequestBody PublicationBetweenDTO pbDTO) {
+            @RequestParam(value = "minDate") long minDateTimestamp,
+            @RequestParam(value = "maxDate") long maxDateTimestamp,
+            @RequestParam(value = "minDate") float minPrice,
+            @RequestParam(value = "maxDate") float maxPrice,
+            @RequestParam(value = "minDate") float minPunctuation,
+            @RequestParam(value = "maxDate") float maxPunctuation) {
+
+        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
+        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
+        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
+
+        LocalDate changerDate = LocalDate.now();
+        if (minDate.isAfter(maxDate)) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
+        }
+
+        float changerPrice = 0;
+        if (minPrice > maxPrice) {
+            changerPrice = minPrice;
+            minPrice = maxPrice;
+            maxPrice = changerPrice;
+        }
+
+        float changerPunctuation = 0;
+        if (minPunctuation > maxPunctuation) {
+            changerPunctuation = minPunctuation;
+            minPunctuation = maxPunctuation;
+            maxPunctuation = changerPunctuation;
+        }
 
         List<Publication> publications = ps.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(
-                pbDTO.getMinDate(), pbDTO.getMaxDate(), pbDTO.getMinPrice(), pbDTO.getMaxPrice(),
-                pbDTO.getMinPunctuation(), pbDTO.getMaxPunctuation());
+                minDate, maxDate, minPrice, maxPrice, minPunctuation, maxPunctuation);
 
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 
-    @PostMapping("/publication/create")
+    @PostMapping("/publications")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         logger.info("begin create publication");
         Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
-        User user = us.findById(publicationDTO.getUserId());
+        UserModel user = us.findById(publicationDTO.getUserId());
         logger.info("Establishment found: " + establishment.getId());
         logger.info("User found: " + user.getId());
 
@@ -165,10 +199,10 @@ public class PublicationController {
         logger.info("Publication mapped");
         logger.info("end create publication");
 
-        return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.OK);
+        return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/publication/update")
+    @PutMapping("/publications")
     public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO,
             @RequestParam(value = "id") int id) throws NotFoundException {
 
@@ -183,13 +217,15 @@ public class PublicationController {
         publication.setTotalPrice(ps.totalPrice(publication.getId()));
         publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
         publication.setEstablishment(establishment);
+
+        Publication toPrint = ps.updatePublication(publication);
         logger.info("Publication properties updated");
         logger.info("end update publication");
 
-        return new ResponseEntity<>(ps.updatePublication(publication), HttpStatus.OK);
+        return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
-    @PatchMapping("/publication/update-price-punctuation")
+    @PatchMapping("/publications/price-punctuation")
     public ResponseEntity<String> totalPricePunctuation(@RequestParam(value = "id") int id) throws NotFoundException {
         logger.info("begin set total price punctuation");
         Publication publication = ps.findById(id);
@@ -204,7 +240,7 @@ public class PublicationController {
         return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/publication/delete/{id}")
+    @DeleteMapping("/publications/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete publication");
         Publication publication = ps.findById(id);
@@ -215,23 +251,30 @@ public class PublicationController {
         return new ResponseEntity<>("Publication deleted.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/publications/delete")
+    @DeleteMapping("/publications")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 
         return new ResponseEntity<>("All publications deleted", HttpStatus.OK);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
+        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
+        logger.error(br.getMessage(), br);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("999", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

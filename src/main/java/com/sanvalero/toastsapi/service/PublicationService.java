@@ -6,7 +6,7 @@ import java.util.List;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.UserModel;
 
 public interface PublicationService {
     List<Publication> findByDate(LocalDate date);
@@ -23,7 +23,7 @@ public interface PublicationService {
 
     List<Publication> findByEstablishment(Establishment establishment);
 
-    List<Publication> findByUser(User user);
+    List<Publication> findByUser(UserModel user);
 
     List<Publication> findByProductType(String type);
 

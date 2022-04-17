@@ -6,7 +6,7 @@ import java.util.List;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.repository.PublicationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findByUser(User user) {
+    public List<Publication> findByUser(UserModel user) {
         return pr.findByUser(user);
     }
 
