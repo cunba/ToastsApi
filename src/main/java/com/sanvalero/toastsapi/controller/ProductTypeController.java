@@ -5,6 +5,7 @@ import java.util.List;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
+import com.sanvalero.toastsapi.model.dto.ProductTypeDTO;
 import com.sanvalero.toastsapi.service.ProductTypeService;
 
 import org.slf4j.Logger;
@@ -67,7 +68,10 @@ public class ProductTypeController {
     }
 
     @PostMapping("/types")
-    public ResponseEntity<ProductType> create(@RequestBody ProductType type) {
+    public ResponseEntity<ProductType> create(@RequestBody ProductTypeDTO typeDTO) {
+        ProductType type = new ProductType();
+        type.setProductName(typeDTO.getProduct_name());
+        type.setType(typeDTO.getType());
         return new ResponseEntity<>(pts.addType(type), HttpStatus.CREATED);
     }
 

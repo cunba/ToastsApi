@@ -50,7 +50,7 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date validity = new Date(now.getTime() + EXPIRATION_DATE);
 
-        return Jwts.builder().setClaims(claims).setSubject(username) // Name of the user
+        return Jwts.builder().setClaims(claims).setSubject(null)
                 .signWith(SECRET_KEY) // Secret key to the token
                 .setIssuedAt(now) // Creation date
                 .setExpiration(validity) // Set the expiration date
@@ -63,7 +63,7 @@ public class JwtTokenProvider {
     }
 
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().get("username", String.class);
     }
 
     public String resolveToken(HttpServletRequest req) {

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1d42bc67-da48-4bbf-84f1-fe42db1f892f",
+		"_postman_id": "1952c72f-cce8-4a4c-be04-6845f76dd8ee",
 		"name": "ToastApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,15 +11,25 @@
 				{
 					"name": "Get all types",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/types",
+							"raw": "http://localhost:8081/types",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"types"
 							]
@@ -30,19 +40,28 @@
 				{
 					"name": "Get type by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/id/1",
+							"raw": "http://localhost:8081/types/25",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"type",
-								"id",
-								"1"
+								"types",
+								"25"
 							]
 						}
 					},
@@ -51,17 +70,27 @@
 				{
 					"name": "Get type by name",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/name/Tostada",
+							"raw": "http://localhost:8081/types/name/Tostada",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"type",
+								"types",
 								"name",
 								"Tostada"
 							]
@@ -72,19 +101,29 @@
 				{
 					"name": "Get type by name and type",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/name-and-type/?name=Tostada&type=de tomate",
+							"raw": "http://localhost:8081/types/type/name?name=Tostada&type=de tomate",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
+								"types",
 								"type",
-								"name-and-type",
-								""
+								"name"
 							],
 							"query": [
 								{
@@ -103,11 +142,21 @@
 				{
 					"name": "Create type",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"productName\": \"Tostada\",\n\t\"type\": \"de jamón york y queso\"\n}",
+							"raw": "{\n\t\"product_name\": \"Tostada\",\n\t\"type\": \"bennedict\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -115,15 +164,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/type/create",
+							"raw": "http://localhost:8081/types",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"type",
-								"create"
+								"types"
 							]
 						}
 					},
@@ -132,6 +180,16 @@
 				{
 					"name": "Update type",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -144,16 +202,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/type/update/9",
+							"raw": "http://localhost:8081/types/25",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"type",
-								"update",
-								"9"
+								"types",
+								"25"
 							]
 						}
 					},
@@ -162,19 +219,28 @@
 				{
 					"name": "Delete type",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/delete/4",
+							"raw": "http://localhost:8081/types/25",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"type",
-								"delete",
-								"4"
+								"types",
+								"25"
 							]
 						}
 					},
@@ -186,15 +252,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/types/delete",
+							"raw": "http://localhost:8081/types",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"types",
-								"delete"
+								"types"
 							]
 						}
 					},
@@ -208,15 +273,25 @@
 				{
 					"name": "Get all Menus",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus",
+							"raw": "http://localhost:8081/menus",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus"
 							]
@@ -227,18 +302,27 @@
 				{
 					"name": "Get menu by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menu/id/1",
+							"raw": "http://localhost:8081/menus/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"menu",
-								"id",
+								"menus",
 								"1"
 							]
 						}
@@ -248,19 +332,29 @@
 				{
 					"name": "Get menu by date",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/date/11-11-2021",
+							"raw": "http://localhost:8081/menus/date/1650490680000",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus",
 								"date",
-								"11-11-2021"
+								"1650490680000"
 							]
 						}
 					},
@@ -269,20 +363,39 @@
 				{
 					"name": "Get menu by date min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/dates/11-11-2021/20-12-2021",
+							"raw": "http://localhost:8081/menus/date/between?minDate=1650190680000&maxDate=1650490680000",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus",
-								"dates",
-								"11-11-2021",
-								"20-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650190680000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650490680000"
+								}
 							]
 						}
 					},
@@ -291,19 +404,29 @@
 				{
 					"name": "Get menu by price",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/price/1.55",
+							"raw": "http://localhost:8081/menus/price/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus",
 								"price",
-								"1.55"
+								"3"
 							]
 						}
 					},
@@ -312,19 +435,39 @@
 				{
 					"name": "Get menu by price min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/prices/0-10",
+							"raw": "http://localhost:8081/menus/price/between?minPrice=0&maxPrice=2.99",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus",
-								"prices",
-								"0-10"
+								"price",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "2.99"
+								}
 							]
 						}
 					},
@@ -333,19 +476,29 @@
 				{
 					"name": "Get menu by punctuation",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/punctuation/1.5",
+							"raw": "http://localhost:8081/menus/punctuation/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus",
 								"punctuation",
-								"1.5"
+								"5"
 							]
 						}
 					},
@@ -354,19 +507,39 @@
 				{
 					"name": "Get menu by punctuation min and max Copy",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/punctuations/1-5",
+							"raw": "http://localhost:8081/menus/punctuation/between?minPunctuation=1&maxPunctuation=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"menus",
-								"punctuations",
-								"1-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "1"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -375,6 +548,16 @@
 				{
 					"name": "Create menu",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -387,15 +570,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/menu/create",
+							"raw": "http://localhost:8081/menus",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"menu",
-								"create"
+								"menus"
 							]
 						}
 					},
@@ -404,6 +586,16 @@
 				{
 					"name": "Update menu",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -416,16 +608,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/menu/update/3",
+							"raw": "http://localhost:8081/menus/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"menu",
-								"update",
-								"3"
+								"menus",
+								"1"
 							]
 						}
 					},
@@ -434,18 +625,27 @@
 				{
 					"name": "Delete menu",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menu/delete/1",
+							"raw": "http://localhost:8081/menus/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"menu",
-								"delete",
+								"menus",
 								"1"
 							]
 						}
@@ -455,18 +655,27 @@
 				{
 					"name": "Delete all menus",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkwNTM2LCJleHAiOjE2NTA0OTQxMzZ9.C4uyRH1B3acBES8cWFpzbSatNIYHFNtPcdkXeGITebp57MvYwgd8oRd9VU7MwyPPyHsi4wxCXAiszAqLN-pPcg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/delete",
+							"raw": "http://localhost:8081/menus",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"menus",
-								"delete"
+								"menus"
 							]
 						}
 					},
@@ -480,15 +689,25 @@
 				{
 					"name": "Get all users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDgzNDg1LCJleHAiOjE2NTA0ODcwODV9.UhwuzafBgDSPk-hxBrI_a5wh8A6lE3dHyLyAEmYBoLmdG1oSTzDCqrnEL9fxCYudurkIwQ7VuaE9bVKJXsTMwg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users",
+							"raw": "http://localhost:8081/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"users"
 							]
@@ -499,19 +718,28 @@
 				{
 					"name": "Get user by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI2IiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDgyMjc4LCJleHAiOjE2NTA0ODU4Nzh9.VC32GlQhgIthzs-JIinJxQow_Yv-BN2Jc1vIcgB5X_S3CrrlLfBOW-7o9VRIZms5qvVD1uOIpo0goDWCuobLjg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/id/3",
+							"raw": "http://localhost:8081/users/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"user",
-								"id",
-								"3"
+								"users",
+								"6"
 							]
 						}
 					},
@@ -520,11 +748,14 @@
 				{
 					"name": "Create user",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Carmen\",\n\t\"surname\": \"Baranda\",\n\t\"birthDate\": \"20-07-1961\",\n\t\"email\": \"martabags@gmail.com\",\n    \"password\": \"282629_Mama\",\n\t\"active\": true,\n\t\"moneySpent\": 0,\n\t\"publicationsNumber\": 0\n}",
+							"raw": "{\n    \"username\": \"admin\",\n\t\"name\": \"admin\",\n\t\"surname\": \"admin\",\n\t\"birth_date\": \"18-06-1997\",\n\t\"email\": \"admin\",\n    \"password\": \"admin\",\n    \"role\": \"admin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -532,15 +763,42 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/create",
+							"raw": "http://localhost:8081/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"user",
-								"create"
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"login"
 							]
 						}
 					},
@@ -739,15 +997,25 @@
 				{
 					"name": "Get all establishments",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments",
+							"raw": "http://localhost:8081/establishments",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"establishments"
 							]
@@ -758,19 +1026,28 @@
 				{
 					"name": "Get establishment by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/id/2",
+							"raw": "http://localhost:8081/establishments/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"establishment",
-								"id",
-								"2"
+								"establishments",
+								"1"
 							]
 						}
 					},
@@ -779,17 +1056,27 @@
 				{
 					"name": "Get establishment by name",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/name/Criollo",
+							"raw": "http://localhost:8081/establishments/name/Criollo",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"establishment",
+								"establishments",
 								"name",
 								"Criollo"
 							]
@@ -800,19 +1087,29 @@
 				{
 					"name": "Get establishment by date",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkxNjU3LCJleHAiOjE2NTA0OTUyNTd9.6aZsR5g06tncMRM17hRm3ecOOL0wZ24mqWXAd3CHdSwdWKBObW8ejB4uHPXhaoS6zD-tn5T8vO6G5JpSmCmgiw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/date/14-11-2021",
+							"raw": "http://localhost:8081/establishments/date/1650490680000",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"establishments",
 								"date",
-								"14-11-2021"
+								"1650490680000"
 							]
 						}
 					},
@@ -821,20 +1118,39 @@
 				{
 					"name": "Get establishment by date min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyMTAxLCJleHAiOjE2NTA0OTU3MDF9.SqK6P_tK_C9B5wQYptDuhdqgChhlQzzP9TcHin7XWkNHLTGdRJbhbwSkR65zq7IOzz6UxWJhzrpXiLxq3ujwGA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/dates/11-11-2021/11-12-2021",
+							"raw": "http://localhost:8081/establishments/date/between?minDate=1650490680000&maxDate=1650490680000",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"establishments",
-								"dates",
-								"11-11-2021",
-								"11-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650490680000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650490680000"
+								}
 							]
 						}
 					},
@@ -843,15 +1159,25 @@
 				{
 					"name": "Get establishment by open",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyMTAxLCJleHAiOjE2NTA0OTU3MDF9.SqK6P_tK_C9B5wQYptDuhdqgChhlQzzP9TcHin7XWkNHLTGdRJbhbwSkR65zq7IOzz6UxWJhzrpXiLxq3ujwGA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/open/true",
+							"raw": "http://localhost:8081/establishments/open/true",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"establishments",
 								"open",
@@ -862,38 +1188,27 @@
 					"response": []
 				},
 				{
-					"name": "Get establishment by location",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/establishments/location/coordenadas",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"establishments",
-								"location",
-								"coordenadas"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get establishment by punctuation",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyMTAxLCJleHAiOjE2NTA0OTU3MDF9.SqK6P_tK_C9B5wQYptDuhdqgChhlQzzP9TcHin7XWkNHLTGdRJbhbwSkR65zq7IOzz6UxWJhzrpXiLxq3ujwGA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/punctuation/5",
+							"raw": "http://localhost:8081/establishments/punctuation/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"establishments",
 								"punctuation",
@@ -906,19 +1221,39 @@
 				{
 					"name": "Get establishment by punctuation min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyMTAxLCJleHAiOjE2NTA0OTU3MDF9.SqK6P_tK_C9B5wQYptDuhdqgChhlQzzP9TcHin7XWkNHLTGdRJbhbwSkR65zq7IOzz6UxWJhzrpXiLxq3ujwGA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/punctuations/0-5",
+							"raw": "http://localhost:8081/establishments/punctuation/between?minPunctuation=0&maxPunctuation=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"establishments",
-								"punctuations",
-								"0-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "0"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -927,11 +1262,21 @@
 				{
 					"name": "Create establishment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDg4MjUyLCJleHAiOjE2NTA0OTE4NTJ9.X3cJ4zCW2RERnP2BJ1I0tI-EfjYk-wuJ44O41e1t_xf_moyTJEsE80UB3jGiz7vsClYEyjjtJZkQPIqfirdbIA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Mondo\",\n\t\"location\": \"41.6536650638226, -0.8843359286918279\",\n\t\"open\": true,\n\t\"punctuation\": 5\n}",
+							"raw": "{\n\t\"name\": \"Mezcalito\",\n\t\"location\": {\n        \"latitude\": 41.6536650638226, \n        \"longitude\": -0.8843359286918279\n    },\n\t\"open\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -939,15 +1284,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/establishment/create",
+							"raw": "http://localhost:8081/establishments",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"establishment",
-								"create"
+								"establishments"
 							]
 						}
 					},
@@ -956,11 +1300,21 @@
 				{
 					"name": "Update establishment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyNDU2LCJleHAiOjE2NTA0OTYwNTZ9.nR_sWfyPhSYe6Fj2IX6yy3hYSzc9VjKfRiqcQCkWTuvh13pl2UclcFxPqcQfhHGrLKt8Ujb_ey0Vv4b90dVkOQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Doña hipólita\",\n\t\"creationDate\": \"14-11-2021\",\n\t\"location\": \"coordenadas\",\n\t\"open\": true,\n\t\"punctuation\": 2\n}",
+							"raw": "{\n\t\"name\": \"Doña hipólita\",\n\t\"location\": {\n        \"latitude\": 2.0,\n        \"longitude\": 3.0\n    },\n\t\"open\": true,\n\t\"punctuation\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -968,16 +1322,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/establishment/update/1",
+							"raw": "http://localhost:8081/establishments/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"establishment",
-								"update",
-								"1"
+								"establishments",
+								"6"
 							]
 						}
 					},
@@ -986,19 +1339,28 @@
 				{
 					"name": "Delete establishment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyODM0LCJleHAiOjE2NTA0OTY0MzR9.ChqYjPSi9ACYZ4K_qGEhTtkG8cY4q0dx1KI59Zy4eg860QT-JU1DlpaZ7EBFkQQ3yAQWstQGtn6ZuIE5WnxMVA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/delete/1",
+							"raw": "http://localhost:8081/establishments/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"establishment",
-								"delete",
-								"1"
+								"establishments",
+								"6"
 							]
 						}
 					},
@@ -1007,18 +1369,27 @@
 				{
 					"name": "Delete all establishments",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJ1c2VybmFtZSI6ImFkbWluIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0sInN1YiI6ImFkbWluIiwiaWF0IjoxNjUwNDkyODM0LCJleHAiOjE2NTA0OTY0MzR9.ChqYjPSi9ACYZ4K_qGEhTtkG8cY4q0dx1KI59Zy4eg860QT-JU1DlpaZ7EBFkQQ3yAQWstQGtn6ZuIE5WnxMVA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/delete",
+							"raw": "http://localhost:8081/establishments",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"establishments",
-								"delete"
+								"establishments"
 							]
 						}
 					},
@@ -1462,15 +1833,25 @@
 				{
 					"name": "Get all publications",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdW5iYSIsImV4cCI6MTY1MDEzODEzNSwiaWF0IjoxNjUwMTIwMTM1fQ.6To_wImVXySO4rvGzbZqFRaUha1bzRii1UgE1xx_NKsKwZxHIAxMNMQuA3p3m2xZdbX8IUYFBRZn4K6HQOBvQA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications",
+							"raw": "http://localhost:8081/publications",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"publications"
 							]
