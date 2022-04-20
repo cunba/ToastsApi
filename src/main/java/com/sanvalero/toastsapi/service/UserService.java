@@ -12,9 +12,11 @@ public interface UserService {
 
     List<UserModel> findByUsername(String username);
 
+    List<UserModel> findByEmail(String email);
+
     int countPublications(int id);
 
-    float sumPrice(int id);
+    float sumPrice(int id) throws NullPointerException;
 
     UserModel addUser(UserModel user);
 

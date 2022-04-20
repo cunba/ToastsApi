@@ -20,8 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.jsonwebtoken.security.SignatureException;
+
+
 @RestController
 public class UserController {
     @Autowired
@@ -40,10 +44,10 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    final SimpleGrantedAuthority userAuthority = new SimpleGrantedAuthority("ROLE_USER");
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/users")
     public ResponseEntity<List<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
@@ -63,16 +67,32 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) throws BadRequestException {
+        List<UserModel> userList = us.findByUsername(userDTO.getUsername());
+        if (!userList.isEmpty()) {
+            logger.error("Username in use.", new BadRequestException());
+            throw new BadRequestException("The user " + userDTO.getUsername() + " already exists.");
+        }
+
+        userList = us.findByEmail(userDTO.getEmail());
+        if (!userList.isEmpty()) {
+            logger.error("Email in use.", new BadRequestException());
+            throw new BadRequestException("The email " + userDTO.getEmail() + " already exists.");
+        }
+
         ModelMapper mapper = new ModelMapper();
         UserModel user = mapper.map(userDTO, UserModel.class);
         user.setBirthDate(LocalDate.parse(userDTO.getBirth_date(), formatter));
         if (user.getBirthDate() == null) {
+            logger.error("Users birth date error.", new BadRequestException());
             throw new BadRequestException("The birth date is incorrect or the format is not dd-MM-yyyy");
         }
+
+        user.setRole(userDTO.getRole().toUpperCase());
         user.setPassword(UserModel.encoder().encode(userDTO.getPassword()));
         user.setCreationDate(LocalDate.now());
         user.setMoneySpent(0);
         user.setPublicationsNumber(0);
+        user.setActive(true);
         return new ResponseEntity<>(us.addUser(user), HttpStatus.CREATED);
     }
 
@@ -82,19 +102,19 @@ public class UserController {
 
         List<UserModel> user = us.findByUsername(request.getUsername());
 
-        if (!user.isEmpty()) {
-            if (UserModel.encoder().matches(request.getPassword(), user.get(0).getPassword())) {
-                String token = jwtTokenProvider.createToken(user.get(0).getId(), request.getUsername());
-                JwtResponse jwtResponse = new JwtResponse(request.getUsername(), token);
-                return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
-            } else {
-                throw new BadRequestException(
-                        "Credentials error, incorrect password for user " + request.getUsername());
-            }
-        } else {
+        if (user.isEmpty()) {
+            logger.error("User " + request.getUsername() + " not found.", new BadRequestException());
             throw new BadRequestException("User not found with username: " + request.getUsername());
         }
 
+        if (!(UserModel.encoder().matches(request.getPassword(), user.get(0).getPassword()))) {
+            logger.error("Credentials error user " + request.getUsername() + ".", new BadRequestException());
+            throw new BadRequestException("Credentials error, incorrect password for user " + request.getUsername());
+        }
+
+        String token = jwtTokenProvider.createToken(user.get(0).getId(), request.getUsername(), user.get(0).getRole());
+        JwtResponse jwtResponse = new JwtResponse(request.getUsername(), token);
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/users/publications-number")
@@ -124,8 +144,17 @@ public class UserController {
         logger.info("begin update money spent");
         try {
             UserModel user = us.findById(id);
-            logger.info("USer found: " + user.getId());
-            user.setMoneySpent(us.sumPrice(id));
+            logger.info("User found: " + user.getId());
+
+            try {
+                float price = us.sumPrice(id);
+                user.setMoneySpent(price);
+            } catch (Exception e) {
+                // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
+                return new ResponseEntity<>("Money spent can't be updated due to lack of publications for the user "
+                        + user.getUsername() + ".", HttpStatus.OK);
+            }
+
             us.updateMoneySpent(user);
             logger.info("User money spent updated");
             logger.info("end update money spent");
@@ -197,6 +226,7 @@ public class UserController {
         }
     }
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("Begin delete user");
@@ -215,10 +245,25 @@ public class UserController {
         }
     }
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/users")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
         return new ResponseEntity<>("All users deleted", HttpStatus.OK);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse("401", "Acceso denegado", "Este usuario no tiene permisos suficientes para realizar esta operación.");
+        logger.error(e.getMessage(), e);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<ErrorResponse> handleSignatureException(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse("401", "Acceso denegado", "Token caducado o en mal estado.");
+        logger.error(e.getMessage(), e);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BadCredentialsException.class)

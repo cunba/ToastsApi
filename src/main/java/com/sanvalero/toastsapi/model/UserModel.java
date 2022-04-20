@@ -49,6 +49,8 @@ public class UserModel {
     private float moneySpent;
     @Column(name = "publications_number")
     private int publicationsNumber;
+    @Column
+    private String role;
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     // private List<Publication> publications;

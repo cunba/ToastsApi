@@ -25,11 +25,11 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenProvider {
 
-    public static final int JWT_TOKEN_VALIDITY = 21600; //6 hours in seconds of assigned time validated
-	public static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-	public static final long EXPIRATION_DATE = 3600000L;
-	public static final String TOKEN_PREFIX = "Bearer ";
-	public static final String HEADER_STRING = "Authorization";
+    public static final int JWT_TOKEN_VALIDITY = 21600; // 6 hours in seconds of assigned time validated
+    public static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    public static final long EXPIRATION_DATE = 3600000L;
+    public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String HEADER_STRING = "Authorization";
 
     private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
 
@@ -41,10 +41,17 @@ public class JwtTokenProvider {
 
     }
 
-    public String createToken(int id, String username) {
+    public String createToken(int id, String username, String role) {
 
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("auth", new SimpleGrantedAuthority("USER"));
+        Claims claims = Jwts.claims();
+        claims.put("username", username);
+        claims.put("id", String.valueOf(id));
+        if (username == "admin") {
+            claims.put("auth", new SimpleGrantedAuthority("ROLE_" + role));
+            System.out.println("entra");
+        } else {
+            claims.put("auth", new SimpleGrantedAuthority("ROLE_" + role));
+        }
         Date now = new Date();
         Date validity = new Date(now.getTime() + EXPIRATION_DATE);
 

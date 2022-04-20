@@ -31,12 +31,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserModel> findByEmail(String email) {
+        return ur.findByEmail(email);
+    }
+
+    @Override
     public int countPublications(int id) {
         return ur.countPublications(id);
     }
 
     @Override
-    public float sumPrice(int id) {
+    public float sumPrice(int id) throws NullPointerException {
         return ur.sumPrice(id);
     }
 
