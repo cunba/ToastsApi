@@ -63,10 +63,17 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) throws BadRequestException {
+        List<UserModel> userList = us.findByUsername(userDTO.getUsername());
+        if (userList.isEmpty()) {
+            logger.error("Username in use.", new BadRequestException());
+            throw new BadRequestException("The user " + userDTO.getUsername() + " already exists.");
+        }
+
         ModelMapper mapper = new ModelMapper();
         UserModel user = mapper.map(userDTO, UserModel.class);
         user.setBirthDate(LocalDate.parse(userDTO.getBirth_date(), formatter));
         if (user.getBirthDate() == null) {
+            logger.error("Users birth date error.", new BadRequestException());
             throw new BadRequestException("The birth date is incorrect or the format is not dd-MM-yyyy");
         }
         user.setPassword(UserModel.encoder().encode(userDTO.getPassword()));
@@ -82,19 +89,19 @@ public class UserController {
 
         List<UserModel> user = us.findByUsername(request.getUsername());
 
-        if (!user.isEmpty()) {
-            if (UserModel.encoder().matches(request.getPassword(), user.get(0).getPassword())) {
-                String token = jwtTokenProvider.createToken(user.get(0).getId(), request.getUsername());
-                JwtResponse jwtResponse = new JwtResponse(request.getUsername(), token);
-                return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
-            } else {
-                throw new BadRequestException(
-                        "Credentials error, incorrect password for user " + request.getUsername());
-            }
-        } else {
+        if (user.isEmpty()) {
+            logger.error("User " + request.getUsername() + " not found.", new BadRequestException());
             throw new BadRequestException("User not found with username: " + request.getUsername());
         }
 
+        if (!(UserModel.encoder().matches(request.getPassword(), user.get(0).getPassword()))) {
+            logger.error("Credentials error user " + request.getUsername() + ".", new BadRequestException());
+            throw new BadRequestException("Credentials error, incorrect password for user " + request.getUsername());
+        }
+        
+        String token = jwtTokenProvider.createToken(user.get(0).getId(), request.getUsername());
+        JwtResponse jwtResponse = new JwtResponse(request.getUsername(), token);
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
     @PatchMapping("/users/publications-number")
