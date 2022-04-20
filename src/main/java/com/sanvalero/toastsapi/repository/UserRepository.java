@@ -15,4 +15,6 @@ public interface UserRepository extends CrudRepository<UserModel, Integer> {
     float sumPrice(int id);
 
     List<UserModel> findByUsername(String username);
+
+    List<UserModel> findByEmail(String email);
 }
