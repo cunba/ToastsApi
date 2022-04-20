@@ -32,10 +32,17 @@ public class MenuController {
     @Autowired
     private MenuService ms;
 
+    private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
     @GetMapping("/menus/date/{dateTimestamp}")
-    public ResponseEntity<List<Menu>> getByDate(@PathVariable long dateTimestamp) {
+    public ResponseEntity<List<Menu>> getByDate(@PathVariable long dateTimestamp) throws BadRequestException {
+        if (dateTimestamp < dateFrom) {
+            logger.error("Establishment get by date error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
+
         Timestamp timestamp = new Timestamp(dateTimestamp);
         LocalDate date = timestamp.toLocalDateTime().toLocalDate();
 
@@ -44,7 +51,13 @@ public class MenuController {
 
     @GetMapping("/menus/date/between")
     public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
-            @RequestParam(value = "maxDate") long maxDateTimestamp) {
+            @RequestParam(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
+
+        if (minDateTimestamp < dateFrom || maxDateTimestamp < dateFrom) {
+            logger.error("Establishment get by date between error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
 
         Timestamp minTimestamp = new Timestamp(minDateTimestamp);
         LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
@@ -62,14 +75,23 @@ public class MenuController {
     }
 
     @GetMapping("/menus/price/{price}")
-    public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) {
+    public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) throws BadRequestException {
+        if (price < 0) {
+            logger.error("Establishment get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
+
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
     @GetMapping("/menus/price/between")
     public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
-            @RequestParam(value = "maxPrice") float maxPrice) {
+            @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
+        if (minPrice < 0 || maxPrice < 0) {
+            logger.error("Establishment get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         float templatePrice = 0;
         if (minPrice > maxPrice) {
             templatePrice = minPrice;
@@ -81,14 +103,23 @@ public class MenuController {
     }
 
     @GetMapping("/menus/punctuation/{punctuation}")
-    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) {
+    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
+        if (punctuation < 0 || punctuation > 5) {
+            logger.error("Establishment get by puntuation error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
         return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/menus/punctuation/between")
     public ResponseEntity<List<Menu>> getByPunbtuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) {
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
+
+        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+            logger.error("Establishment get by puntuation between error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
 
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
@@ -102,7 +133,13 @@ public class MenuController {
 
     @GetMapping("/menus/{id}")
     public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(ms.findById(id), HttpStatus.OK);
+        try {
+            Menu menu = ms.findById(id);
+            return new ResponseEntity<>(menu, HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/menus")
@@ -127,26 +164,36 @@ public class MenuController {
     @PutMapping("/menus/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
         logger.info("begin update menu");
-        Menu menuToUpdate = ms.findById(id);
-        logger.info("Menu found: " + id);
-        menuToUpdate.setPrice(menuDTO.getPrice());
-        menuToUpdate.setPunctuation(menuDTO.getPunctuation());
-        logger.info("Menu properties updated");
-        logger.info("end update menu");
+        try {
+            Menu menuToUpdate = ms.findById(id);
+            logger.info("Menu found: " + id);
+            menuToUpdate.setPrice(menuDTO.getPrice());
+            menuToUpdate.setPunctuation(menuDTO.getPunctuation());
+            logger.info("Menu properties updated");
+            logger.info("end update menu");
 
-        return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
+            return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/menus/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
-        Menu menu = ms.findById(id);
-        logger.info("Menu found: " + menu.getId());
-        ms.deleteMenu(menu);
-        logger.info("Menu deleted");
-        logger.info("end delete menu");
+        try {
+            Menu menu = ms.findById(id);
+            logger.info("Menu found: " + menu.getId());
+            ms.deleteMenu(menu);
+            logger.info("Menu deleted");
+            logger.info("end delete menu");
 
-        return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/menus")

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 22-12-2021 a las 19:25:30
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.13
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 21-04-2022 a las 00:19:08
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `establishments` (
   `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `creation_date` date NOT NULL,
-  `location` varchar(50) NOT NULL,
+  `location` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`location`)),
   `open` tinyint(1) NOT NULL,
   `punctuation` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -41,9 +41,10 @@ CREATE TABLE `establishments` (
 --
 
 INSERT INTO `establishments` (`id`, `name`, `creation_date`, `location`, `open`, `punctuation`) VALUES
-(1, 'Criollo', '2021-12-12', '41.64885072522205, -0.8858524785997504', 1, 5),
-(2, 'Mondo', '2021-12-12', '41.6536650638226, -0.8843359286918279', 1, 5),
-(3, 'Matisse', '2021-12-08', '41.658609763434804, -0.8756923112958851', 1, 0);
+(1, 'Criollo', '2022-04-17', '{\"latitude\": 0.0, \"longitude\": 0.0}', 1, 0),
+(6, 'Doña hipólita', '2022-04-20', '{\"latitude\":2.0,\"longitude\":3.0}', 1, 0),
+(16, 'Mondo', '2022-04-20', '{\"latitude\":41.653664,\"longitude\":-0.88433594}', 1, 0),
+(17, 'Mezcalito', '2022-04-20', '{\"latitude\":41.653664,\"longitude\":-0.88433594}', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -75,17 +76,6 @@ CREATE TABLE `menus` (
   `punctuation` decimal(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `menus`
---
-
-INSERT INTO `menus` (`id`, `date`, `price`, `punctuation`) VALUES
-(1, '2021-12-12', '3.50', '3.5'),
-(2, '2021-12-12', '3.00', '5.0'),
-(3, '2021-12-12', '3.00', '5.0'),
-(4, '2021-12-12', '3.00', '5.0'),
-(5, '2021-12-17', '3.00', '5.0');
-
 -- --------------------------------------------------------
 
 --
@@ -102,19 +92,6 @@ CREATE TABLE `products` (
   `menu_id` int(11) DEFAULT NULL,
   `publication_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `products`
---
-
-INSERT INTO `products` (`id`, `date`, `in_menu`, `price`, `punctuation`, `type_id`, `menu_id`, `publication_id`) VALUES
-(1, '2021-12-12', 1, 1, 0, 2, 2, 1),
-(2, '2021-12-12', 1, 0, 0, 2, 1, 1),
-(3, '2021-12-12', 1, 0, 0, 2, 1, 3),
-(4, '2021-12-12', 0, 0, 0, 14, NULL, 3),
-(5, '2021-12-12', 0, 0, 0, 10, NULL, 3),
-(6, '2021-12-12', 0, 0, 0, 10, NULL, 1),
-(7, '2021-12-19', 0, 2, 5, 2, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -165,18 +142,6 @@ CREATE TABLE `publications` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `publications`
---
-
-INSERT INTO `publications` (`id`, `date`, `total_price`, `total_punctuation`, `photo`, `establishment_id`, `user_id`) VALUES
-(1, '2021-12-12', 9.5, 2.25, 'photo.jpg', 1, 3),
-(2, '2021-12-12', 0, 0, 'string.jpg', 2, 2),
-(3, '2021-12-12', 0, 0, 'string.jpg', 2, 1),
-(5, '2021-12-19', 0, 0, 'string.jpg', 2, 3),
-(6, '2021-12-19', 0, 0, 'string.jpg', 2, 1),
-(7, '2021-12-19', 0, 0, 'string.jpg', 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -185,25 +150,27 @@ INSERT INTO `publications` (`id`, `date`, `total_price`, `total_punctuation`, `p
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `name` varchar(30) DEFAULT NULL,
   `surname` varchar(30) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `email` varchar(30) DEFAULT NULL,
-  `password` varchar(30) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `creation_date` date DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `money_spent` float DEFAULT NULL,
-  `publications_number` int(10) DEFAULT NULL
+  `publications_number` int(10) DEFAULT NULL,
+  `role` varchar(10) NOT NULL DEFAULT 'USER'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `surname`, `birth_date`, `email`, `password`, `creation_date`, `active`, `money_spent`, `publications_number`) VALUES
-(1, 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '282629_Pruebita', '2021-12-19', 1, 0, 1),
-(2, 'Marta', 'Bagüés', '1997-06-18', 'martabags@gmail.com', 'suidgkl', '2021-12-19', 1, 0, 1),
-(3, 'Carmen', 'Baranda', '1961-07-20', 'martabags@gmail.com', '282629_Mama', '2021-12-12', 1, 9, 2);
+INSERT INTO `users` (`id`, `username`, `name`, `surname`, `birth_date`, `email`, `password`, `creation_date`, `active`, `money_spent`, `publications_number`, `role`) VALUES
+(4, 'cunba', 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '$2a$10$qkF8AeNbwcxcGY8fFrZaoOtSL5J9FssXUh1itShLUfjmCI4lzEufG', '2022-04-16', 1, 0, 0, 'USER'),
+(5, 'martabags', 'Marta', 'Bagüés', '1997-06-18', 'martabags@gmail.com', '$2a$10$pThnLtTGDTc5y72AD7Nm9.ppqDZNXBajpekjUBpYBjl5bTCGMiHCu', '2022-04-17', 1, 0, 0, 'USER'),
+(6, 'admin', 'admin', 'admin', '1997-06-18', 'admin', '$2a$10$2ZIh3vyn/VtbenhBAqqTy.oZ1pTEPVL9Kom7ziwOqmXGmIUiqUh9W', '2022-04-20', 1, 0, 0, 'ADMIN');
 
 --
 -- Índices para tablas volcadas
@@ -258,37 +225,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `establishments`
 --
 ALTER TABLE `establishments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `products_types`
 --
 ALTER TABLE `products_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `publications`
 --
 ALTER TABLE `publications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
@@ -298,6 +265,9 @@ ALTER TABLE `users`
 -- Filtros para la tabla `products`
 --
 ALTER TABLE `products`
+  ADD CONSTRAINT `FKd0f0vquvtnwajble9jhov32k0` FOREIGN KEY (`type_id`) REFERENCES `products_types` (`id`),
+  ADD CONSTRAINT `FKeajv8kuchlc88i201oxwnh0ig` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`),
+  ADD CONSTRAINT `FKk42pinsd2bghq49ar1x4q0qjt` FOREIGN KEY (`publication_id`) REFERENCES `publications` (`id`),
   ADD CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`),
   ADD CONSTRAINT `fk_publication_id` FOREIGN KEY (`publication_id`) REFERENCES `publications` (`id`),
   ADD CONSTRAINT `fk_type_id` FOREIGN KEY (`type_id`) REFERENCES `products_types` (`id`);
@@ -306,6 +276,8 @@ ALTER TABLE `products`
 -- Filtros para la tabla `publications`
 --
 ALTER TABLE `publications`
+  ADD CONSTRAINT `FK13mav6j1vppd6qxerj5ls1bl8` FOREIGN KEY (`establishment_id`) REFERENCES `establishments` (`id`),
+  ADD CONSTRAINT `FKmjejkepfqnuud5mcuffv5a21u` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_establishment_id` FOREIGN KEY (`establishment_id`) REFERENCES `establishments` (`id`),
   ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;

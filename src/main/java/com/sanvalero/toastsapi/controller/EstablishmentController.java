@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class EstablishmentController {
     @Autowired
     private EstablishmentService es;
-    private long dateFrom = 1640995200000L;
 
+    private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
     @GetMapping("/establishments")
@@ -44,8 +44,8 @@ public class EstablishmentController {
     @GetMapping("/establishments/{id}")
     public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
         try {
-            es.findById(id);
-            return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
+            Establishment establishment = es.findById(id);
+            return new ResponseEntity<>(establishment, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Establishment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");
@@ -64,17 +64,17 @@ public class EstablishmentController {
             logger.error("Establishment get by date error.", new BadRequestException());
             throw new BadRequestException(
                     "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
-        } else {
-            Timestamp timestamp = new Timestamp(creationDateTimestamp);
-            LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
-            return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
         }
+
+        Timestamp timestamp = new Timestamp(creationDateTimestamp);
+        LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
+        return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/date/between")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(
-            @PathVariable(value = "minDate") long minDateTimestamp,
-            @PathVariable(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
+            @RequestParam(value = "minDate") long minDateTimestamp,
+            @RequestParam(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
 
         if (minDateTimestamp < dateFrom || maxDateTimestamp < dateFrom) {
             logger.error("Establishment get by date between error.", new BadRequestException());
@@ -156,7 +156,7 @@ public class EstablishmentController {
         try {
             Establishment establishmentToUpdate = es.findById(id);
             logger.info("Establishment found: " + establishmentToUpdate.getId());
-            // establishmentToUpdate.setLocation(establishmentDTO.getLocation().toString());
+            establishmentToUpdate.setLocation(establishmentDTO.getLocation());
             establishmentToUpdate.setName(establishmentDTO.getName());
             establishmentToUpdate.setOpen(establishmentDTO.isOpen());
             logger.info("Properties setted");
