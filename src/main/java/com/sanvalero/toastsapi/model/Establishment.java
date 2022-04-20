@@ -1,9 +1,9 @@
 package com.sanvalero.toastsapi.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +11,10 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sanvalero.toastsapi.model.utils.Location;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +24,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "establishments")
-public class Establishment {
+@TypeDef(name = "json", typeClass = JsonStringType.class)
+public class Establishment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,7 +34,8 @@ public class Establishment {
     @Column(name = "creation_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
-    @Embedded
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
     private Location location;
     @Column
     private boolean open;

@@ -1,16 +1,11 @@
 package com.sanvalero.toastsapi.model.utils;
 
-import javax.persistence.Embeddable;
+import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Embeddable
-public class Location {
+public class Location implements Serializable {
     private float latitude;
     private float longitude;
 }
