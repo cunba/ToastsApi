@@ -44,14 +44,9 @@ public class JwtTokenProvider {
     public String createToken(int id, String username, String role) {
 
         Claims claims = Jwts.claims();
-        claims.put("username", username);
         claims.put("id", String.valueOf(id));
-        if (username == "admin") {
-            claims.put("auth", new SimpleGrantedAuthority("ROLE_" + role));
-            System.out.println("entra");
-        } else {
-            claims.put("auth", new SimpleGrantedAuthority("ROLE_" + role));
-        }
+        claims.put("username", username);
+        claims.put("auth", new SimpleGrantedAuthority("ROLE_" + role));
         Date now = new Date();
         Date validity = new Date(now.getTime() + EXPIRATION_DATE);
 
@@ -87,7 +82,6 @@ public class JwtTokenProvider {
             throw new JwtTokenException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ExpiredJwtException ex) {
             log.error("JWT Token expired.", ex.getCause());
-            System.out.println("Expired JWT token");
             httpServletRequest.setAttribute("expired", ex.getMessage());
         }
         return false;

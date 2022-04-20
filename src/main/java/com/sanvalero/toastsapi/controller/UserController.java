@@ -47,7 +47,7 @@ public class UserController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Secured({"ROLE_ADMIN"})
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users")
     public ResponseEntity<List<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
