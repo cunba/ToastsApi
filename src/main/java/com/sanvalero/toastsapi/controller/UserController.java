@@ -117,8 +117,8 @@ public class UserController {
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
-    @PatchMapping("/users/publications-number")
-    public ResponseEntity<String> updatePublicationsNumber(@RequestParam(value = "id") int id)
+    @PatchMapping("/users/{id}/publications-number")
+    public ResponseEntity<String> updatePublicationsNumber(@PathVariable int id)
             throws NotFoundException {
 
         logger.info("begin update publications number");
@@ -137,8 +137,8 @@ public class UserController {
 
     }
 
-    @PatchMapping("/users/money-spent")
-    public ResponseEntity<String> updateMoneySpent(@RequestParam(value = "id") int id)
+    @PatchMapping("/users/{id}/money-spent")
+    public ResponseEntity<String> updateMoneySpent(@PathVariable int id)
             throws NotFoundException {
 
         logger.info("begin update money spent");
@@ -166,8 +166,8 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/users/password")
-    public ResponseEntity<String> updatePassword(@RequestParam(value = "id") int id,
+    @PatchMapping("/users/{id}/password")
+    public ResponseEntity<String> updatePassword(@PathVariable int id,
             @RequestParam String password) throws NotFoundException {
 
         logger.info("begin update password");
@@ -188,8 +188,8 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/users/disable")
-    public ResponseEntity<String> disable(@RequestParam(value = "id") int id) throws NotFoundException {
+    @PatchMapping("/users/{id}/disable")
+    public ResponseEntity<String> disable(@PathVariable int id) throws NotFoundException {
         logger.info("begin disable user");
 
         try {
@@ -207,8 +207,8 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/users/activate")
-    public ResponseEntity<String> activate(@RequestParam(value = "id") int id) throws NotFoundException {
+    @PatchMapping("/users/{id}/activate")
+    public ResponseEntity<String> activate(@PathVariable int id) throws NotFoundException {
         logger.info("begin activate user");
 
         try {

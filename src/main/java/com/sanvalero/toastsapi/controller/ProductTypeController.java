@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -60,9 +59,9 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/types/type/name")
-    public ResponseEntity<ProductType> getByNameAndType(@RequestParam(value = "type") String type,
-            @RequestParam(value = "name") String name) {
+    @GetMapping("/types/type/{type}/name/{name}")
+    public ResponseEntity<ProductType> getByNameAndType(@PathVariable String type,
+            @PathVariable String name) {
 
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }

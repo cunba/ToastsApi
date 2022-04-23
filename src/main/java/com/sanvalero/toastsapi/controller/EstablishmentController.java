@@ -57,44 +57,44 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/{creationDateTimestamp}")
-    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long creationDateTimestamp)
+    @GetMapping("/establishments/date/{date}")
+    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long date)
             throws BadRequestException {
-        if (creationDateTimestamp < dateFrom) {
+        if (date < dateFrom) {
             logger.error("Establishment get by date error.", new BadRequestException());
             throw new BadRequestException(
                     "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
 
-        Timestamp timestamp = new Timestamp(creationDateTimestamp);
+        Timestamp timestamp = new Timestamp(date);
         LocalDate creationDate = timestamp.toLocalDateTime().toLocalDate();
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/date/between")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(
-            @RequestParam(value = "minDate") long minDateTimestamp,
-            @RequestParam(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
+            @RequestParam(value = "minDate") long minDate,
+            @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
-        if (minDateTimestamp < dateFrom || maxDateTimestamp < dateFrom) {
+        if (minDate < dateFrom || maxDate < dateFrom) {
             logger.error("Establishment get by date between error.", new BadRequestException());
             throw new BadRequestException(
                     "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
 
-        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
-        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
-        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
-        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp minTimestamp = new Timestamp(minDate);
+        LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDate);
+        LocalDate maxDateLocal = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
-        if (minDate.isAfter(maxDate)) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
+        if (minDateLocal.isAfter(maxDateLocal)) {
+            changerDate = minDateLocal;
+            minDateLocal = maxDateLocal;
+            maxDateLocal = changerDate;
         }
 
-        return new ResponseEntity<>(es.findByCreationDateBetween(minDate, maxDate), HttpStatus.OK);
+        return new ResponseEntity<>(es.findByCreationDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/open/{open}")
@@ -172,8 +172,8 @@ public class EstablishmentController {
 
     }
 
-    @PatchMapping("/establishments/punctuation")
-    public ResponseEntity<String> updatePunctuation(@RequestParam(value = "id") int id) throws NotFoundException {
+    @PatchMapping("/establishments/{id}/punctuation/")
+    public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin update punctuation");
         try {
             Establishment establishment = es.findById(id);
@@ -190,7 +190,7 @@ public class EstablishmentController {
         }
     }
 
-    @DeleteMapping("/establishments/delete/{id}")
+    @DeleteMapping("/establishments/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
@@ -207,7 +207,7 @@ public class EstablishmentController {
         }
     }
 
-    @DeleteMapping("/establishments/delete")
+    @DeleteMapping("/establishments")
     public ResponseEntity<String> deleteAll() {
         es.deleteAll();
         return new ResponseEntity<>("All establishments deleted.", HttpStatus.OK);

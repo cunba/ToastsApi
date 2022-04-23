@@ -57,31 +57,31 @@ public class ProductController {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/products/date/{dateTimestamp}")
-    public ResponseEntity<List<Product>> getByDate(@PathVariable long dateTimestamp) {
-        Timestamp timestamp = new Timestamp(dateTimestamp);
-        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
+    @GetMapping("/products/date/{date}")
+    public ResponseEntity<List<Product>> getByDate(@PathVariable long date) {
+        Timestamp timestamp = new Timestamp(date);
+        LocalDate dateLocal = timestamp.toLocalDateTime().toLocalDate();
 
-        return new ResponseEntity<>(ps.findByDate(date), HttpStatus.OK);
+        return new ResponseEntity<>(ps.findByDate(dateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/products/date/between")
-    public ResponseEntity<List<Product>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
-            @RequestParam(value = "maxDate") long maxDateTimestamp) {
+    public ResponseEntity<List<Product>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
+            @RequestParam(value = "maxDate") long maxDate) {
 
-        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
-        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
-        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
-        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp minTimestamp = new Timestamp(minDate);
+        LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDate);
+        LocalDate maxDateLocal = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
-        if (minDate.isAfter(maxDate)) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
+        if (minDateLocal.isAfter(maxDateLocal)) {
+            changerDate = minDateLocal;
+            minDateLocal = maxDateLocal;
+            maxDateLocal = changerDate;
         }
 
-        return new ResponseEntity<>(ps.findByDateBetween(minDate, maxDate), HttpStatus.OK);
+        return new ResponseEntity<>(ps.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/products/inMenu/{inMenu}")
@@ -127,21 +127,21 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/products/type")
-    public ResponseEntity<List<Product>> getByTypeId(@RequestParam(value = "id") int typeId) throws NotFoundException {
-        ProductType type = pts.findById(typeId);
+    @GetMapping("/products/type/{id}")
+    public ResponseEntity<List<Product>> getByTypeId(@PathVariable int id) throws NotFoundException {
+        ProductType type = pts.findById(id);
         return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/products/menu")
-    public ResponseEntity<List<Product>> getByMenu(@RequestParam(value = "id") int id) throws NotFoundException {
+    @GetMapping("/products/menu/{id}")
+    public ResponseEntity<List<Product>> getByMenu(@PathVariable int id) throws NotFoundException {
         Menu menu = ms.findById(id);
 
         return new ResponseEntity<>(ps.findByMenu(menu), HttpStatus.OK);
     }
 
-    @GetMapping("/products/publication")
-    public ResponseEntity<List<Product>> getByPublication(@RequestParam(value = "id") int id) throws NotFoundException {
+    @GetMapping("/products/publication/{id}")
+    public ResponseEntity<List<Product>> getByPublication(@PathVariable int id) throws NotFoundException {
         Publication publication = publicationService.findById(id);
 
         return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
@@ -208,9 +208,9 @@ public class ProductController {
         return new ResponseEntity<>(ps.updateProduct(product), HttpStatus.OK);
     }
 
-    @PatchMapping("/products/price")
-    public ResponseEntity<String> updatePrice(@RequestParam(value = "id") int id,
-            @RequestParam(value = "price") float price) throws NotFoundException {
+    @PatchMapping("/products/{id}/price/{price}")
+    public ResponseEntity<String> updatePrice(@PathVariable int id,
+            @PathVariable float price) throws NotFoundException {
 
         logger.info("begin update price of product");
         Product product = ps.findById(id);
