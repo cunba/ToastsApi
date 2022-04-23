@@ -35,43 +35,43 @@ public class MenuController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @GetMapping("/menus/date/{dateTimestamp}")
-    public ResponseEntity<List<Menu>> getByDate(@PathVariable long dateTimestamp) throws BadRequestException {
-        if (dateTimestamp < dateFrom) {
+    @GetMapping("/menus/date/{date}")
+    public ResponseEntity<List<Menu>> getByDate(@PathVariable long date) throws BadRequestException {
+        if (date < dateFrom) {
             logger.error("Establishment get by date error.", new BadRequestException());
             throw new BadRequestException(
                     "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
 
-        Timestamp timestamp = new Timestamp(dateTimestamp);
-        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
+        Timestamp timestamp = new Timestamp(date);
+        LocalDate dateLocal = timestamp.toLocalDateTime().toLocalDate();
 
-        return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
+        return new ResponseEntity<>(ms.findByDate(dateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/menus/date/between")
-    public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
-            @RequestParam(value = "maxDate") long maxDateTimestamp) throws BadRequestException {
+    public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
+            @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
-        if (minDateTimestamp < dateFrom || maxDateTimestamp < dateFrom) {
+        if (minDate < dateFrom || maxDate < dateFrom) {
             logger.error("Establishment get by date between error.", new BadRequestException());
             throw new BadRequestException(
                     "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
 
-        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
-        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
-        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
-        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp minTimestamp = new Timestamp(minDate);
+        LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDate);
+        LocalDate maxDateLocal = maxTimestamp.toLocalDateTime().toLocalDate();
 
         LocalDate changerDate = LocalDate.now();
-        if (minDate.isAfter(maxDate)) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
+        if (minDateLocal.isAfter(maxDateLocal)) {
+            changerDate = minDateLocal;
+            minDateLocal = maxDateLocal;
+            maxDateLocal = changerDate;
         }
 
-        return new ResponseEntity<>(ms.findByDateBetween(minDate, maxDate), HttpStatus.OK);
+        return new ResponseEntity<>(ms.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/menus/price/{price}")
