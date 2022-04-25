@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.security.SignatureException;
 
-
 @RestController
+@ControllerAdvice
 public class UserController {
     @Autowired
     private UserService us;
@@ -113,7 +114,7 @@ public class UserController {
         }
 
         String token = jwtTokenProvider.createToken(user.get(0).getId(), request.getUsername(), user.get(0).getRole());
-        JwtResponse jwtResponse = new JwtResponse(request.getUsername(), token);
+        JwtResponse jwtResponse = new JwtResponse(token);
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
@@ -226,7 +227,7 @@ public class UserController {
         }
     }
 
-    @Secured({"ROLE_ADMIN"})
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("Begin delete user");
@@ -245,7 +246,7 @@ public class UserController {
         }
     }
 
-    @Secured({"ROLE_ADMIN"})
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/users")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
@@ -254,7 +255,8 @@ public class UserController {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(Exception e) {
-        ErrorResponse errorResponse = new ErrorResponse("401", "Acceso denegado", "Este usuario no tiene permisos suficientes para realizar esta operación.");
+        ErrorResponse errorResponse = new ErrorResponse("401", "Acceso denegado",
+                "Este usuario no tiene permisos suficientes para realizar esta operación.");
         logger.error(e.getMessage(), e);
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
