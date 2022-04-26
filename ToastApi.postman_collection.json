@@ -272,6 +272,16 @@
 				{
 					"name": "Delete all types",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUwOTkxMDEwLCJleHAiOjE2NTA5OTQ2MTB9.7H_i-S6INHM-G9urcC6HO0Qofxccq8bM5-GEzgblxiH_c814pFuzygXiCqihtpuiTYDvMEqF0KyGNWhM0dZScQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1024,18 +1034,27 @@
 				{
 					"name": "Delete all users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUwOTkxMDEwLCJleHAiOjE2NTA5OTQ2MTB9.7H_i-S6INHM-G9urcC6HO0Qofxccq8bM5-GEzgblxiH_c814pFuzygXiCqihtpuiTYDvMEqF0KyGNWhM0dZScQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/delete",
+							"raw": "http://localhost:8081/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"users",
-								"delete"
+								"users"
 							]
 						}
 					},
@@ -2523,18 +2542,27 @@
 				{
 					"name": "Delete publication",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUwOTkxMDEwLCJleHAiOjE2NTA5OTQ2MTB9.7H_i-S6INHM-G9urcC6HO0Qofxccq8bM5-GEzgblxiH_c814pFuzygXiCqihtpuiTYDvMEqF0KyGNWhM0dZScQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publication/delete/1",
+							"raw": "http://localhost:8081/publications/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"publication",
-								"delete",
+								"publications",
 								"1"
 							]
 						}
@@ -2547,15 +2575,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/delete",
+							"raw": "http://localhost:8081/publications",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"publications",
-								"delete"
+								"publications"
 							]
 						}
 					},
