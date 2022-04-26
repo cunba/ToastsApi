@@ -8,6 +8,7 @@ import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.UserModel;
+import com.sanvalero.toastsapi.model.dto.PasswordChangeDTO;
 import com.sanvalero.toastsapi.model.dto.UserDTO;
 import com.sanvalero.toastsapi.security.JwtRequest;
 import com.sanvalero.toastsapi.security.JwtResponse;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.security.SignatureException;
@@ -169,14 +169,14 @@ public class UserController {
 
     @PatchMapping("/users/{id}/password")
     public ResponseEntity<String> updatePassword(@PathVariable int id,
-            @RequestParam String password) throws NotFoundException {
+            @RequestBody PasswordChangeDTO password) throws NotFoundException {
 
         logger.info("begin update password");
 
         try {
             UserModel user = us.findById(id);
             logger.info("User found: " + user.getId());
-            user.setPassword(UserModel.encoder().encode(password));
+            user.setPassword(UserModel.encoder().encode(password.getPassword()));
             us.updatePassword(user);
             logger.info("User password updated");
             logger.info("end update password");

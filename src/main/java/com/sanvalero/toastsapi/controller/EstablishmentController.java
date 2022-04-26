@@ -172,7 +172,7 @@ public class EstablishmentController {
 
     }
 
-    @PatchMapping("/establishments/{id}/punctuation/")
+    @PatchMapping("/establishments/{id}/punctuation")
     public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin update punctuation");
         try {
@@ -187,6 +187,10 @@ public class EstablishmentController {
         } catch (NotFoundException nfe) {
             logger.error("Establihsment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");
+        } catch (Exception e) {
+            // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
+            return new ResponseEntity<>("Money spent can't be updated due to lack of publications for the establishment "
+                    + id + ".", HttpStatus.OK);
         }
     }
 

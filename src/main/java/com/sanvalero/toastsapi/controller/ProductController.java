@@ -17,7 +17,6 @@ import com.sanvalero.toastsapi.service.ProductService;
 import com.sanvalero.toastsapi.service.ProductTypeService;
 import com.sanvalero.toastsapi.service.PublicationService;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,9 +224,8 @@ public class ProductController {
             throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
         }
 
-        ModelMapper mapper = new ModelMapper();
-        Product product = mapper.map(productDTO, Product.class);
-
+        Product product = new Product();
+        product.setPunctuation(productDTO.getPunctuation());
         product.setDate(LocalDate.now());
         product.setType(type);
         product.setPublication(publication);
@@ -245,7 +243,10 @@ public class ProductController {
             }
             product.setPrice(0);
             logger.info("Menu found: " + menu.getId());
+        } else {
+            product.setPrice(productDTO.getPrice());
         }
+        product.setInMenu(productDTO.isInMenu());
         product.setMenu(menu);
         logger.info("Product created");
         logger.info("end create product");
