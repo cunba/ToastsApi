@@ -195,6 +195,7 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO)
             throws NotFoundException, BadRequestException {
+                
         logger.info("begin create product");
         ProductType type = null;
         try {

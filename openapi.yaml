@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   title: TOTECO API
   description: API to manage publications about products (coffee, tea or toast) like a social media. The idea is to create a community that publishes photos of their toasts with coffee or tea adding the price and being able to rate the products and the establishments.
-  version: 1.0
+  version: "1.0"
   contact:
     email: a25540@svalero.com
 servers:
@@ -74,13 +74,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exception'
-                
+        404:
+          description: Not found exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
         500:
           description: Internal server error
           content:
@@ -116,15 +127,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                 
-  
   /products/{id}:
     get:
       security:
         - bearerAuth: []
       tags:
         - Products
-      summary: Get an existing product
-      description: 
+      summary: Get a product
+      description: Get an existing product by the id
       operationId: getProductById
       parameters:
         - $ref: '#/components/parameters/id'
@@ -135,12 +145,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -165,8 +169,8 @@ paths:
         - bearerAuth: []
       tags:
         - Products
-      summary: Update an existing product
-      description: 
+      summary: Update product
+      description: Update an existing product
       operationId: updateProduct
       parameters:
         - $ref: '#/components/parameters/id'
@@ -214,7 +218,7 @@ paths:
       tags:
         - Products
       summary: Delete all the products
-      description: 
+      description: Delete all the products in the DDBB
       operationId: deleteProductById
       parameters:
         - $ref: '#/components/parameters/id'
@@ -225,12 +229,6 @@ paths:
             application/json:
               schema:
                 type: string
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -257,7 +255,7 @@ paths:
       tags:
         - Products
       summary: Get products by date
-      description: Get all the products which have this creation date.\n The date format is timestamp in miliseconds.
+      description: Get all the products which have this creation date. The date format is timestamp in miliseconds.
       operationId: getProductsByDate
       parameters:
         - $ref: '#/components/parameters/date'
@@ -296,7 +294,7 @@ paths:
       tags:
         - Products
       summary: Get products between dates
-      description: Get all the products which have the creation date between theese.\n The dates format is timestamp in miliseconds
+      description: Get all the products which have the creation date between theese. The dates format is timestamp in miliseconds
       operationId: getProductsByDateBetween
       parameters:
         - $ref: '#/components/parameters/minDate'
@@ -349,12 +347,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -397,6 +389,12 @@ paths:
                 $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found exception
           content:
             application/json:
               schema:
@@ -487,14 +485,62 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                 
+  /products/{id}/punctuation/{punctuation}:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Update product punctuation
+      description: Update the punctuation of the indicated product.
+      operationId: updateProductsPunctuation
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/punctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
   /products/punctuation/{punctuation}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Products
       summary: Get all products by punctuation
-      description: Get all the products which have this same punctuation.\n The punctuation goes from 0 to 5.
+      description: Get all the products which have this same punctuation. The punctuation goes from 0 to 5.
       operationId: getProductsByPunctuation
-    parameters:
+      parameters:
         - $ref: '#/components/parameters/punctuation'
       responses:
         200:
@@ -526,10 +572,12 @@ paths:
                 
   /products/punctuation/between/:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Products
       summary: Get products by punctuation between
-      description: Get all the products which punctuations are between theese two.\n The punctuation goes from 0 to 5.
+      description: Get all the products which punctuations are between theese two. The punctuation goes from 0 to 5.
       operationId: getProductsByPunctuationBetween
       parameters:
         - $ref: '#/components/parameters/minPunctuation'
@@ -564,6 +612,8 @@ paths:
                 
   /products/type/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Products
       summary: Get products by type id
@@ -580,12 +630,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -608,6 +652,8 @@ paths:
                 
   /products/menu/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Products
       summary: Get products by menu id
@@ -624,12 +670,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -647,10 +687,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Exception '
+                $ref: '#/components/schemas/Exception'
   
   /products/publication/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Products
       summary: Get products by publication id
@@ -667,12 +709,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -695,6 +731,8 @@ paths:
                 
   /types:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Get all types
@@ -723,6 +761,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                 
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Save a type
@@ -755,6 +795,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Delete all types
@@ -782,6 +824,8 @@ paths:
                     
   /types/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by id
@@ -816,6 +860,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     put:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Update one type
@@ -856,6 +902,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                 
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Delete one type
@@ -891,6 +939,8 @@ paths:
                     
   /types/name/{name}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by name
@@ -922,6 +972,8 @@ paths:
                     
   /types/type/{type}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by type
@@ -951,16 +1003,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /types/type/{type}/name/{name}:
+  /types/name/{name}/type/{type}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by name and type
       description: Get types with the indicated name and type
       operationId: getTypeByNameAndType
       parameters:
-        - $ref: '#/components/parameters/type'
         - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/type'
       responses:
         200:
           description: Ok
@@ -986,6 +1040,8 @@ paths:
                     
   /menus:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get all menus
@@ -1013,6 +1069,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Save menu
@@ -1030,12 +1088,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1050,6 +1102,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Delete menu
@@ -1077,6 +1131,8 @@ paths:
                     
   /menus/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by id
@@ -1091,12 +1147,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1117,6 +1167,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
     
     put:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Update menu
@@ -1136,12 +1188,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1162,6 +1208,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Delete menu by id
@@ -1176,12 +1224,6 @@ paths:
             application/json:
               schema:
                 type: string
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1203,10 +1245,12 @@ paths:
                     
   /menus/date/{date}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by date
-      description: Get menus created at the indicated date.\n The date format is timestamp in miliseconds
+      description: Get menus created at the indicated date. The date format is timestamp in miliseconds
       operationId: getMenuByDate
       parameters:
         - $ref: '#/components/parameters/date'
@@ -1240,10 +1284,12 @@ paths:
     
   /menus/date/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by date between
-      description: Get menus created at the indicated dates.\n The dates format is timestamp in miliseconds
+      description: Get menus created at the indicated dates. The dates format is timestamp in miliseconds
       operationId: getMenuByDateBetween
       parameters:
         - $ref: '#/components/parameters/minDate'
@@ -1278,6 +1324,8 @@ paths:
                     
   /menus/price/{price}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by price
@@ -1315,6 +1363,8 @@ paths:
     
   /menus/price/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by price between
@@ -1353,10 +1403,12 @@ paths:
                     
   /menus/punctuation/{punctuation}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by punctuation
-      description: Get menus with the punctuation indicated.\n The punctuation goes from 0 to 5.
+      description: Get menus with the punctuation indicated. The punctuation goes from 0 to 5.
       operationId: getMenuByPunctuation
       parameters:
         - $ref: '#/components/parameters/punctuation'
@@ -1390,10 +1442,12 @@ paths:
     
   /menus/punctuation/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by punctuation between
-      description: Get menus between the two punctuations indicated.\n The punctuation goes from 0 to 5.
+      description: Get menus between the two punctuations indicated. The punctuation goes from 0 to 5.
       operationId: getMenuByPunctuationBetween
       parameters:
         - $ref: '#/components/parameters/minPunctuation'
@@ -1429,6 +1483,8 @@ paths:
                     
   /publications:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get all publications
@@ -1455,7 +1511,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exception'
+                
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Save publication
@@ -1473,12 +1532,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Publication'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1493,6 +1546,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Delete publications
@@ -1520,6 +1575,8 @@ paths:
                     
   /publications/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by id
@@ -1534,12 +1591,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Publication'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1560,6 +1611,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
     
     put:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Update publication
@@ -1579,12 +1632,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Publication'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1605,6 +1652,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Delete publication by id
@@ -1640,6 +1689,8 @@ paths:
                     
   /publications/{id}/price-punctuation:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Update publication price and punctuation
@@ -1675,10 +1726,12 @@ paths:
                     
   /publications/date/{date}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by date
-      description: Get publications created at the indicated date.\n The date format is timestamp in miliseconds
+      description: Get publications created at the indicated date. The date format is timestamp in miliseconds
       operationId: getPublicationByDate
       parameters:
         - $ref: '#/components/parameters/date'
@@ -1712,10 +1765,12 @@ paths:
     
   /publications/date/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by date between
-      description: Get publications created at the indicated dates.\n The dates format is timestamp in miliseconds
+      description: Get publications created at the indicated dates. The dates format is timestamp in miliseconds
       operationId: getPublicationByDateBetween
       parameters:
         - $ref: '#/components/parameters/minDate'
@@ -1750,6 +1805,8 @@ paths:
                     
   /publications/price/{price}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by price
@@ -1787,6 +1844,8 @@ paths:
     
   /publications/price/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by price between
@@ -1825,10 +1884,12 @@ paths:
                     
   /publications/punctuation/{punctuation}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by punctuation
-      description: Get publications with the punctuation indicated.\n The punctuation goes from 0 to 5.
+      description: Get publications with the punctuation indicated. The punctuation goes from 0 to 5.
       operationId: getPublicationsByPunctuation
       parameters:
         - $ref: '#/components/parameters/punctuation'
@@ -1862,10 +1923,12 @@ paths:
     
   /publications/punctuation/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by punctuation between
-      description: Get publications between the two punctuations indicated.\n The punctuation goes from 0 to 5.
+      description: Get publications between the two punctuations indicated. The punctuation goes from 0 to 5.
       operationId: getPublicationByPunctuationBetween
       parameters:
         - $ref: '#/components/parameters/minPunctuation'
@@ -1900,6 +1963,8 @@ paths:
                     
   /publications/establishment/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by establishment id
@@ -1916,12 +1981,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Publication'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1943,6 +2002,8 @@ paths:
                     
   /publications/user/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by user id
@@ -1959,12 +2020,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Publication'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -1984,15 +2039,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /publications/product/{id}:
+  /publications/type/{type}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
-      summary: Get publication by product id
-      description: Get publications that belongs to the product indicated.
-      operationId: getPublicationByProductId
+      summary: Get publication by product type
+      description: Get publications that belongs to the product type indicated.
+      operationId: getPublicationByProductType
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/type'
       responses:
         200:
           description: Ok
@@ -2002,20 +2059,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Publication'
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
-        404:
-          description: Not found
           content:
             application/json:
               schema:
@@ -2029,6 +2074,8 @@ paths:
                     
   /publications/date/price/puntuation/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by date, price and punctuation between
@@ -2062,12 +2109,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exception'
-        404:
-          description: Not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
         500:
           description: Internal server error
           content:
@@ -2078,6 +2119,8 @@ paths:
                     
   /establishments:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get all establishments
@@ -2104,7 +2147,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exception'
+                
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Save establishment
@@ -2136,6 +2182,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Delete establishments
@@ -2163,6 +2211,8 @@ paths:
                     
   /establishments/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by id
@@ -2197,6 +2247,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
     
     put:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Update establishment
@@ -2236,6 +2288,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Delete establishment by id
@@ -2271,6 +2325,8 @@ paths:
                     
   /establishment/name/{name}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by user id
@@ -2302,6 +2358,8 @@ paths:
                     
   /establishment/open/{open}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by open
@@ -2333,10 +2391,12 @@ paths:
                              
   /establishments/date/{date}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by date
-      description: Get establishments created at the indicated date.\n The date format is timestamp in miliseconds
+      description: Get establishments created at the indicated date. The date format is timestamp in miliseconds
       operationId: getEstablishmentByDate
       parameters:
         - $ref: '#/components/parameters/date'
@@ -2370,10 +2430,12 @@ paths:
     
   /establishments/date/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by date between
-      description: Get establishments created at the indicated dates.\n The dates format is timestamp in miliseconds
+      description: Get establishments created at the indicated dates. The dates format is timestamp in miliseconds
       operationId: getEstablishmentByDateBetween
       parameters:
         - $ref: '#/components/parameters/minDate'
@@ -2408,6 +2470,8 @@ paths:
                     
   /establishments/{id}/punctuation:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Update establishment punctuation
@@ -2443,10 +2507,12 @@ paths:
                     
   /establishments/punctuation/{punctuation}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by punctuation
-      description: Get establishments with the punctuation indicated.\n The punctuation goes from 0 to 5.
+      description: Get establishments with the punctuation indicated. The punctuation goes from 0 to 5.
       operationId: getEstablishmentByPunctuation
       parameters:
         - $ref: '#/components/parameters/punctuation'
@@ -2480,10 +2546,12 @@ paths:
     
   /establishment/punctuation/between:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by punctuation between
-      description: Get establishments between the two punctuations indicated.\n The punctuation goes from 0 to 5.
+      description: Get establishments between the two punctuations indicated. The punctuation goes from 0 to 5.
       operationId: getEstablishmentByPunctuationBetween
       parameters:
         - $ref: '#/components/parameters/minPunctuation'
@@ -2517,8 +2585,48 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
                     
+  /login:
+    post:
+      tags:
+        - User
+      summary: Login
+      description: Login with an existing user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtRequest'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+        400:
+          description: Bad request exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
   /users:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Get all users
@@ -2545,7 +2653,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exception'
+                
     post:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Save user
@@ -2563,6 +2674,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        400:
+          description: Bad request exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
         401:
           description: Unauthorize exception
           content:
@@ -2577,6 +2694,8 @@ paths:
                 $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Delete users
@@ -2604,6 +2723,8 @@ paths:
                     
   /users/{id}:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Get user by id
@@ -2636,47 +2757,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exception'
-    
-    put:
-      tags:
-        - User
-      summary: Update user
-      description: Update an existing user
-      operationId: updateUser
-      parameters:
-        - $ref: '#/components/parameters/id'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserDTO'
-      responses:
-        200:
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        401:
-          description: Unauthorize exception
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
-        404:
-          description: Not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
-        500:
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exception'
                     
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Delete user by id
@@ -2712,6 +2796,8 @@ paths:
                     
   /users/{id}/publications-number:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Update user publications number
@@ -2747,6 +2833,8 @@ paths:
                     
   /users/{id}/money-spent:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Update user money spent
@@ -2780,8 +2868,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /users/{id}/password/{password}:
+  /users/{id}/password:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Update user password
@@ -2789,7 +2879,11 @@ paths:
       operationId: updateUserPassword
       parameters:
         - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/password'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChangeDTO'
       responses:
         200:
           description: Ok
@@ -2818,6 +2912,8 @@ paths:
                     
   /users/{id}/disable:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Disable user
@@ -2853,6 +2949,8 @@ paths:
                     
   /users/{id}/activate:
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Activate user
@@ -3104,6 +3202,20 @@ components:
           type: string
           example: a25540@svalero.com
         password:
+          type: string       
+    JwtRequest:
+      properties:
+        username:
+          type: string
+        password:
+          type: string       
+    JwtResponse:
+      properties:
+        token:
+          type: string       
+    PasswordChangeDTO:
+      properties:
+        password:
           type: string
 
     Exception:
@@ -3116,129 +3228,129 @@ components:
           type: string
 
 
-parameters:
-  id:
-    name: id
-    in: path
-    description: id of the element
-    required: true
-    schema:
-      type: integer
-      format: int64
-      example: 0
+  parameters:
+    id:
+      name: id
+      in: path
+      description: id of the element
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 0
+  
+    date:
+      name: date
+      in: path
+      description: creation date
+      required: true
+      schema:
+        type: integer
+        example: 1640604419000
+    minDate:
+      name: minDate
+      in: query
+      description: date from in timestamp miliseconds
+      required: true
+      schema:
+        type: integer
+        example: 1640604419000
+    maxDate:
+      name: maxDate
+      in: query
+      description: date to in timestamp miliseconds
+      required: true
+      schema:
+        type: integer
+        example: 1641604419000
+  
+    price:
+      name: price
+      in: path
+      required: true
+      schema:
+        type: number
+        example: 2.5
+    minPrice:
+      name: minPrice
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 0.0
+    maxPrice:
+      name: maxPrice
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 5.0
+  
+    punctuation:
+      name: punctuation
+      in: path
+      required: true
+      schema:
+        type: number
+        default: 1.5
+    minPunctuation:
+      name: minPunctuation
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 1.0
+    maxPunctuation:
+      name: maxPunctuation
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 7.0
+  
+    inMenu:
+      name: inMenu
+      in: path
+      description: If want the products that belong to menus write true, if not write false
+      required: true
+      schema:
+        type: boolean
+        default: false
+  
+    name:
+      name: name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: de tomate
+  
+    type:
+      name: type
+      in: path
+      required: true
+      schema:
+        type: string
+        example: Tostada
+  
+    open:
+      name: open
+      in: path
+      required: true
+      schema:
+        type: boolean
+        example: true
+  
+    password:
+      name: password
+      in: path
+      required: true
+      schema:
+        type: string
 
-  date:
-    name: date
-    in: path
-    description: creation date
-    required: true
-    schema:
-      type: integer
-      example: 1640604419000
-  minDate:
-    name: minDate
-    in: query
-    description: date from in timestamp miliseconds
-    required: true
-    schema:
-      type: integer
-      example: 1640604419000
-  maxDate:
-    name: maxDate
-    in: query
-    description: date to in timestamp miliseconds
-    required: true
-    schema:
-      type: integer
-      example: 1641604419000
 
-  price:
-    name: price
-    in: path
-    required: true
-    schema:
-      type: number
-      example: 2.5
-  minPrice:
-    name: minPrice
-    in: query
-    required: true
-    schema:
-      type: number
-      example: 0.0
-  maxPrice:
-    name: maxPrice
-    in: query
-    required: true
-    schema:
-      type: number
-      example: 5.0
-
-  punctuation:
-    name: punctuation
-    in: path
-    required: true
-    schema:
-      type: number
-      default: 1.5
-  minPunctuation:
-    name: minPunctuation
-    in: query
-    required: true
-    schema:
-      type: number
-      example: 1.0
-  maxPunctuation:
-    name: maxPunctuation
-    in: query
-    required: true
-    schema:
-      type: number
-      example: 7.0
-
-  inMenu:
-    name: inMenu
-    in: path
-    description: If want the products that belong to menus write true, if not write false
-    required: true
-    schema:
-      type: boolean
-      default: false
-
-  name:
-    name: name
-    in: path
-    required: true
-    schema:
-      type: string
-      example: de tomate
-
-  type:
-    name: type
-    in: path
-    required: true
-    schema:
-      type: string
-      example: Tostada
-
-  open:
-    name: open
-    in: path
-    required: true
-    schema:
-      type: boolean
-      example: true
-
-  password:
-    name: password
-    in: path
-    required: true
-    schema:
-      type: string
-
-
-securitySchemes:
-  bearerAuth:
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
