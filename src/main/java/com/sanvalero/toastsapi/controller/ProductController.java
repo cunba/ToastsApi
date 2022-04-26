@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ public class ProductController {
     @Autowired
     private PublicationService publicationService;
 
+    private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
@@ -54,11 +56,21 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Product not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Product with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/products/date/{date}")
-    public ResponseEntity<List<Product>> getByDate(@PathVariable long date) {
+    public ResponseEntity<List<Product>> getByDate(@PathVariable long date) throws BadRequestException {
+        if (date < dateFrom) {
+            logger.error("Product get by date error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
         Timestamp timestamp = new Timestamp(date);
         LocalDate dateLocal = timestamp.toLocalDateTime().toLocalDate();
 
@@ -67,8 +79,13 @@ public class ProductController {
 
     @GetMapping("/products/date/between")
     public ResponseEntity<List<Product>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
-            @RequestParam(value = "maxDate") long maxDate) {
+            @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
+        if (minDate < dateFrom || maxDate < dateFrom) {
+            logger.error("Product get by date between error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
         Timestamp minTimestamp = new Timestamp(minDate);
         LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
         Timestamp maxTimestamp = new Timestamp(maxDate);
@@ -90,14 +107,22 @@ public class ProductController {
     }
 
     @GetMapping("/products/price/{price}")
-    public ResponseEntity<List<Product>> getByPrice(@PathVariable float price) {
+    public ResponseEntity<List<Product>> getByPrice(@PathVariable float price) throws BadRequestException {
+        if (price < 0) {
+            logger.error("Product get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         return new ResponseEntity<>(ps.findByPrice(price), HttpStatus.OK);
     }
 
     @GetMapping("/products/price/between")
     public ResponseEntity<List<Product>> getByPriceBetween(@PathVariable float minPrice,
-            @PathVariable float maxPrice) {
+            @PathVariable float maxPrice) throws BadRequestException {
 
+        if (minPrice < 0 || maxPrice < 0) {
+            logger.error("Product get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         float templatePrice = 0;
         if (minPrice > maxPrice) {
             templatePrice = minPrice;
@@ -109,14 +134,22 @@ public class ProductController {
     }
 
     @GetMapping("/products/punctuation/{punctuation}")
-    public ResponseEntity<List<Product>> getByPunctuation(@PathVariable float punctuation) {
+    public ResponseEntity<List<Product>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
+        if (punctuation < 0 || punctuation > 5) {
+            logger.error("Product get by puntuation error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
         return new ResponseEntity<>(ps.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/products/punctuation/between")
     public ResponseEntity<List<Product>> getByPunctuationBetween(@PathVariable float minPunctuation,
-            @PathVariable float maxPunctuation) {
+            @PathVariable float maxPunctuation) throws BadRequestException {
 
+        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+            logger.error("Product get by puntuation between error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
             templatePunctuation = minPunctuation;
@@ -129,35 +162,72 @@ public class ProductController {
 
     @GetMapping("/products/type/{id}")
     public ResponseEntity<List<Product>> getByTypeId(@PathVariable int id) throws NotFoundException {
-        ProductType type = pts.findById(id);
-        return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
+        try {
+            ProductType type = pts.findById(id);
+            return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/products/menu/{id}")
     public ResponseEntity<List<Product>> getByMenu(@PathVariable int id) throws NotFoundException {
-        Menu menu = ms.findById(id);
-
-        return new ResponseEntity<>(ps.findByMenu(menu), HttpStatus.OK);
+        try {
+            Menu menu = ms.findById(id);
+            return new ResponseEntity<>(ps.findByMenu(menu), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/products/publication/{id}")
     public ResponseEntity<List<Product>> getByPublication(@PathVariable int id) throws NotFoundException {
-        Publication publication = publicationService.findById(id);
-
-        return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
+        try {
+            Publication publication = publicationService.findById(id);
+            return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Publication not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Publication with ID " + id + " does not exists.");
+        }
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO) throws NotFoundException {
+    public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO)
+            throws NotFoundException, BadRequestException {
         logger.info("begin create product");
-        ProductType type = pts.findById(productDTO.getTypeId());
-        Publication publication = publicationService.findById(productDTO.getPublicationId());
+        ProductType type = null;
+        try {
+            type = pts.findById(productDTO.getTypeId());
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception with id " + productDTO.getTypeId() + ".", nfe);
+            throw new NotFoundException("Type with ID " + productDTO.getTypeId() + " does not exists.");
+        }
+        Publication publication = null;
+
+        try {
+            publication = publicationService.findById(productDTO.getPublicationId());
+        } catch (NotFoundException nfe) {
+            logger.error("Publication not found exception with id " + productDTO.getPublicationId() + ".", nfe);
+            throw new NotFoundException("Publication with ID " + productDTO.getPublicationId() + " does not exists.");
+        }
 
         logger.info("Product type found: " + type.getId());
         logger.info("Publication found: " + publication.getId());
 
+        if (productDTO.getPrice() < 0) {
+            logger.error("Product price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
+        if (productDTO.getPunctuation() < 0 || productDTO.getPunctuation() > 5) {
+            logger.error("Product punctuation error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
+        }
+
         ModelMapper mapper = new ModelMapper();
         Product product = mapper.map(productDTO, Product.class);
+
         product.setDate(LocalDate.now());
         product.setType(type);
         product.setPublication(publication);
@@ -166,7 +236,13 @@ public class ProductController {
 
         Menu menu = null;
         if (productDTO.isInMenu()) {
-            menu = ms.findById(productDTO.getMenuId());
+            try {
+                menu = ms.findById(productDTO.getMenuId());
+            } catch (NotFoundException nfe) {
+                logger.error("Menu not found exception with id " + productDTO.getMenuId() + ".", nfe);
+                throw new NotFoundException(
+                        "Menu with ID " + productDTO.getMenuId() + " does not exists.");
+            }
             product.setPrice(0);
             logger.info("Menu found: " + menu.getId());
         }
@@ -179,25 +255,53 @@ public class ProductController {
 
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id)
-            throws NotFoundException {
+            throws NotFoundException, BadRequestException {
         logger.info("begin update product");
-        Product product = ps.findById(id);
+        Product product = null;
+        try {
+            product = ps.findById(id);
+        } catch (NotFoundException nfe) {
+            logger.error("Product not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Product with ID " + id + " does not exists.");
+        }
 
         logger.info("Product found: " + product.getId());
 
-        ProductType type = pts.findById(productDTO.getTypeId());
+        ProductType type = null;
+        try {
+            type = pts.findById(productDTO.getTypeId());
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception with id " + productDTO.getTypeId() + ".", nfe);
+            throw new NotFoundException("Type with ID " + productDTO.getTypeId() + " does not exists.");
+        }
 
         logger.info("Product type found: " + type.getId());
 
+        if (productDTO.getPrice() < 0) {
+            logger.error("Product price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
+        if (productDTO.getPunctuation() < 0 || productDTO.getPunctuation() > 5) {
+            logger.error("Product punctuation error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
+        }
+
         product.setInMenu(productDTO.isInMenu());
         product.setPrice(productDTO.getPrice());
+        product.setPunctuation(productDTO.getPunctuation());
         product.setType(type);
 
         logger.info("Prodcut new properties set");
 
         Menu menu = null;
         if (productDTO.isInMenu()) {
-            menu = ms.findById(productDTO.getMenuId());
+            try {
+                menu = ms.findById(productDTO.getMenuId());
+            } catch (NotFoundException nfe) {
+                logger.error("Menu not found exception with id " + productDTO.getMenuId() + ".", nfe);
+                throw new NotFoundException(
+                        "Menu with ID " + productDTO.getMenuId() + " does not exists.");
+            }
             logger.info("Menu found: " + menu.getId());
         }
         product.setMenu(menu);
@@ -210,32 +314,75 @@ public class ProductController {
 
     @PatchMapping("/products/{id}/price/{price}")
     public ResponseEntity<String> updatePrice(@PathVariable int id,
-            @PathVariable float price) throws NotFoundException {
+            @PathVariable float price) throws NotFoundException, BadRequestException {
 
         logger.info("begin update price of product");
-        Product product = ps.findById(id);
+        try {
+            Product product = ps.findById(id);
 
-        logger.info("Product found: " + product.getId());
+            logger.info("Product found: " + product.getId());
 
-        product.setPrice(price);
-        ps.updatePrice(product);
+            if (price < 0) {
+                logger.error("Product price error.", new BadRequestException());
+                throw new BadRequestException("The price must be 0 or more.");
+            }
 
-        logger.info("Product price updated");
-        logger.info("end update price of product");
+            product.setPrice(price);
+            ps.updatePrice(product);
 
-        return new ResponseEntity<>("Price updated.", HttpStatus.OK);
+            logger.info("Product price updated");
+            logger.info("end update price of product");
+
+            return new ResponseEntity<>("Price updated.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Product not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Product with ID " + id + " does not exists.");
+        }
+    }
+
+    @PatchMapping("/products/{id}/punctuation/{punctuation}")
+    public ResponseEntity<String> updatePunctuation(@PathVariable int id,
+            @PathVariable float punctuation) throws NotFoundException, BadRequestException {
+
+        logger.info("begin update punctuation of product");
+        try {
+            Product product = ps.findById(id);
+
+            logger.info("Product found: " + product.getId());
+
+            if (punctuation < 0) {
+                logger.error("Product punctuation error.", new BadRequestException());
+                throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
+            }
+
+            product.setPunctuation(punctuation);
+            ps.updatePunctuation(product);
+
+            logger.info("Product punctuation updated");
+            logger.info("end update punctuation of product");
+
+            return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Product not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Product with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete product");
-        Product product = ps.findById(id);
-        logger.info("Product found: " + product.getId());
-        ps.deleteProduct(product);
-        logger.info("Product deleted");
-        logger.info("end delete product");
+        try {
+            Product product = ps.findById(id);
+            logger.info("Product found: " + product.getId());
+            ps.deleteProduct(product);
+            logger.info("Product deleted");
+            logger.info("end delete product");
 
-        return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Product not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Product with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/products")
@@ -264,5 +411,13 @@ public class ProductController {
         ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse("401", "Acceso denegado",
+                "Este usuario no tiene permisos suficientes para realizar esta operación.");
+        logger.error(e.getMessage(), e);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 }
