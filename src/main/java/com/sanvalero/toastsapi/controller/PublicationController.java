@@ -15,7 +15,6 @@ import com.sanvalero.toastsapi.service.EstablishmentService;
 import com.sanvalero.toastsapi.service.PublicationService;
 import com.sanvalero.toastsapi.service.UserService;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,10 +185,10 @@ public class PublicationController {
     public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
             @RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate,
-            @RequestParam(value = "minDate") float minPrice,
-            @RequestParam(value = "maxDate") float maxPrice,
-            @RequestParam(value = "minDate") float minPunctuation,
-            @RequestParam(value = "maxDate") float maxPunctuation) throws BadRequestException {
+            @RequestParam(value = "minPrice") float minPrice,
+            @RequestParam(value = "maxPrice") float maxPrice,
+            @RequestParam(value = "minPunctuation") float minPunctuation,
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
 
         if (minDate < dateFrom || maxDate < dateFrom) {
             logger.error("Publication get by date, price and punctuation between error.", new BadRequestException());
@@ -259,8 +258,8 @@ public class PublicationController {
         }
         logger.info("User found: " + user.getId());
 
-        ModelMapper mapper = new ModelMapper();
-        Publication publication = mapper.map(publicationDTO, Publication.class);
+        Publication publication = new Publication();
+        publication.setPhoto(publicationDTO.getPhoto());
         publication.setTotalPrice(0);
         publication.setTotalPunctuation(0);
         publication.setDate(LocalDate.now());
@@ -296,8 +295,14 @@ public class PublicationController {
         logger.info("Establishment found: " + establishment.getId());
 
         publication.setPhoto(publicationDTO.getPhoto());
-        publication.setTotalPrice(ps.totalPrice(publication.getId()));
-        publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
+
+        try {
+            publication.setTotalPrice(ps.totalPrice(publication.getId()));
+            publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
+        } catch (Exception e) {
+            // Quiere decir que no hay productos para obtener el precio y actualizarlo
+            logger.info("No hay productos para actualizar el precio y la puntuación");
+        }
         publication.setEstablishment(establishment);
 
         Publication toPrint = ps.updatePublication(publication);
@@ -324,6 +329,10 @@ public class PublicationController {
         } catch (NotFoundException nfe) {
             logger.error("Publication not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Publication with ID " + id + " does not exists.");
+        } catch (Exception e) {
+            // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
+            return new ResponseEntity<>("Money spent can't be updated due to lack of products for the publication "
+                    + id + ".", HttpStatus.OK);
         }
     }
 

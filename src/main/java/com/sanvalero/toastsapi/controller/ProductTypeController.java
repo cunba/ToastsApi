@@ -45,7 +45,7 @@ public class ProductTypeController {
             return new ResponseEntity<>(toPrint, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Type not found exception wiwth id " + id + ".", nfe);
-            throw new NotFoundException("Type with ID " + id + "does not exists.");
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
         }
     }
 
@@ -59,9 +59,9 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/types/type/{type}/name/{name}")
-    public ResponseEntity<ProductType> getByNameAndType(@PathVariable String type,
-            @PathVariable String name) {
+    @GetMapping("/types/name/{name}/type/{type}")
+    public ResponseEntity<ProductType> getByNameAndType(@PathVariable String name,
+            @PathVariable String type) {
 
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }
@@ -90,7 +90,7 @@ public class ProductTypeController {
             return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Type not found exception wiwth id " + id + ".", nfe);
-            throw new NotFoundException("Type with ID " + id + "does not exists.");
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
         }
     }
 
@@ -107,7 +107,7 @@ public class ProductTypeController {
             return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Type not found exception wiwth id " + id + ".", nfe);
-            throw new NotFoundException("Type with ID " + id + "does not exists.");
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
         }
     }
 

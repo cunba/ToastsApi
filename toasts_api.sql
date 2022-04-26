@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2022 a las 00:19:08
+-- Tiempo de generación: 26-04-2022 a las 18:40:47
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.28
 
@@ -43,8 +43,7 @@ CREATE TABLE `establishments` (
 INSERT INTO `establishments` (`id`, `name`, `creation_date`, `location`, `open`, `punctuation`) VALUES
 (1, 'Criollo', '2022-04-17', '{\"latitude\": 0.0, \"longitude\": 0.0}', 1, 0),
 (6, 'Doña hipólita', '2022-04-20', '{\"latitude\":2.0,\"longitude\":3.0}', 1, 0),
-(16, 'Mondo', '2022-04-20', '{\"latitude\":41.653664,\"longitude\":-0.88433594}', 1, 0),
-(17, 'Mezcalito', '2022-04-20', '{\"latitude\":41.653664,\"longitude\":-0.88433594}', 1, 0);
+(16, 'Mondo', '2022-04-20', '{\"latitude\":41.653664,\"longitude\":-0.88433594}', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -76,6 +75,13 @@ CREATE TABLE `menus` (
   `punctuation` decimal(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `menus`
+--
+
+INSERT INTO `menus` (`id`, `date`, `price`, `punctuation`) VALUES
+(2, '2022-04-26', '1.00', '4.0');
+
 -- --------------------------------------------------------
 
 --
@@ -92,6 +98,14 @@ CREATE TABLE `products` (
   `menu_id` int(11) DEFAULT NULL,
   `publication_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `products`
+--
+
+INSERT INTO `products` (`id`, `date`, `in_menu`, `price`, `punctuation`, `type_id`, `menu_id`, `publication_id`) VALUES
+(1, '2022-04-26', 0, 2, 5, 2, NULL, 1),
+(2, '2022-04-26', 1, 2, 3, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -142,6 +156,13 @@ CREATE TABLE `publications` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `publications`
+--
+
+INSERT INTO `publications` (`id`, `date`, `total_price`, `total_punctuation`, `photo`, `establishment_id`, `user_id`) VALUES
+(1, '2022-04-26', 0, 0, 'string.jpg', 1, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -168,9 +189,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `surname`, `birth_date`, `email`, `password`, `creation_date`, `active`, `money_spent`, `publications_number`, `role`) VALUES
-(4, 'cunba', 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '$2a$10$qkF8AeNbwcxcGY8fFrZaoOtSL5J9FssXUh1itShLUfjmCI4lzEufG', '2022-04-16', 1, 0, 0, 'USER'),
 (5, 'martabags', 'Marta', 'Bagüés', '1997-06-18', 'martabags@gmail.com', '$2a$10$pThnLtTGDTc5y72AD7Nm9.ppqDZNXBajpekjUBpYBjl5bTCGMiHCu', '2022-04-17', 1, 0, 0, 'USER'),
-(6, 'admin', 'admin', 'admin', '1997-06-18', 'admin', '$2a$10$2ZIh3vyn/VtbenhBAqqTy.oZ1pTEPVL9Kom7ziwOqmXGmIUiqUh9W', '2022-04-20', 1, 0, 0, 'ADMIN');
+(6, 'admin', 'admin', 'admin', '1997-06-18', 'admin', '$2a$10$2ZIh3vyn/VtbenhBAqqTy.oZ1pTEPVL9Kom7ziwOqmXGmIUiqUh9W', '2022-04-20', 1, 0, 0, 'ADMIN'),
+(8, 'cunba', 'Irene', 'Cunto', '1995-09-05', 'ire.cunba@gmail.com', '$2a$10$u1WxYGTA5ItdZa7l6oywtuAutpz7MN.ChvdHowR1CEyiKeyHdJhOC', '2022-04-26', 1, 0, 0, 'USER');
 
 --
 -- Índices para tablas volcadas
@@ -231,31 +252,31 @@ ALTER TABLE `establishments`
 -- AUTO_INCREMENT de la tabla `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `products_types`
 --
 ALTER TABLE `products_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `publications`
 --
 ALTER TABLE `publications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
