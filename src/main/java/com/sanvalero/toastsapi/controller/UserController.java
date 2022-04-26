@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +47,6 @@ public class UserController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Secured("ROLE_ADMIN")
     @GetMapping("/users")
     public ResponseEntity<List<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
@@ -227,7 +225,6 @@ public class UserController {
         }
     }
 
-    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("Begin delete user");
@@ -246,7 +243,6 @@ public class UserController {
         }
     }
 
-    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/users")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
