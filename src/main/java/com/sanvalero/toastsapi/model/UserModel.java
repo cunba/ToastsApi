@@ -1,13 +1,17 @@
 package com.sanvalero.toastsapi.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.springframework.context.annotation.Bean;
@@ -52,8 +56,9 @@ public class UserModel {
     @Column
     private String role;
 
-    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    // private List<Publication> publications;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonBackReference(value = "user-publications")
+    private List<Publication> publications;
 
     @Bean
     public static PasswordEncoder encoder() {

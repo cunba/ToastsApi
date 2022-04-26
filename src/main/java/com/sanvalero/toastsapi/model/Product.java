@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -38,14 +37,11 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "type_id")
-    @JsonBackReference(value = "product_type")
     private ProductType type;
     @ManyToOne
     @JoinColumn(name = "menu_id")
-    @JsonBackReference(value = "product_menu")
     private Menu menu;
     @ManyToOne
     @JoinColumn(name = "publication_id")
-    @JsonBackReference(value = "product_publication")
     private Publication publication;
 }
