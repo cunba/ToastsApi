@@ -41,6 +41,7 @@ public class PublicationController {
     @Autowired
     private EstablishmentService es;
 
+    private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(PublicationController.class);
 
     @GetMapping("/publications")
@@ -50,11 +51,22 @@ public class PublicationController {
 
     @GetMapping("/publications/{id}")
     public ResponseEntity<Publication> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Publication not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Publication with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/publications/date/{date}")
-    public ResponseEntity<List<Publication>> getByDate(@PathVariable long date) {
+    public ResponseEntity<List<Publication>> getByDate(@PathVariable long date) throws BadRequestException {
+        if (date < dateFrom) {
+            logger.error("Publication get by date error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
+
         Timestamp timestamp = new Timestamp(date);
         LocalDate dateLocal = timestamp.toLocalDateTime().toLocalDate();
 
@@ -63,8 +75,13 @@ public class PublicationController {
 
     @GetMapping("/publications/date/between")
     public ResponseEntity<List<Publication>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
-            @RequestParam(value = "maxDate") long maxDate) {
+            @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
+        if (minDate < dateFrom || maxDate < dateFrom) {
+            logger.error("Publication get by date between error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
         Timestamp minTimestamp = new Timestamp(minDate);
         LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
         Timestamp maxTimestamp = new Timestamp(maxDate);
@@ -81,14 +98,22 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/price/{price}")
-    public ResponseEntity<List<Publication>> getByTotalPrice(@PathVariable float price) {
+    public ResponseEntity<List<Publication>> getByTotalPrice(@PathVariable float price) throws BadRequestException {
+        if (price < 0) {
+            logger.error("Publication get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         return new ResponseEntity<>(ps.findByTotalPrice(price), HttpStatus.OK);
     }
 
     @GetMapping("/publications/price/between")
     public ResponseEntity<List<Publication>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
-            @RequestParam(value = "maxPrice") float maxPrice) {
+            @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
+        if (minPrice < 0 || maxPrice < 0) {
+            logger.error("Publication get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         float templatePrice = 0;
         if (minPrice > maxPrice) {
             templatePrice = minPrice;
@@ -100,15 +125,24 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/punctuation/{punctuation}")
-    public ResponseEntity<List<Publication>> getByPunctuation(@PathVariable float punctuation) {
+    public ResponseEntity<List<Publication>> getByPunctuation(@PathVariable float punctuation)
+            throws BadRequestException {
+        if (punctuation < 0 || punctuation > 5) {
+            logger.error("Publication get by puntuation error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
         return new ResponseEntity<>(ps.findByTotalPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/publications/punctuation/between")
     public ResponseEntity<List<Publication>> getByPunctuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) {
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
 
+        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+            logger.error("Publication get by puntuation between error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
             templatePunctuation = minPunctuation;
@@ -123,16 +157,24 @@ public class PublicationController {
     public ResponseEntity<List<Publication>> getByEstablishmentId(@PathVariable int id)
             throws NotFoundException {
 
-        Establishment establishment = es.findById(id);
-
-        return new ResponseEntity<>(ps.findByEstablishment(establishment), HttpStatus.OK);
+        try {
+            Establishment establishment = es.findById(id);
+            return new ResponseEntity<>(ps.findByEstablishment(establishment), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Establishment not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Establishment with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/publications/user/{id}")
     public ResponseEntity<List<Publication>> getByUserId(@PathVariable int id) throws NotFoundException {
-        UserModel user = us.findById(id);
-
-        return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
+        try {
+            UserModel user = us.findById(id);
+            return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("User not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("User with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/publications/type/{type}")
@@ -147,8 +189,21 @@ public class PublicationController {
             @RequestParam(value = "minDate") float minPrice,
             @RequestParam(value = "maxDate") float maxPrice,
             @RequestParam(value = "minDate") float minPunctuation,
-            @RequestParam(value = "maxDate") float maxPunctuation) {
+            @RequestParam(value = "maxDate") float maxPunctuation) throws BadRequestException {
 
+        if (minDate < dateFrom || maxDate < dateFrom) {
+            logger.error("Publication get by date, price and punctuation between error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
+        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+            logger.error("Publication get by date, price and puntuation between error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
+        if (minPrice < 0 || maxPrice < 0) {
+            logger.error("Publication get by date, price and punctuation error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         Timestamp minTimestamp = new Timestamp(minDate);
         LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
         Timestamp maxTimestamp = new Timestamp(maxDate);
@@ -184,9 +239,24 @@ public class PublicationController {
     @PostMapping("/publications")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         logger.info("begin create publication");
-        Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
-        UserModel user = us.findById(publicationDTO.getUserId());
+
+        Establishment establishment = null;
+        try {
+            establishment = es.findById(publicationDTO.getEstablishmentId());
+        } catch (NotFoundException nfe) {
+            logger.error("Establishment not found exception with id " + publicationDTO.getEstablishmentId() + ".", nfe);
+            throw new NotFoundException(
+                    "Establishment with ID " + publicationDTO.getEstablishmentId() + " does not exists.");
+        }
         logger.info("Establishment found: " + establishment.getId());
+
+        UserModel user = null;
+        try {
+            user = us.findById(publicationDTO.getUserId());
+        } catch (NotFoundException nfe) {
+            logger.error("User not found exception with id " + publicationDTO.getUserId() + ".", nfe);
+            throw new NotFoundException("User with ID " + publicationDTO.getUserId() + " does not exists.");
+        }
         logger.info("User found: " + user.getId());
 
         ModelMapper mapper = new ModelMapper();
@@ -207,10 +277,22 @@ public class PublicationController {
             @PathVariable int id) throws NotFoundException {
 
         logger.info("begin update publication");
-        Publication publication = ps.findById(id);
-        logger.info("Publication found: " + publication.getId());
+        Publication publication = null;
+        try {
+            publication = ps.findById(id);
+            logger.info("Publication found: " + publication.getId());
+        } catch (NotFoundException nfe) {
+            logger.error("Publication not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Publication with ID " + id + " does not exists.");
+        }
 
-        Establishment establishment = es.findById(publicationDTO.getEstablishmentId());
+        Establishment establishment = null;
+        try {
+            establishment = es.findById(publicationDTO.getEstablishmentId());
+        } catch (NotFoundException nfe) {
+            logger.error("Establishment not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Establishment with ID " + id + " does not exists.");
+        }
         logger.info("Establishment found: " + establishment.getId());
 
         publication.setPhoto(publicationDTO.getPhoto());
@@ -228,27 +310,37 @@ public class PublicationController {
     @PatchMapping("/publications/{id}/price-punctuation")
     public ResponseEntity<String> totalPricePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin set total price punctuation");
-        Publication publication = ps.findById(id);
-        logger.info("Publication found: " + publication.getId());
+        try {
+            Publication publication = ps.findById(id);
+            logger.info("Publication found: " + publication.getId());
 
-        publication.setTotalPrice(ps.totalPrice(id));
-        publication.setTotalPunctuation(ps.totalPunctuation(id));
-        ps.updatePricePunctuation(publication);
-        logger.info("Publication price and punctuation updated");
-        logger.info("end set total price punctuation");
+            publication.setTotalPrice(ps.totalPrice(id));
+            publication.setTotalPunctuation(ps.totalPunctuation(id));
+            ps.updatePricePunctuation(publication);
+            logger.info("Publication price and punctuation updated");
+            logger.info("end set total price punctuation");
 
-        return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
+            return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Publication not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Publication with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/publications/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete publication");
-        Publication publication = ps.findById(id);
-        logger.info("Publication found:" + publication.getId());
-        ps.deletePublication(publication);
-        logger.info("Publication deleted");
+        try {
+            Publication publication = ps.findById(id);
+            logger.info("Publication found:" + publication.getId());
+            ps.deletePublication(publication);
+            logger.info("Publication deleted");
 
-        return new ResponseEntity<>("Publication deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Publication deleted.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Publication not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Publication with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/publications")
