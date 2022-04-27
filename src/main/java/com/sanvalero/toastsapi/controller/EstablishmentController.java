@@ -189,8 +189,10 @@ public class EstablishmentController {
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");
         } catch (Exception e) {
             // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-            return new ResponseEntity<>("Money spent can't be updated due to lack of publications for the establishment "
-                    + id + ".", HttpStatus.OK);
+            return new ResponseEntity<>(
+                    "Money spent can't be updated due to lack of publications for the establishment "
+                            + id + ".",
+                    HttpStatus.OK);
         }
     }
 
