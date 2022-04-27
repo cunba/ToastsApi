@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4dae987a-fb59-44a7-82e9-cafc5a4731a3",
+		"_postman_id": "49a02154-34d1-44ec-8484-ebf15ce396a1",
 		"name": "ToastApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1515,15 +1515,25 @@
 				{
 					"name": "Get all products",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products",
+							"raw": "http://localhost:8081/products",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products"
 							]
@@ -1534,18 +1544,27 @@
 				{
 					"name": "Get product by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/product/id/10",
+							"raw": "http://localhost:8081/products/10",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
-								"product",
-								"id",
+								"products",
 								"10"
 							]
 						}
@@ -1555,19 +1574,29 @@
 				{
 					"name": "Get product by date",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/date/27-12-2021",
+							"raw": "http://localhost:8081/products/date/1650987797000",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
 								"date",
-								"27-12-2021"
+								"1650987797000"
 							]
 						}
 					},
@@ -1576,20 +1605,39 @@
 				{
 					"name": "Get product by date min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/dates/12-11-2021/27-12-2021",
+							"raw": "http://localhost:8081/products/date/between?minDate=1650987797000&maxDate=1650987797000",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
-								"dates",
-								"12-11-2021",
-								"27-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650987797000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650987797000"
+								}
 							]
 						}
 					},
@@ -1598,15 +1646,25 @@
 				{
 					"name": "Get product by in menu",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/inMenu/true",
+							"raw": "http://localhost:8081/products/inMenu/true",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
 								"inMenu",
@@ -1619,15 +1677,25 @@
 				{
 					"name": "Get product by price",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/price/0",
+							"raw": "http://localhost:8081/products/price/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
 								"price",
@@ -1640,19 +1708,39 @@
 				{
 					"name": "Get product by price min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/prices/0-5",
+							"raw": "http://localhost:8081/products/price/between?minPrice=0&maxPrice=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
-								"prices",
-								"0-5"
+								"price",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -1661,15 +1749,25 @@
 				{
 					"name": "Get product by puncuation",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/punctuation/0",
+							"raw": "http://localhost:8081/products/punctuation/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
 								"punctuation",
@@ -1682,19 +1780,39 @@
 				{
 					"name": "Get product by punctuation min and max",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/punctuations/0-5",
+							"raw": "http://localhost:8081/products/punctuation/between?minPunctuation=0&maxPunctuation=4",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
-								"punctuations",
-								"0-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "0"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "4"
+								}
 							]
 						}
 					},
@@ -1703,24 +1821,29 @@
 				{
 					"name": "Get product by type",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/type?id=2",
+							"raw": "http://localhost:8081/products/type/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
-								"type"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"type",
+								"2"
 							]
 						}
 					},
@@ -1729,24 +1852,29 @@
 				{
 					"name": "Get product by menu",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/menu?id=2",
+							"raw": "http://localhost:8081/products/menu/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
-								"menu"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"menu",
+								"1"
 							]
 						}
 					},
@@ -1755,24 +1883,29 @@
 				{
 					"name": "Get product by publication",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxMDAyOTAyLCJleHAiOjE2NTEwMDY1MDJ9.2k-dR3Bbnmn13m3krRPUKGJEDx8Mw_P3K67AeCqlabX7pTheyU5GRmOKf3kiJGyBgXqFvp8ULK4H9Z9Q1WDD4w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/publication?id=3",
+							"raw": "http://localhost:8081/products/publication/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"products",
-								"publication"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
+								"publication",
+								"3"
 							]
 						}
 					},
