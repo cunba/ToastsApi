@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -48,20 +46,11 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "type_id")
-    @NotNull
-    @NotEmpty
-    @NotBlank
     private ProductType type;
     @ManyToOne
     @JoinColumn(name = "menu_id")
-    @NotNull
-    @NotEmpty
-    @NotBlank
     private Menu menu;
     @ManyToOne
     @JoinColumn(name = "publication_id")
-    @NotNull
-    @NotEmpty
-    @NotBlank
     private Publication publication;
 }

@@ -2,7 +2,11 @@ package com.sanvalero.toastsapi.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.ConstraintViolationException;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -283,6 +287,18 @@ public class UserController {
         ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+        Map<String, String> errors = new HashMap<>();
+        cve.getConstraintViolations().forEach(error -> {
+            String fieldName = error.getPropertyPath().toString();
+            String message = error.getMessage();
+            errors.put(fieldName, message);
+        });
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
