@@ -141,6 +141,7 @@ public class ProductTypeController {
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        logger.error(manve.getMessage(), manve);
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
@@ -153,6 +154,7 @@ public class ProductTypeController {
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        logger.error(cve.getMessage(), cve);
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
