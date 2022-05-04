@@ -114,6 +114,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: All products deleted.
         401:
           description: Unauthorize exception
           content:
@@ -229,6 +230,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: Product deleted.
         401:
           description: Unauthorize exception
           content:
@@ -809,6 +811,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: All types deleted.
         401:
           description: Unauthorize exception
           content:
@@ -918,6 +921,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: Product type deleted.
         401:
           description: Unauthorize exception
           content:
@@ -1116,6 +1120,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: All menus deleted.
         401:
           description: Unauthorize exception
           content:
@@ -1224,6 +1229,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: Menu deleted.
         401:
           description: Unauthorize exception
           content:
@@ -1560,6 +1566,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: All publications deleted.
         401:
           description: Unauthorize exception
           content:
@@ -1668,6 +1675,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: Publication deleted.
         401:
           description: Unauthorize exception
           content:
@@ -2196,6 +2204,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: All establishments deleted.
         401:
           description: Unauthorize exception
           content:
@@ -2304,6 +2313,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: Establishment deleted.
         401:
           description: Unauthorize exception
           content:
@@ -2708,6 +2718,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: All users deleted.
         401:
           description: Unauthorize exception
           content:
@@ -2775,6 +2786,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: User deleted.
         401:
           description: Unauthorize exception
           content:
