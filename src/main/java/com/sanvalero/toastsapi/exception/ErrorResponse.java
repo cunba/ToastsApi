@@ -1,5 +1,7 @@
 package com.sanvalero.toastsapi.exception;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class ErrorResponse {
 
     private String code;
-    private String error;
+    private Map<String, String> errors;
     private String message;
 }

@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -34,6 +37,7 @@ public class Establishment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
+    @NotNull
     private String name;
     @Column(name = "creation_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -42,8 +46,11 @@ public class Establishment implements Serializable {
     @Column(columnDefinition = "json")
     private Location location;
     @Column
+    @NotNull
     private boolean open;
     @Column
+    @Min(value = 0)
+    @Max(value = 5)
     private float punctuation;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "establishment")

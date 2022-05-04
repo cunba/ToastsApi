@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -29,10 +33,15 @@ public class Product {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     @Column(name = "in_menu")
+    @NotNull
     private boolean inMenu;
     @Column
+    @PositiveOrZero
     private float price;
     @Column
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 5)
     private float punctuation;
 
     @ManyToOne

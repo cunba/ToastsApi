@@ -3222,8 +3222,10 @@ components:
       properties:
         code: 
           type: string
-        error:
-          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
         message:
           type: string
 

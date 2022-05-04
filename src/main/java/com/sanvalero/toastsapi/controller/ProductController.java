@@ -2,7 +2,11 @@ package com.sanvalero.toastsapi.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.ConstraintViolationException;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -23,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -195,7 +201,7 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO)
             throws NotFoundException, BadRequestException {
-                
+
         logger.info("begin create product");
         ProductType type = null;
         try {
@@ -216,14 +222,15 @@ public class ProductController {
         logger.info("Product type found: " + type.getId());
         logger.info("Publication found: " + publication.getId());
 
-        if (productDTO.getPrice() < 0) {
-            logger.error("Product price error.", new BadRequestException());
-            throw new BadRequestException("The price must be 0 or more.");
-        }
-        if (productDTO.getPunctuation() < 0 || productDTO.getPunctuation() > 5) {
-            logger.error("Product punctuation error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
-        }
+        // if (productDTO.getPrice() < 0) {
+        // logger.error("Product price error.", new BadRequestException());
+        // throw new BadRequestException("The price must be 0 or more.");
+        // }
+        // if (productDTO.getPunctuation() < 0 || productDTO.getPunctuation() > 5) {
+        // logger.error("Product punctuation error.", new BadRequestException());
+        // throw new BadRequestException("The punctuation must be 0 or more and 5 or
+        // less.");
+        // }
 
         Product product = new Product();
         product.setPunctuation(productDTO.getPunctuation());
@@ -396,30 +403,64 @@ public class ProductController {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", "Bad request exception", br.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Bad request exception");
+        ErrorResponse errorResponse = new ErrorResponse("400", error, br.getMessage());
         logger.error(br.getMessage(), br);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", "Not found exception", nfe.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Not found exception");
+        ErrorResponse errorResponse = new ErrorResponse("404", error, nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error", exception.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", error, exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(Exception e) {
-        ErrorResponse errorResponse = new ErrorResponse("401", "Acceso denegado",
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Acceso denegado");
+        ErrorResponse errorResponse = new ErrorResponse("401", error,
                 "Este usuario no tiene permisos suficientes para realizar esta operación.");
         logger.error(e.getMessage(), e);
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+        Map<String, String> errors = new HashMap<>();
+        manve.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
+        logger.error(manve.getMessage(), manve);
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+        Map<String, String> errors = new HashMap<>();
+        cve.getConstraintViolations().forEach(error -> {
+            String fieldName = error.getPropertyPath().toString();
+            String message = error.getMessage();
+            errors.put(fieldName, message);
+        });
+        logger.error(cve.getMessage(), cve);
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,8 +26,10 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "product_name")
+    @NotNull
     private String productName;
     @Column
+    @NotNull
     private String type;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
