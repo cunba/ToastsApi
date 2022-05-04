@@ -2072,7 +2072,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /publications/date/price/puntuation/between:
+  /publications/date/price/punctuation/between:
     get:
       security:
         - bearerAuth: []
@@ -3002,7 +3002,7 @@ components:
         price:
           type: number
           example: 3.40
-        puntuation:
+        punctuation:
           type: number
           example: 4.3
         menu:
@@ -3017,7 +3017,7 @@ components:
         price:
           type: number
           example: 3.40
-        puntuation:
+        punctuation:
           type: number
           example: 4.3
         typeId:
@@ -3067,7 +3067,7 @@ components:
         price:
           type: number
           example: 3.4
-        puntuation:
+        punctuation:
           type: number
           example: 4.5            
     MenuDTO:
@@ -3075,7 +3075,7 @@ components:
         price:
           type: number
           example: 3.4
-        puntuation:
+        punctuation:
           type: number
           example: 4.5            
           
@@ -3105,12 +3105,15 @@ components:
       properties:
         photo:
           type: string
+          example: tostada.png
         userId:
           type: integer
           format: int64
+          example: 5
         establishmentId:
           type: integer
           format: int64   
+          example: 3
     
     Establishment:
       properties:
@@ -3207,6 +3210,7 @@ components:
       properties:
         username:
           type: string
+          example: cunba
         password:
           type: string       
     JwtResponse:
@@ -3294,7 +3298,7 @@ components:
       required: true
       schema:
         type: number
-        default: 1.5
+        example: 1.5
     minPunctuation:
       name: minPunctuation
       in: query
@@ -3318,6 +3322,7 @@ components:
       schema:
         type: boolean
         default: false
+        example: false
   
     name:
       name: name
