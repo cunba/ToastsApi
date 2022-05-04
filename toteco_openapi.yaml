@@ -1,0 +1,3375 @@
+openapi: 3.0.2
+info:
+  title: TOTECO API
+  description: API to manage publications about products (coffee, tea or toast) like a social media. The idea is to create a community that publishes photos of their toasts with coffee or tea adding the price and being able to rate the products and the establishments.
+  version: "1.0"
+  contact:
+    email: a25540@svalero.com
+servers:
+  - url: http://localhost:8081
+tags:
+  - name: Products
+    description: Everything about the products
+  - name: Product type
+    description: Everything about the type of products to add
+  - name: Menu
+    description: Everything about products which belongs to offers or menus
+  - name: Publication
+    description: Everything about the publications
+  - name: Establishment
+    description: Everything about the estabilshments
+  - name: User
+    description: Everything about the users
+  
+paths:
+  /products:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get all the products
+      description: Get all the products in the DDBB.
+      operationId: getAllProducts
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+          
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Post a new product
+      description: Save a new product in the DDBB.
+      operationId: saveProduct
+      requestBody:
+        description: product to save
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDTO'
+      responses:
+        201:
+          description: Created
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Delete all the products
+      description: Delete all the products from the DDBB.
+      operationId: deleteAllProducts
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: All products deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get a product
+      description: Get an existing product by the id
+      operationId: getProductById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Update product
+      description: Update an existing product
+      operationId: updateProduct
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: product to save
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Delete all the products
+      description: Delete all the products in the DDBB
+      operationId: deleteProductById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Product deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+      
+  /products/date/{date}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products by date
+      description: Get all the products which have this creation date. The date format is timestamp in miliseconds.
+      operationId: getProductsByDate
+      parameters:
+        - $ref: '#/components/parameters/date'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+          
+  /products/date/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products between dates
+      description: Get all the products which have the creation date between theese. The dates format is timestamp in miliseconds
+      operationId: getProductsByDateBetween
+      parameters:
+        - $ref: '#/components/parameters/minDate'
+        - $ref: '#/components/parameters/maxDate'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+          
+  /products/inMenu/{inMenu}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products which belongs (or not) to menus
+      description: Get all the products which are part of any menu or get all the products that are not par of any menu.
+      operationId: getProductsByInMenu
+      parameters:
+        - $ref: '#/components/parameters/inMenu'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/{id}/price/{price}:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Update product price
+      description: Update the price of the indicated product.
+      operationId: updateProductsPrice
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/price'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+          
+  /products/price/{price}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get all products by price
+      description: Get all the products which have this same price.
+      operationId: getProductsByPrice
+      parameters:
+        - $ref: '#/components/parameters/price'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/price/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products by price between
+      description: Get all the products which prices are between theese two.
+      operationId: getProductsByPriceBetween
+      parameters:
+        - $ref: '#/components/parameters/minPrice'
+        - $ref: '#/components/parameters/maxPrice'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/{id}/punctuation/{punctuation}:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Update product punctuation
+      description: Update the punctuation of the indicated product.
+      operationId: updateProductsPunctuation
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/punctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/punctuation/{punctuation}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get all products by punctuation
+      description: Get all the products which have this same punctuation. The punctuation goes from 0 to 5.
+      operationId: getProductsByPunctuation
+      parameters:
+        - $ref: '#/components/parameters/punctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/punctuation/between/:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products by punctuation between
+      description: Get all the products which punctuations are between theese two. The punctuation goes from 0 to 5.
+      operationId: getProductsByPunctuationBetween
+      parameters:
+        - $ref: '#/components/parameters/minPunctuation'
+        - $ref: '#/components/parameters/maxPunctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/type/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products by type id
+      description: Get the products that belongs to this type by the id
+      operationId: getProductsByTypeId
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                  
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /products/menu/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products by menu id
+      description: Get the products that belongs to this menu by the id
+      operationId: getProductsByMenuId
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+  
+  /products/publication/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Products
+      summary: Get products by publication id
+      description: Get the products that belongs to this publication by the id
+      operationId: getProductsByPublicationId
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+                
+  /types:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Get all types
+      description: Get all the types from the DDBB
+      operationId: getAllTypes
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Save a type
+      description: Save a new product type into the DDBB
+      operationId: saveType
+      requestBody:
+        description: product type to save
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Delete all types
+      description: Delete all types
+      operationId: deleteTypes
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: All types deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /types/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Get type by id
+      description: Get one type by the id
+      operationId: getTypeById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Update one type
+      description: Update the type with the indicated id
+      operationId: updateType
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: type to update
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Delete one type
+      description: Delete the type with the indicated id
+      operationId: deleteType
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Product type deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /types/name/{name}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Get type by name
+      description: Get types with the indicated name
+      operationId: getTypeByName
+      parameters:
+        - $ref: '#/components/parameters/name'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /types/type/{type}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Get type by type
+      description: Get types with the indicated type
+      operationId: getTypeByType
+      parameters:
+        - $ref: '#/components/parameters/type'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /types/name/{name}/type/{type}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Product type
+      summary: Get type by name and type
+      description: Get types with the indicated name and type
+      operationId: getTypeByNameAndType
+      parameters:
+        - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/type'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Type'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+                    
+  /menus:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get all menus
+      description: Get all menus
+      operationId: getAllMenus
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Save menu
+      description: Save one menu
+      operationId: saveMenu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Delete menu
+      description: Delete all menus
+      operationId: deleteAllMenus
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: All menus deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /menus/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by id
+      description: Get one menu by the indicated id
+      operationId: getMenuById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Update menu
+      description: Update an existing menu
+      operationId: updateMenu
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Delete menu by id
+      description: Delete an existing menu
+      operationId: deleteMenu
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Menu deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /menus/date/{date}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by date
+      description: Get menus created at the indicated date. The date format is timestamp in miliseconds
+      operationId: getMenuByDate
+      parameters:
+        - $ref: '#/components/parameters/date'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /menus/date/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by date between
+      description: Get menus created at the indicated dates. The dates format is timestamp in miliseconds
+      operationId: getMenuByDateBetween
+      parameters:
+        - $ref: '#/components/parameters/minDate'
+        - $ref: '#/components/parameters/maxDate'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /menus/price/{price}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by price
+      description: Get menus with the price indicated
+      operationId: getMenuByPrice
+      parameters:
+        - $ref: '#/components/parameters/price'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /menus/price/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by price between
+      description: Get menus between the two prices indicated.
+      operationId: getMenuByPriceBetween
+      parameters:
+        - $ref: '#/components/parameters/minPrice'
+        - $ref: '#/components/parameters/maxPrice'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /menus/punctuation/{punctuation}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by punctuation
+      description: Get menus with the punctuation indicated. The punctuation goes from 0 to 5.
+      operationId: getMenuByPunctuation
+      parameters:
+        - $ref: '#/components/parameters/punctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /menus/punctuation/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Menu
+      summary: Get menu by punctuation between
+      description: Get menus between the two punctuations indicated. The punctuation goes from 0 to 5.
+      operationId: getMenuByPunctuationBetween
+      parameters:
+        - $ref: '#/components/parameters/minPunctuation'
+        - $ref: '#/components/parameters/maxPunctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+                    
+  /publications:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get all publications
+      description: Get all publications
+      operationId: getAllPublications
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Save publication
+      description: Save one publication
+      operationId: savePublication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicationDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Delete publications
+      description: Delete all publications
+      operationId: deleteAllPublications
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: All publications deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by id
+      description: Get one publication by the indicated id
+      operationId: getPublicationById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Update publication
+      description: Update an existing publication
+      operationId: updatePublication
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicationDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Delete publication by id
+      description: Delete an existing publication
+      operationId: deletePublication
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Publication deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/{id}/price-punctuation:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Update publication price and punctuation
+      description: Update the price and the punctuation of the publication indicated.
+      operationId: updatePublicationPriceAndPunctuation
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/date/{date}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by date
+      description: Get publications created at the indicated date. The date format is timestamp in miliseconds
+      operationId: getPublicationByDate
+      parameters:
+        - $ref: '#/components/parameters/date'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /publications/date/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by date between
+      description: Get publications created at the indicated dates. The dates format is timestamp in miliseconds
+      operationId: getPublicationByDateBetween
+      parameters:
+        - $ref: '#/components/parameters/minDate'
+        - $ref: '#/components/parameters/maxDate'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/price/{price}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by price
+      description: Get publications with the price indicated
+      operationId: getPublicationByPrice
+      parameters:
+        - $ref: '#/components/parameters/price'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /publications/price/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by price between
+      description: Get publications between the two prices indicated.
+      operationId: getPublicationByPriceBetween
+      parameters:
+        - $ref: '#/components/parameters/minPrice'
+        - $ref: '#/components/parameters/maxPrice'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/punctuation/{punctuation}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by punctuation
+      description: Get publications with the punctuation indicated. The punctuation goes from 0 to 5.
+      operationId: getPublicationsByPunctuation
+      parameters:
+        - $ref: '#/components/parameters/punctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /publications/punctuation/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by punctuation between
+      description: Get publications between the two punctuations indicated. The punctuation goes from 0 to 5.
+      operationId: getPublicationByPunctuationBetween
+      parameters:
+        - $ref: '#/components/parameters/minPunctuation'
+        - $ref: '#/components/parameters/maxPunctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/establishment/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by establishment id
+      description: Get publications that belongs to the establishment indicated
+      operationId: getPublicationByEstablishmentId
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/user/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by user id
+      description: Get publications that belongs to the user indicated.
+      operationId: getPublicationByUserId
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/type/{type}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by product type
+      description: Get publications that belongs to the product type indicated.
+      operationId: getPublicationByProductType
+      parameters:
+        - $ref: '#/components/parameters/type'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /publications/date/price/punctuation/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Publication
+      summary: Get publication by date, price and punctuation between
+      description: Get publications that belongs to the between dates, the between price and the between punctuations indicateds.
+      operationId: getPublicationByDateBetweenAndPriceBetweenAndPunctuationBetween
+      parameters:
+        - $ref: '#/components/parameters/minDate'
+        - $ref: '#/components/parameters/maxDate'
+        - $ref: '#/components/parameters/minPrice'
+        - $ref: '#/components/parameters/maxPrice'
+        - $ref: '#/components/parameters/minPunctuation'
+        - $ref: '#/components/parameters/maxPunctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Publication'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+                    
+  /establishments:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get all establishments
+      description: Get all establishments
+      operationId: getAllEstablishments
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Save establishment
+      description: Save one establishment
+      operationId: saveEstablishment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstablishmentDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Establishment'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Delete establishments
+      description: Delete all establishments
+      operationId: deleteAllEstablishments
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: All establishments deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /establishments/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by id
+      description: Get one establishment by the indicated id
+      operationId: getEstablishmentById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Establishment'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Update establishment
+      description: Update an existing establishment
+      operationId: updateEstablishment
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstablishmentDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Establishment'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Delete establishment by id
+      description: Delete an existing establishment
+      operationId: deleteEstablishment
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Establishment deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /establishment/name/{name}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by user id
+      description: Get establishments that belongs to the user indicated.
+      operationId: getEstablishmentByName
+      parameters:
+        - $ref: '#/components/parameters/name'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /establishment/open/{open}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by open
+      description: Get establishments that are (or not) open.
+      operationId: getEstablishmentByOpen
+      parameters:
+        - $ref: '#/components/parameters/open'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                             
+  /establishments/date/{date}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by date
+      description: Get establishments created at the indicated date. The date format is timestamp in miliseconds
+      operationId: getEstablishmentByDate
+      parameters:
+        - $ref: '#/components/parameters/date'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /establishments/date/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by date between
+      description: Get establishments created at the indicated dates. The dates format is timestamp in miliseconds
+      operationId: getEstablishmentByDateBetween
+      parameters:
+        - $ref: '#/components/parameters/minDate'
+        - $ref: '#/components/parameters/maxDate'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /establishments/{id}/punctuation:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Update establishment punctuation
+      description: Update the punctuation of the establishment indicated.
+      operationId: updateEstablishmentPunctuation
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /establishments/punctuation/{punctuation}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by punctuation
+      description: Get establishments with the punctuation indicated. The punctuation goes from 0 to 5.
+      operationId: getEstablishmentByPunctuation
+      parameters:
+        - $ref: '#/components/parameters/punctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+    
+  /establishment/punctuation/between:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Establishment
+      summary: Get establishment by punctuation between
+      description: Get establishments between the two punctuations indicated. The punctuation goes from 0 to 5.
+      operationId: getEstablishmentByPunctuationBetween
+      parameters:
+        - $ref: '#/components/parameters/minPunctuation'
+        - $ref: '#/components/parameters/maxPunctuation'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Establishment'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+                    
+  /login:
+    post:
+      tags:
+        - User
+      summary: Login
+      description: Login with an existing user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtRequest'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+        400:
+          description: Bad request exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+  /users:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Get all users
+      description: Get all users
+      operationId: getAllUsers
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Save user
+      description: Save one user
+      operationId: saveUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Bad request exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Delete users
+      description: Delete all users
+      operationId: deleteAllUsers
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: All users deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /users/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Get user by id
+      description: Get one user by the indicated id
+      operationId: getUserById
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Delete user by id
+      description: Delete an existing user
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+                example: User deleted.
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /users/{id}/publications-number:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Update user publications number
+      description: Update the number of publications of the user with the indicated id.
+      operationId: updateUserPublicationNumber
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /users/{id}/money-spent:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Update user money spent
+      description: Update the money spent by the user with the indicated id.
+      operationId: updateUserMoneySpent
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /users/{id}/password:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Update user password
+      description: Update the password of the user with the indicated id.
+      operationId: updateUserPassword
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChangeDTO'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /users/{id}/disable:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Disable user
+      description: Disable the user account.
+      operationId: disableUser
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+                    
+  /users/{id}/activate:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Activate user
+      description: Activate the user account.
+      operationId: activateUser
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: string
+        401:
+          description: Unauthorize exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'                    
+                    
+                    
+components:
+  schemas:
+    Product:
+      properties:
+        id: 
+          type: integer
+          format: int64
+          example: 0
+        type:
+          $ref: '#/components/schemas/Type'
+        date:
+          type: string
+          format: dd-MM-yyyy
+          example: 04-03-2022
+        price:
+          type: number
+          example: 3.40
+        punctuation:
+          type: number
+          example: 4.3
+        menu:
+          $ref: '#/components/schemas/Menu'
+        publication:
+          $ref: '#/components/schemas/Publication'          
+    ProductDTO:
+      properties:
+        inMenu:
+          type: boolean
+          example: false
+        price:
+          type: number
+          example: 3.40
+        punctuation:
+          type: number
+          example: 4.3
+        typeId:
+          type: integer
+          format: int64
+          example: 0
+        menuId:
+          type: integer
+          format: int64
+          example: 0
+        publicationId:
+          type: integer
+          format: int64
+          example: 0
+          
+    Type:
+      properties:
+        id: 
+          type: integer
+          format: int64
+          example: 0
+        type:
+          type: string
+          example: Tostada
+        productName:
+          type: string
+          example: de tomate            
+    TypeDTO:
+      properties:
+        type:
+          type: string
+          example: Tostada
+        product_name:
+          type: string
+          example: de tomate        
+          
+    Menu:
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 0
+        date:
+          type: string
+          format: dd-MM-yyyy
+          example: 02-04-2022
+        price:
+          type: number
+          example: 3.4
+        punctuation:
+          type: number
+          example: 4.5            
+    MenuDTO:
+      properties:
+        price:
+          type: number
+          example: 3.4
+        punctuation:
+          type: number
+          example: 4.5            
+          
+    Publication:
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 0
+        date:
+          type: string
+          format: dd-MM-yyyy
+          example: 03-05-2022
+        totalPrice:
+          type: number
+          example: 3.4
+        totalPunctuation:
+          type: number
+          example: 2.5
+        photo:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        establishment:
+          $ref: '#/components/schemas/Establishment'            
+    PublicationDTO:
+      properties:
+        photo:
+          type: string
+          example: tostada.png
+        userId:
+          type: integer
+          format: int64
+          example: 5
+        establishmentId:
+          type: integer
+          format: int64   
+          example: 3
+    
+    Establishment:
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 0
+        name:
+          type: string
+          example: Casa Paco
+        creationDate:
+          type: string
+          format: dd-MM-yyyy
+          example: 05-04-2021
+        location:
+          $ref: '#/components/schemas/Location'
+        open:
+          type: boolean
+          example: false
+        punctuation:
+          type: number
+          example: 4.5            
+    EstablishmentDTO:
+      properties:
+        name:
+          type: string
+          example: Casa Paco
+        location:
+          $ref: '#/components/schemas/Location'
+        open:
+          type: boolean
+          example: false          
+    Location:
+      properties:
+        latitude:
+          type: number
+          example: 0.0
+        longitude:
+          type: number
+          example: 0.0           
+            
+    User:
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 0
+        name:
+          type: string
+          example: Irene
+        surname:
+          type: string
+          example: Cunto
+        birthDate:
+          type: string
+          format: dd-MM-yyyy
+          example: 05-09-1995
+        email:
+          type: string
+          example: a25540@svalero.com
+        password:
+          type: string
+        creationDate:
+          type: string
+          format: dd-MM-yyyy
+          example: 04-03-2022
+        active:
+          type: boolean
+          example: true
+        moneySpent:
+          type: number
+          example: 25.4
+        publicationsNumber:
+          type: integer
+          example: 17       
+    UserDTO:
+      properties:
+        name:
+          type: string
+          example: Irene
+        surname:
+          type: string
+          example: Cunto
+        birth_date:
+          type: string
+          format: dd-MM-yyyy
+          example: 05-09-1995
+        email:
+          type: string
+          example: a25540@svalero.com
+        password:
+          type: string       
+    JwtRequest:
+      properties:
+        username:
+          type: string
+          example: cunba
+        password:
+          type: string       
+    JwtResponse:
+      properties:
+        token:
+          type: string       
+    PasswordChangeDTO:
+      properties:
+        password:
+          type: string
+
+    Exception:
+      properties:
+        code: 
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+        message:
+          type: string
+
+
+  parameters:
+    id:
+      name: id
+      in: path
+      description: id of the element
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 0
+  
+    date:
+      name: date
+      in: path
+      description: creation date
+      required: true
+      schema:
+        type: integer
+        example: 1640604419000
+    minDate:
+      name: minDate
+      in: query
+      description: date from in timestamp miliseconds
+      required: true
+      schema:
+        type: integer
+        example: 1640604419000
+    maxDate:
+      name: maxDate
+      in: query
+      description: date to in timestamp miliseconds
+      required: true
+      schema:
+        type: integer
+        example: 1641604419000
+  
+    price:
+      name: price
+      in: path
+      required: true
+      schema:
+        type: number
+        example: 2.5
+    minPrice:
+      name: minPrice
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 0.0
+    maxPrice:
+      name: maxPrice
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 5.0
+  
+    punctuation:
+      name: punctuation
+      in: path
+      required: true
+      schema:
+        type: number
+        example: 1.5
+    minPunctuation:
+      name: minPunctuation
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 1.0
+    maxPunctuation:
+      name: maxPunctuation
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 7.0
+  
+    inMenu:
+      name: inMenu
+      in: path
+      description: If want the products that belong to menus write true, if not write false
+      required: true
+      schema:
+        type: boolean
+        default: false
+        example: false
+  
+    name:
+      name: name
+      in: path
+      required: true
+      schema:
+        type: string
+        example: de tomate
+  
+    type:
+      name: type
+      in: path
+      required: true
+      schema:
+        type: string
+        example: Tostada
+  
+    open:
+      name: open
+      in: path
+      required: true
+      schema:
+        type: boolean
+        example: true
+  
+    password:
+      name: password
+      in: path
+      required: true
+      schema:
+        type: string
+
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

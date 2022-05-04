@@ -2,7 +2,11 @@ package com.sanvalero.toastsapi.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.ConstraintViolationException;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -17,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,44 +38,66 @@ public class MenuController {
     @Autowired
     private MenuService ms;
 
+    private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @GetMapping("/menus/date/{dateTimestamp}")
-    public ResponseEntity<List<Menu>> getByDate(@PathVariable long dateTimestamp) {
-        Timestamp timestamp = new Timestamp(dateTimestamp);
-        LocalDate date = timestamp.toLocalDateTime().toLocalDate();
+    @GetMapping("/menus/date/{date}")
+    public ResponseEntity<List<Menu>> getByDate(@PathVariable long date) throws BadRequestException {
+        if (date < dateFrom) {
+            logger.error("Establishment get by date error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The date must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
+        }
 
-        return new ResponseEntity<>(ms.findByDate(date), HttpStatus.OK);
+        Timestamp timestamp = new Timestamp(date);
+        LocalDate dateLocal = timestamp.toLocalDateTime().toLocalDate();
+
+        return new ResponseEntity<>(ms.findByDate(dateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/menus/date/between")
-    public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDateTimestamp,
-            @RequestParam(value = "maxDate") long maxDateTimestamp) {
+    public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
+            @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
-        Timestamp minTimestamp = new Timestamp(minDateTimestamp);
-        LocalDate minDate = minTimestamp.toLocalDateTime().toLocalDate();
-        Timestamp maxTimestamp = new Timestamp(maxDateTimestamp);
-        LocalDate maxDate = maxTimestamp.toLocalDateTime().toLocalDate();
-
-        LocalDate changerDate = LocalDate.now();
-        if (minDate.isAfter(maxDate)) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
+        if (minDate < dateFrom || maxDate < dateFrom) {
+            logger.error("Establishment get by date between error.", new BadRequestException());
+            throw new BadRequestException(
+                    "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
 
-        return new ResponseEntity<>(ms.findByDateBetween(minDate, maxDate), HttpStatus.OK);
+        Timestamp minTimestamp = new Timestamp(minDate);
+        LocalDate minDateLocal = minTimestamp.toLocalDateTime().toLocalDate();
+        Timestamp maxTimestamp = new Timestamp(maxDate);
+        LocalDate maxDateLocal = maxTimestamp.toLocalDateTime().toLocalDate();
+
+        LocalDate changerDate = LocalDate.now();
+        if (minDateLocal.isAfter(maxDateLocal)) {
+            changerDate = minDateLocal;
+            minDateLocal = maxDateLocal;
+            maxDateLocal = changerDate;
+        }
+
+        return new ResponseEntity<>(ms.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
     @GetMapping("/menus/price/{price}")
-    public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) {
+    public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) throws BadRequestException {
+        if (price < 0) {
+            logger.error("Establishment get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
+
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
     @GetMapping("/menus/price/between")
     public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
-            @RequestParam(value = "maxPrice") float maxPrice) {
+            @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
+        if (minPrice < 0 || maxPrice < 0) {
+            logger.error("Establishment get by price error.", new BadRequestException());
+            throw new BadRequestException("The price must be 0 or more.");
+        }
         float templatePrice = 0;
         if (minPrice > maxPrice) {
             templatePrice = minPrice;
@@ -81,14 +109,23 @@ public class MenuController {
     }
 
     @GetMapping("/menus/punctuation/{punctuation}")
-    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) {
+    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
+        if (punctuation < 0 || punctuation > 5) {
+            logger.error("Establishment get by puntuation error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
         return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
     @GetMapping("/menus/punctuation/between")
     public ResponseEntity<List<Menu>> getByPunbtuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) {
+            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
+
+        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+            logger.error("Establishment get by puntuation between error.", new BadRequestException());
+            throw new BadRequestException("The punctuation must be between 0 and 5.");
+        }
 
         float templatePunctuation = 0;
         if (minPunctuation > maxPunctuation) {
@@ -102,7 +139,13 @@ public class MenuController {
 
     @GetMapping("/menus/{id}")
     public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(ms.findById(id), HttpStatus.OK);
+        try {
+            Menu menu = ms.findById(id);
+            return new ResponseEntity<>(menu, HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/menus")
@@ -121,32 +164,42 @@ public class MenuController {
         logger.info("Menu created");
         logger.info("end create establishment");
 
-        return new ResponseEntity<>(toPrint, HttpStatus.OK);
+        return new ResponseEntity<>(toPrint, HttpStatus.CREATED);
     }
 
     @PutMapping("/menus/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
         logger.info("begin update menu");
-        Menu menuToUpdate = ms.findById(id);
-        logger.info("Menu found: " + id);
-        menuToUpdate.setPrice(menuDTO.getPrice());
-        menuToUpdate.setPunctuation(menuDTO.getPunctuation());
-        logger.info("Menu properties updated");
-        logger.info("end update menu");
+        try {
+            Menu menuToUpdate = ms.findById(id);
+            logger.info("Menu found: " + id);
+            menuToUpdate.setPrice(menuDTO.getPrice());
+            menuToUpdate.setPunctuation(menuDTO.getPunctuation());
+            logger.info("Menu properties updated");
+            logger.info("end update menu");
 
-        return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
+            return new ResponseEntity<>(ms.updateMenu(menuToUpdate), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/menus/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
-        Menu menu = ms.findById(id);
-        logger.info("Menu found: " + menu.getId());
-        ms.deleteMenu(menu);
-        logger.info("Menu deleted");
-        logger.info("end delete menu");
+        try {
+            Menu menu = ms.findById(id);
+            logger.info("Menu found: " + menu.getId());
+            ms.deleteMenu(menu);
+            logger.info("Menu deleted");
+            logger.info("end delete menu");
 
-        return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Menu deleted.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Menu not found exception with id " + id + ".", nfe);
+            throw new NotFoundException("Menu with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/menus")
@@ -158,21 +211,53 @@ public class MenuController {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Bad Request Exception");
+        ErrorResponse errorResponse = new ErrorResponse("400", error, br.getMessage());
         logger.error(br.getMessage(), br);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Not Found Exception");
+        ErrorResponse errorResponse = new ErrorResponse("404", error, nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+        Map<String, String> errors = new HashMap<>();
+        manve.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
+        logger.error(manve.getMessage(), manve);
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+        Map<String, String> errors = new HashMap<>();
+        cve.getConstraintViolations().forEach(error -> {
+            String fieldName = error.getPropertyPath().toString();
+            String message = error.getMessage();
+            errors.put(fieldName, message);
+        });
+        logger.error(cve.getMessage(), cve);
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", error, exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

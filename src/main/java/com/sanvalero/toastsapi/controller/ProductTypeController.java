@@ -1,11 +1,15 @@
 package com.sanvalero.toastsapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.sanvalero.toastsapi.exception.BadRequestException;
+import javax.validation.ConstraintViolationException;
+
 import com.sanvalero.toastsapi.exception.ErrorResponse;
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
+import com.sanvalero.toastsapi.model.dto.ProductTypeDTO;
 import com.sanvalero.toastsapi.service.ProductTypeService;
 
 import org.slf4j.Logger;
@@ -13,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +26,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,7 +43,16 @@ public class ProductTypeController {
 
     @GetMapping("/types/{id}")
     public ResponseEntity<ProductType> getById(@PathVariable int id) throws NotFoundException {
-        return new ResponseEntity<>(pts.findById(id), HttpStatus.OK);
+        logger.info("begin getting types by id");
+        try {
+            ProductType toPrint = pts.findById(id);
+            logger.info("Type found");
+            logger.info("end getting types by id");
+            return new ResponseEntity<>(toPrint, HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception wiwth id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
+        }
     }
 
     @GetMapping("/types/name/{name}")
@@ -51,42 +65,56 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/types/type/name")
-    public ResponseEntity<ProductType> getByNameAndType(@RequestParam(value = "type") String type,
-            @RequestParam(value = "name") String name) {
+    @GetMapping("/types/name/{name}/type/{type}")
+    public ResponseEntity<ProductType> getByNameAndType(@PathVariable String name,
+            @PathVariable String type) {
 
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }
 
     @PostMapping("/types")
-    public ResponseEntity<ProductType> create(@RequestBody ProductType type) {
-        return new ResponseEntity<>(pts.addType(type), HttpStatus.OK);
+    public ResponseEntity<ProductType> create(@RequestBody ProductTypeDTO typeDTO) {
+        ProductType type = new ProductType();
+        type.setProductName(typeDTO.getProduct_name());
+        type.setType(typeDTO.getType());
+        return new ResponseEntity<>(pts.addType(type), HttpStatus.CREATED);
     }
 
     @PutMapping("/types/{id}")
     public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type)
             throws NotFoundException {
-        logger.info("begin update type");
-        ProductType typeToUpdate = pts.findById(id);
-        logger.info("Type found: " + typeToUpdate.getId());
-        typeToUpdate.setProductName(type.getProductName());
-        typeToUpdate.setType(type.getType());
-        logger.info("Type properties updated");
-        logger.info("end update type");
 
-        return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
+        logger.info("begin update type");
+        try {
+            ProductType typeToUpdate = pts.findById(id);
+            logger.info("Type found: " + typeToUpdate.getId());
+            typeToUpdate.setProductName(type.getProductName());
+            typeToUpdate.setType(type.getType());
+            logger.info("Type properties updated");
+            logger.info("end update type");
+
+            return new ResponseEntity<>(pts.updateType(typeToUpdate), HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception wiwth id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/types/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
-        logger.info("begin delete type");
-        ProductType type = pts.findById(id);
-        logger.info("Type found: " + type.getId());
-        pts.deleteType(type);
-        logger.info("Type deleted");
-        logger.info("end delete type");
+        try {
+            logger.info("begin delete type");
+            ProductType type = pts.findById(id);
+            logger.info("Type found: " + type.getId());
+            pts.deleteType(type);
+            logger.info("Type deleted");
+            logger.info("end delete type");
 
-        return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("Product type deleted.", HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            logger.error("Type not found exception wiwth id " + id + ".", nfe);
+            throw new NotFoundException("Type with ID " + id + " does not exists.");
+        }
     }
 
     @DeleteMapping("/types")
@@ -96,23 +124,46 @@ public class ProductTypeController {
         return new ResponseEntity<>("All types deleted.", HttpStatus.OK);
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException br) {
-        ErrorResponse errorResponse = new ErrorResponse("400", br.getMessage());
-        logger.error(br.getMessage(), br);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException nfe) {
-        ErrorResponse errorResponse = new ErrorResponse("404", nfe.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Not Found Exception");
+        ErrorResponse errorResponse = new ErrorResponse("404", error, nfe.getMessage());
         logger.error(nfe.getMessage(), nfe);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+        Map<String, String> errors = new HashMap<>();
+        manve.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
+        logger.error(manve.getMessage(), manve);
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+        Map<String, String> errors = new HashMap<>();
+        cve.getConstraintViolations().forEach(error -> {
+            String fieldName = error.getPropertyPath().toString();
+            String message = error.getMessage();
+            errors.put(fieldName, message);
+        });
+        logger.error(cve.getMessage(), cve);
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse errorResponse = new ErrorResponse("500", "Internal server error");
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Internal server error");
+        ErrorResponse errorResponse = new ErrorResponse("500", error, exception.getMessage());
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -3,32 +3,34 @@ package com.sanvalero.toastsapi.service;
 import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
-import com.sanvalero.toastsapi.model.User;
+import com.sanvalero.toastsapi.model.UserModel;
 
 public interface UserService {
-    List<User> findAllUsers();
+    List<UserModel> findAllUsers();
 
-    User findById(int id) throws NotFoundException;
+    UserModel findById(int id) throws NotFoundException;
 
-    User findByUsername(String username) throws NotFoundException;
+    List<UserModel> findByUsername(String username);
+
+    List<UserModel> findByEmail(String email);
 
     int countPublications(int id);
 
-    float sumPrice(int id);
+    float sumPrice(int id) throws NullPointerException;
 
-    User addUser(User user);
+    UserModel addUser(UserModel user);
 
-    void updatePublicationsNumber(User user);
+    void updatePublicationsNumber(UserModel user);
 
-    void updateMoneySpent(User user);
+    void updateMoneySpent(UserModel user);
 
-    void updatePassword(User user);
+    void updatePassword(UserModel user);
 
-    void disable(User user);
+    void disable(UserModel user);
 
-    void activate(User user);
+    void activate(UserModel user);
 
-    User deleteUser(User user);
+    UserModel deleteUser(UserModel user);
 
     void deleteAll();
 }

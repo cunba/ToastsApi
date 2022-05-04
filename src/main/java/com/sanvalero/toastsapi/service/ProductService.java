@@ -40,6 +40,8 @@ public interface ProductService {
 
     void updatePrice(Product product);
 
+    void updatePunctuation(Product product);
+
     void deleteProduct(Product product);
 
     void deleteAll();

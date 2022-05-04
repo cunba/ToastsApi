@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "1d42bc67-da48-4bbf-84f1-fe42db1f892f",
-		"name": "ToastApi",
+		"_postman_id": "49a02154-34d1-44ec-8484-ebf15ce396a1",
+		"name": "Toteco-Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -14,12 +14,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/types",
+							"raw": "http://{{ip}}:{{port}}/types",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"types"
 							]
@@ -33,16 +33,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/id/1",
+							"raw": "http://{{ip}}:{{port}}/types/10",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"type",
-								"id",
-								"1"
+								"types",
+								"10"
 							]
 						}
 					},
@@ -54,16 +53,37 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/name/Tostada",
+							"raw": "http://{{ip}}:{{port}}/types/name/Tostada",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"type",
+								"types",
 								"name",
 								"Tostada"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get type by type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{ip}}:{{port}}/types/type/de Jamón",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"types",
+								"type",
+								"de Jamón"
 							]
 						}
 					},
@@ -75,26 +95,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/name-and-type/?name=Tostada&type=de tomate",
+							"raw": "http://{{ip}}:{{port}}/types/name/Tostada/type/de jamón",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
+								"types",
+								"name",
+								"Tostada",
 								"type",
-								"name-and-type",
-								""
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "Tostada"
-								},
-								{
-									"key": "type",
-									"value": "de tomate"
-								}
+								"de jamón"
 							]
 						}
 					},
@@ -107,7 +119,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"productName\": \"Tostada\",\n\t\"type\": \"de jamón york y queso\"\n}",
+							"raw": "{\n\t\"product_name\": \"Tostada\",\n\t\"type\": \"bennedict\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -115,15 +127,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/type/create",
+							"raw": "http://{{ip}}:{{port}}/types",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"type",
-								"create"
+								"types"
 							]
 						}
 					},
@@ -144,16 +155,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/type/update/9",
+							"raw": "http://{{ip}}:{{port}}/types/26",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"type",
-								"update",
-								"9"
+								"types",
+								"26"
 							]
 						}
 					},
@@ -165,16 +175,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/type/delete/4",
+							"raw": "http://{{ip}}:{{port}}/types/26",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"type",
-								"delete",
-								"4"
+								"types",
+								"26"
 							]
 						}
 					},
@@ -186,15 +195,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/types/delete",
+							"raw": "http://{{ip}}:{{port}}/types",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"types",
-								"delete"
+								"types"
 							]
 						}
 					},
@@ -211,12 +219,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus",
+							"raw": "http://{{ip}}:{{port}}/menus",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus"
 							]
@@ -230,16 +238,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menu/id/1",
+							"raw": "http://{{ip}}:{{port}}/menus/2",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"menu",
-								"id",
-								"1"
+								"menus",
+								"2"
 							]
 						}
 					},
@@ -251,38 +258,47 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/date/11-11-2021",
+							"raw": "http://{{ip}}:{{port}}/menus/date/1650987797000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus",
 								"date",
-								"11-11-2021"
+								"1650987797000"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get menu by date min and max",
+					"name": "Get menu by date between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/dates/11-11-2021/20-12-2021",
+							"raw": "http://{{ip}}:{{port}}/menus/date/between?minDate=1650190680000&maxDate=1650987780000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus",
-								"dates",
-								"11-11-2021",
-								"20-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650190680000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650987780000"
+								}
 							]
 						}
 					},
@@ -294,37 +310,47 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/price/1.55",
+							"raw": "http://{{ip}}:{{port}}/menus/price/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus",
 								"price",
-								"1.55"
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get menu by price min and max",
+					"name": "Get menu by price between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/prices/0-10",
+							"raw": "http://{{ip}}:{{port}}/menus/price/between?minPrice=0&maxPrice=2.99",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus",
-								"prices",
-								"0-10"
+								"price",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "2.99"
+								}
 							]
 						}
 					},
@@ -336,37 +362,47 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/punctuation/1.5",
+							"raw": "http://{{ip}}:{{port}}/menus/punctuation/4",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus",
 								"punctuation",
-								"1.5"
+								"4"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get menu by punctuation min and max Copy",
+					"name": "Get menu by punctuation between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/punctuations/1-5",
+							"raw": "http://{{ip}}:{{port}}/menus/punctuation/between?minPunctuation=1&maxPunctuation=3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"menus",
-								"punctuations",
-								"1-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "1"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -379,7 +415,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"price\": 3,\n\t\"punctuation\": 5\n}",
+							"raw": "{\n\t\"price\": -2,\n\t\"punctuation\": 5\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -387,15 +423,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/menu/create",
+							"raw": "http://{{ip}}:{{port}}/menus",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"menu",
-								"create"
+								"menus"
 							]
 						}
 					},
@@ -408,7 +443,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"price\": 0,\n    \"punctuation\": 0\n}",
+							"raw": "{\n    \"price\": 1,\n    \"punctuation\": 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,16 +451,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/menu/update/3",
+							"raw": "http://{{ip}}:{{port}}/menus/2",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"menu",
-								"update",
-								"3"
+								"menus",
+								"2"
 							]
 						}
 					},
@@ -437,15 +471,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menu/delete/1",
+							"raw": "http://{{ip}}:{{port}}/menus/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"menu",
-								"delete",
+								"menus",
 								"1"
 							]
 						}
@@ -458,15 +491,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/menus/delete",
+							"raw": "http://{{ip}}:{{port}}/menus",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"menus",
-								"delete"
+								"menus"
 							]
 						}
 					},
@@ -480,15 +512,25 @@
 				{
 					"name": "Get all users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjciLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUwOTg2NDQwLCJleHAiOjE2NTA5OTAwNDB9.dqbxipmup6jIwGeN_pPSGss_1gMeCtQISkpBBSJb2dVDFull-VwMTbdMJqm734Sq1KtreDdYuMmDRMuJk9kLxg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users",
+							"raw": "http://{{ip}}:{{port}}/users",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"users"
 							]
@@ -502,16 +544,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/id/3",
+							"raw": "http://{{ip}}:{{port}}/users/8",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"id",
-								"3"
+								"users",
+								"8"
 							]
 						}
 					},
@@ -524,7 +565,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Carmen\",\n\t\"surname\": \"Baranda\",\n\t\"birthDate\": \"20-07-1961\",\n\t\"email\": \"martabags@gmail.com\",\n    \"password\": \"282629_Mama\",\n\t\"active\": true,\n\t\"moneySpent\": 0,\n\t\"publicationsNumber\": 0\n}",
+							"raw": "{\n    \"username\": \"cunba\",\n\t\"name\": \"Irene\",\n\t\"surname\": \"Cunto\",\n\t\"birth_date\": \"05-09-1995\",\n\t\"email\": \"ire.cunba@gmail.com\",\n    \"password\": \"cunba\",\n    \"role\": \"USER\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -532,15 +573,45 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/create",
+							"raw": "http://{{ip}}:{{port}}/users",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"create"
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"cunba\",\r\n    \"password\": \"282629_Pruebita\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:{{port}}/login",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"login"
 							]
 						}
 					},
@@ -552,22 +623,16 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/update-publications-number/?id=3",
+							"raw": "http://{{ip}}:{{port}}/users/7/publications-number",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"update-publications-number",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
+								"users",
+								"7",
+								"publications-number"
 							]
 						}
 					},
@@ -579,22 +644,16 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/update-money-spent/?id=3",
+							"raw": "http://{{ip}}:{{port}}/users/7/money-spent",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"update-money-spent",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
+								"users",
+								"7",
+								"money-spent"
 							]
 						}
 					},
@@ -615,22 +674,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/update-password/?id=2",
+							"raw": "http://{{ip}}:{{port}}/users/8/password",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"update-password",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"users",
+								"8",
+								"password"
 							]
 						}
 					},
@@ -642,22 +695,16 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/disable/?id=1",
+							"raw": "http://{{ip}}:{{port}}/users/8/disable",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"disable",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"users",
+								"8",
+								"disable"
 							]
 						}
 					},
@@ -669,22 +716,16 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/activate/?id=1",
+							"raw": "http://{{ip}}:{{port}}/users/8/activate",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"activate",
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"users",
+								"8",
+								"activate"
 							]
 						}
 					},
@@ -696,15 +737,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/user/delete/5",
+							"raw": "http://{{ip}}:{{port}}/users/5",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"user",
-								"delete",
+								"users",
 								"5"
 							]
 						}
@@ -717,15 +757,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/delete",
+							"raw": "http://{{ip}}:{{port}}/users",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"users",
-								"delete"
+								"users"
 							]
 						}
 					},
@@ -742,12 +781,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments",
+							"raw": "http://{{ip}}:{{port}}/establishments",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"establishments"
 							]
@@ -761,16 +800,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/id/2",
+							"raw": "http://{{ip}}:{{port}}/establishments/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"establishment",
-								"id",
-								"2"
+								"establishments",
+								"1"
 							]
 						}
 					},
@@ -782,14 +820,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/name/Criollo",
+							"raw": "http://{{ip}}:{{port}}/establishments/name/Criollo",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"establishment",
+								"establishments",
 								"name",
 								"Criollo"
 							]
@@ -803,38 +841,47 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/date/14-11-2021",
+							"raw": "http://{{ip}}:{{port}}/establishments/date/1650490680000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"establishments",
 								"date",
-								"14-11-2021"
+								"1650490680000"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get establishment by date min and max",
+					"name": "Get establishment by date between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/dates/11-11-2021/11-12-2021",
+							"raw": "http://{{ip}}:{{port}}/establishments/date/between?minDate=1650490680000&maxDate=1650490680000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"dates",
-								"11-11-2021",
-								"11-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650490680000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650490680000"
+								}
 							]
 						}
 					},
@@ -846,37 +893,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/open/true",
+							"raw": "http://{{ip}}:{{port}}/establishments/open/true",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"establishments",
 								"open",
 								"true"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get establishment by location",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/establishments/location/coordenadas",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"establishments",
-								"location",
-								"coordenadas"
 							]
 						}
 					},
@@ -888,16 +914,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/punctuation/5",
+							"raw": "http://{{ip}}:{{port}}/establishments/punctuation/0",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"establishments",
 								"punctuation",
-								"5"
+								"0"
 							]
 						}
 					},
@@ -909,16 +935,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/punctuations/0-5",
+							"raw": "http://{{ip}}:{{port}}/establishments/punctuation/between?minPunctuation=0&maxPunctuation=5",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"punctuations",
-								"0-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "0"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -931,7 +967,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Mondo\",\n\t\"location\": \"41.6536650638226, -0.8843359286918279\",\n\t\"open\": true,\n\t\"punctuation\": 5\n}",
+							"raw": "{\n\t\"name\": \"Mezcalito\",\n\t\"location\": {\n        \"latitude\": 41.6536650638226, \n        \"longitude\": -0.8843359286918279\n    },\n\t\"open\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -939,15 +975,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/establishment/create",
+							"raw": "http://{{ip}}:{{port}}/establishments",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"establishment",
-								"create"
+								"establishments"
 							]
 						}
 					},
@@ -960,7 +995,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Doña hipólita\",\n\t\"creationDate\": \"14-11-2021\",\n\t\"location\": \"coordenadas\",\n\t\"open\": true,\n\t\"punctuation\": 2\n}",
+							"raw": "{\n\t\"name\": \"Doña hipólita\",\n\t\"location\": {\n        \"latitude\": 2.0,\n        \"longitude\": 3.0\n    },\n\t\"open\": true,\n\t\"punctuation\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -968,16 +1003,46 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/establishment/update/1",
+							"raw": "http://{{ip}}:{{port}}/establishments/6",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"establishment",
-								"update",
-								"1"
+								"establishments",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update punctuation",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Mezcalito\",\n\t\"location\": {\n        \"latitude\": 41.6536650638226, \n        \"longitude\": -0.8843359286918279\n    },\n\t\"open\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:{{port}}/establishments/1/punctuation/",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"establishments",
+								"1",
+								"punctuation",
+								""
 							]
 						}
 					},
@@ -989,16 +1054,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishment/delete/1",
+							"raw": "http://{{ip}}:{{port}}/establishments/17",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"establishment",
-								"delete",
-								"1"
+								"establishments",
+								"17"
 							]
 						}
 					},
@@ -1010,15 +1074,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/establishments/delete",
+							"raw": "http://{{ip}}:{{port}}/establishments",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"establishments",
-								"delete"
+								"establishments"
 							]
 						}
 					},
@@ -1035,12 +1098,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products",
+							"raw": "http://{{ip}}:{{port}}/products",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products"
 							]
@@ -1054,16 +1117,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/product/id/10",
+							"raw": "http://{{ip}}:{{port}}/products/menu/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"product",
-								"id",
-								"10"
+								"products",
+								"menu",
+								"1"
 							]
 						}
 					},
@@ -1075,16 +1138,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/date/27-12-2021",
+							"raw": "http://{{ip}}:{{port}}/products/date/1650987797000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
 								"date",
-								"27-12-2021"
+								"1650987797000"
 							]
 						}
 					},
@@ -1096,17 +1159,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/dates/12-11-2021/27-12-2021",
+							"raw": "http://{{ip}}:{{port}}/products/date/between?minDate=1650987797000&maxDate=1650987797000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
-								"dates",
-								"12-11-2021",
-								"27-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650987797000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650987797000"
+								}
 							]
 						}
 					},
@@ -1118,12 +1190,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/inMenu/true",
+							"raw": "http://{{ip}}:{{port}}/products/inMenu/true",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
 								"inMenu",
@@ -1139,12 +1211,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/price/0",
+							"raw": "http://{{ip}}:{{port}}/products/price/0",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
 								"price",
@@ -1160,16 +1232,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/prices/0-5",
+							"raw": "http://{{ip}}:{{port}}/products/price/between?minPrice=0&maxPrice=5",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
-								"prices",
-								"0-5"
+								"price",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -1181,12 +1263,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/punctuation/0",
+							"raw": "http://{{ip}}:{{port}}/products/punctuation/0",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
 								"punctuation",
@@ -1202,16 +1284,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/punctuations/0-5",
+							"raw": "http://{{ip}}:{{port}}/products/punctuation/between?minPunctuation=0&maxPunctuation=4",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
-								"punctuations",
-								"0-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "0"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "4"
+								}
 							]
 						}
 					},
@@ -1223,21 +1315,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/type?id=2",
+							"raw": "http://{{ip}}:{{port}}/products/type/2",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
-								"type"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"type",
+								"2"
 							]
 						}
 					},
@@ -1249,21 +1336,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/menu?id=2",
+							"raw": "http://{{ip}}:{{port}}/products/menu/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
-								"menu"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"menu",
+								"1"
 							]
 						}
 					},
@@ -1275,21 +1357,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/publication?id=3",
+							"raw": "http://{{ip}}:{{port}}/products/publication/3",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"products",
-								"publication"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
+								"publication",
+								"3"
 							]
 						}
 					},
@@ -1302,7 +1379,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 0,\n\t\"punctuation\": 0,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 3\n}",
+							"raw": "{\n\n\t\"inMenu\": true,\n\t\"punctuation\": 2,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1310,15 +1387,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/create",
+							"raw": "http://{{ip}}:{{port}}/products",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"product",
-								"create"
+								"products"
 							]
 						}
 					},
@@ -1331,7 +1407,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"inMenu\": false,\n\t\"price\": 0,\n\t\"punctuation\": 2,\n\t\"typeId\": 10,\n\t\"publicationId\": 1\n}",
+							"raw": "{\n\t\"inMenu\": false,\n\t\"price\": 2,\n\t\"punctuation\": 3,\n\t\"typeId\": 10,\n\t\"publicationId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1339,15 +1415,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/create",
+							"raw": "http://{{ip}}:{{port}}/products",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"product",
-								"create"
+								"products"
 							]
 						}
 					},
@@ -1360,7 +1435,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": false,\n\t\"price\": 0,\n\t\"punctuation\": 0,\n\t\"typeId\": 2,\n    \"menuId\": 3\n}",
+							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 2,\n\t\"punctuation\": 3,\n\t\"typeId\": 2,\n    \"menuId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1368,16 +1443,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/update/10",
+							"raw": "http://{{ip}}:{{port}}/products/2",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"product",
-								"update",
-								"10"
+								"products",
+								"2"
 							]
 						}
 					},
@@ -1398,16 +1472,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/product/update/11",
+							"raw": "http://{{ip}}:{{port}}/products/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"product",
-								"update",
-								"11"
+								"products",
+								"1"
 							]
 						}
 					},
@@ -1419,16 +1492,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/product/delete/9",
+							"raw": "http://{{ip}}:{{port}}/products/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"product",
-								"delete",
-								"9"
+								"products",
+								"1"
 							]
 						}
 					},
@@ -1440,15 +1512,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/delete",
+							"raw": "http://{{ip}}:{{port}}/products",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"products",
-								"delete"
+								"products"
 							]
 						}
 					},
@@ -1465,12 +1536,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications",
+							"raw": "http://{{ip}}:{{port}}/publications",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications"
 							]
@@ -1484,15 +1555,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publication/id/1",
+							"raw": "http://{{ip}}:{{port}}/publications/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"publication",
-								"id",
+								"publications",
 								"1"
 							]
 						}
@@ -1505,38 +1575,47 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/date/12-12-2021",
+							"raw": "http://{{ip}}:{{port}}/publications/date/1650987797000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
 								"date",
-								"12-12-2021"
+								"1650987797000"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get publication by date min and max",
+					"name": "Get publication by date between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/dates/11-11-2021/12-12-2021",
+							"raw": "http://{{ip}}:{{port}}/publications/date/between?minDate=1650987797000&maxDate=1650987797000",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"dates",
-								"11-11-2021",
-								"12-12-2021"
+								"date",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650987797000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650987797000"
+								}
 							]
 						}
 					},
@@ -1548,12 +1627,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/price/0",
+							"raw": "http://{{ip}}:{{port}}/publications/price/0",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
 								"price",
@@ -1564,21 +1643,31 @@
 					"response": []
 				},
 				{
-					"name": "Get publication by total price min and max",
+					"name": "Get publication by total price between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/prices/0-5",
+							"raw": "http://{{ip}}:{{port}}/publications/price/between?minPrice=0&maxPrice=0",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"prices",
-								"0-5"
+								"price",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "0"
+								}
 							]
 						}
 					},
@@ -1590,12 +1679,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/punctuation/0",
+							"raw": "http://{{ip}}:{{port}}/publications/punctuation/0",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
 								"punctuation",
@@ -1606,21 +1695,31 @@
 					"response": []
 				},
 				{
-					"name": "Get publication by total punctuation min and max",
+					"name": "Get publication by total punctuation between",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/punctuations/0-5",
+							"raw": "http://{{ip}}:{{port}}/publications/punctuation/between?minPunctuation=0&maxPunctuation=1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"punctuations",
-								"0-5"
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minPunctuation",
+									"value": "0"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1632,21 +1731,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/establishment?id=1",
+							"raw": "http://{{ip}}:{{port}}/publications/establishment/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"establishment"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"establishment",
+								"1"
 							]
 						}
 					},
@@ -1658,21 +1752,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/user?id=2",
+							"raw": "http://{{ip}}:{{port}}/publications/user/5",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"user"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"user",
+								"5"
 							]
 						}
 					},
@@ -1684,21 +1773,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/product-?type=Tostada",
+							"raw": "http://{{ip}}:{{port}}/publications/type/de jamón",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"product-"
-							],
-							"query": [
-								{
-									"key": "type",
-									"value": "Tostada"
-								}
+								"type",
+								"de jamón"
 							]
 						}
 					},
@@ -1706,32 +1790,48 @@
 				},
 				{
 					"name": "Get publication by date between, price between and punctuation between",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"minDate\": \"11-11-2021\",\n    \"maxDate\": \"20-12-2021\",\n    \"minPrice\": 1,\n    \"maxPrice\": 10,\n    \"minPunctuation\": 1,\n    \"maxPunctuation\": 5\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/publications/dates-prices-punctuations/",
+							"raw": "http://{{ip}}:{{port}}/publications/date/price/punctuation/between?minDate=1650987797000&maxDate=1650987797000&minPrice=0&maxPrice=2&minPunctuation=0&maxPunctuation=1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
 								"publications",
-								"dates-prices-punctuations",
-								""
+								"date",
+								"price",
+								"punctuation",
+								"between"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "1650987797000"
+								},
+								{
+									"key": "maxDate",
+									"value": "1650987797000"
+								},
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "2"
+								},
+								{
+									"key": "minPunctuation",
+									"value": "0"
+								},
+								{
+									"key": "maxPunctuation",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1744,7 +1844,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"photo\": \"string.jpg\",\n\t\"establishmentId\": 2,\n\t\"userId\": 1\n}",
+							"raw": "{\n\t\"photo\": \"string.jpg\",\n\t\"establishmentId\": 1,\n\t\"userId\": 8\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1752,15 +1852,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publication/create",
+							"raw": "http://{{ip}}:{{port}}/publications",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"publication",
-								"create"
+								"publications"
 							]
 						}
 					},
@@ -1769,11 +1868,11 @@
 				{
 					"name": "Update publication",
 					"request": {
-						"method": "PATCH",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"photo\": \"photo.jpg\",\n\t\"establishmentId\": 1\n}",
+							"raw": "{\n\t\"photo\": \"string.jpg\",\n\t\"establishmentId\": 1,\n\t\"userId\": 8\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1781,21 +1880,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publication/update?id=1",
+							"raw": "http://{{ip}}:{{port}}/publications",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"publication",
-								"update"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"publications"
 							]
 						}
 					},
@@ -1816,21 +1908,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/publication/update-price-punctuation?id=1",
+							"raw": "http://{{ip}}:{{port}}/publications/1/price-punctuation",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"publication",
-								"update-price-punctuation"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"publications",
+								"1",
+								"price-punctuation"
 							]
 						}
 					},
@@ -1842,15 +1929,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publication/delete/1",
+							"raw": "http://{{ip}}:{{port}}/publications/1",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"publication",
-								"delete",
+								"publications",
 								"1"
 							]
 						}
@@ -1863,21 +1949,62 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/publications/delete",
+							"raw": "http://{{ip}}:{{port}}/publications",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"port": "{{port}}",
 							"path": [
-								"publications",
-								"delete"
+								"publications"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxNjkyNjg2LCJleHAiOjE2NTE2OTYyODZ9.FRw3TkfOt9orBhXg9sK3tcnHlmf5j2Ad5LixN-RaHb87bYOQsWL_EY3xJmuuSmmwqnrnlj3iL4KqYL7yT760uA",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ip",
+			"value": "localhost",
+			"type": "default"
+		},
+		{
+			"key": "port",
+			"value": "8081",
+			"type": "default"
 		}
 	]
 }

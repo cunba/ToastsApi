@@ -95,6 +95,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void updatePunctuation(Product product) {
+        pr.save(product);
+    }
+
+    @Override
     public void deleteProduct(Product product) {
         pr.delete(product);
     }

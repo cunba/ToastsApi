@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,21 +37,27 @@ public class Publication {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     @Column(name = "total_price")
+    @NotNull
+    @PositiveOrZero
     private float totalPrice;
     @Column(name = "total_punctuation")
+    @Min(value = 0)
+    @Max(value = 5)
+    @NotNull
     private float totalPunctuation;
     @Column
     private String photo;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference(value = "publication_user")
-    private User user;
+    @NotNull
+    private UserModel user;
     @ManyToOne
     @JoinColumn(name = "establishment_id")
-    @JsonBackReference(value = "publication_establishment")
+    @NotNull
     private Establishment establishment;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "publication")
+    @JsonBackReference(value = "publication-products")
     private List<Product> products;
 }
