@@ -1,24 +1,25 @@
 package com.sanvalero.toastsapi.service;
 
-import java.util.List;
-
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.UserModel;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public interface UserService {
-    List<UserModel> findAllUsers();
+    Flux<UserModel> findAllUsers();
 
-    UserModel findById(int id) throws NotFoundException;
+    Mono<UserModel> findById(int id) throws NotFoundException;
 
-    List<UserModel> findByUsername(String username);
+    Flux<UserModel> findByUsername(String username);
 
-    List<UserModel> findByEmail(String email);
+    Flux<UserModel> findByEmail(String email);
 
     int countPublications(int id);
 
     float sumPrice(int id) throws NullPointerException;
 
-    UserModel addUser(UserModel user);
+    Mono<UserModel> addUser(UserModel user);
 
     void updatePublicationsNumber(UserModel user);
 
@@ -30,7 +31,7 @@ public interface UserService {
 
     void activate(UserModel user);
 
-    UserModel deleteUser(UserModel user);
+    void deleteUser(UserModel user);
 
     void deleteAll();
 }

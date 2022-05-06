@@ -3,7 +3,6 @@ package com.sanvalero.toastsapi.controller;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
@@ -34,6 +33,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @RestController
 public class EstablishmentController {
     @Autowired
@@ -43,14 +45,14 @@ public class EstablishmentController {
     private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
     @GetMapping("/establishments")
-    public ResponseEntity<List<Establishment>> getAll() {
+    public ResponseEntity<Flux<Establishment>> getAll() {
         return new ResponseEntity<>(es.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/{id}")
-    public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<Establishment>> getById(@PathVariable int id) throws NotFoundException {
         try {
-            Establishment establishment = es.findById(id);
+            Mono<Establishment> establishment = es.findById(id);
             return new ResponseEntity<>(establishment, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Establishment not found exception with id " + id + ".", nfe);
@@ -59,12 +61,12 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/name/{name}")
-    public ResponseEntity<Establishment> getByName(@PathVariable String name) {
+    public ResponseEntity<Mono<Establishment>> getByName(@PathVariable String name) {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/date/{date}")
-    public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long date)
+    public ResponseEntity<Flux<Establishment>> getByCreationDate(@PathVariable long date)
             throws BadRequestException {
         if (date < dateFrom) {
             logger.error("Establishment get by date error.", new BadRequestException());
@@ -78,7 +80,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/date/between")
-    public ResponseEntity<List<Establishment>> getByCreationDateBetween(
+    public ResponseEntity<Flux<Establishment>> getByCreationDateBetween(
             @RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
@@ -104,12 +106,12 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/open/{open}")
-    public ResponseEntity<List<Establishment>> getByOpen(@PathVariable boolean open) {
+    public ResponseEntity<Flux<Establishment>> getByOpen(@PathVariable boolean open) {
         return new ResponseEntity<>(es.findByOpen(open), HttpStatus.OK);
     }
 
     @GetMapping("/establishments/punctuation/{punctuation}")
-    public ResponseEntity<List<Establishment>> getByPunctuation(@PathVariable float punctuation)
+    public ResponseEntity<Flux<Establishment>> getByPunctuation(@PathVariable float punctuation)
             throws BadRequestException {
         if (punctuation < 0 || punctuation > 5) {
             logger.error("Establishment get by puntuation error.", new BadRequestException());
@@ -119,7 +121,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/punctuation/between")
-    public ResponseEntity<List<Establishment>> getByPunctuationBetween(
+    public ResponseEntity<Flux<Establishment>> getByPunctuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
 
@@ -139,7 +141,7 @@ public class EstablishmentController {
     }
 
     @PostMapping("/establishments")
-    public ResponseEntity<Establishment> create(@RequestBody EstablishmentDTO establishmentDTO) {
+    public ResponseEntity<Mono<Establishment>> create(@RequestBody EstablishmentDTO establishmentDTO) {
         logger.info("begin create establishment");
         ModelMapper mapper = new ModelMapper();
         Establishment establishment = mapper.map(establishmentDTO, Establishment.class);
@@ -148,25 +150,26 @@ public class EstablishmentController {
         establishment.setPunctuation(0);
 
         logger.info("Establishment mapped");
-        Establishment toPrint = es.addEstablishment(establishment);
+        Mono<Establishment> toPrint = es.addEstablishment(establishment);
         logger.info("Establishment created");
         logger.info("end create establishment");
         return new ResponseEntity<>(toPrint, HttpStatus.CREATED);
     }
 
     @PutMapping("/establishments/{id}")
-    public ResponseEntity<Establishment> update(@RequestBody EstablishmentDTO establishmentDTO, @PathVariable int id)
+    public ResponseEntity<Mono<Establishment>> update(@RequestBody EstablishmentDTO establishmentDTO,
+            @PathVariable int id)
             throws NotFoundException {
 
         logger.info("begin update establishment");
         try {
-            Establishment establishmentToUpdate = es.findById(id);
+            Establishment establishmentToUpdate = es.findById(id).block();
             logger.info("Establishment found: " + establishmentToUpdate.getId());
             establishmentToUpdate.setLocation(establishmentDTO.getLocation());
             establishmentToUpdate.setName(establishmentDTO.getName());
             establishmentToUpdate.setOpen(establishmentDTO.isOpen());
             logger.info("Properties setted");
-            Establishment toPrint = es.updateEstablishment(establishmentToUpdate);
+            Mono<Establishment> toPrint = es.updateEstablishment(establishmentToUpdate);
             logger.info("Establishments updated");
             logger.info("end update establishment");
 
@@ -182,7 +185,7 @@ public class EstablishmentController {
     public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin update punctuation");
         try {
-            Establishment establishment = es.findById(id);
+            Establishment establishment = es.findById(id).block();
             logger.info("Establishment found: " + id);
             establishment.setPunctuation(es.sumPunctuation(id));
             es.updatePunctuation(establishment);
@@ -206,7 +209,7 @@ public class EstablishmentController {
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
-            Establishment establishment = es.findById(id);
+            Establishment establishment = es.findById(id).block();
             logger.info("Establishment found: " + establishment.getId());
             es.deleteEstablishment(establishment);
             logger.info("Establishment deleted");

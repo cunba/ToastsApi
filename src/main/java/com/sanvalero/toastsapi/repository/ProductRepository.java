@@ -1,37 +1,38 @@
 package com.sanvalero.toastsapi.repository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Product;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.model.Publication;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
+import reactor.core.publisher.Flux;
+
 @Repository
-public interface ProductRepository extends CrudRepository<Product, Integer> {
-    List<Product> findAll();
+public interface ProductRepository extends ReactiveCrudRepository<Product, Integer> {
+    Flux<Product> findAll();
 
-    List<Product> findByType(ProductType productType);
+    Flux<Product> findByType(ProductType productType);
 
-    List<Product> findByDate(LocalDate date);
+    Flux<Product> findByDate(LocalDate date);
 
-    List<Product> findByDateBetween(LocalDate minDate, LocalDate maxDate);
+    Flux<Product> findByDateBetween(LocalDate minDate, LocalDate maxDate);
 
-    List<Product> findByPrice(float price);
+    Flux<Product> findByPrice(float price);
 
-    List<Product> findByPriceBetween(float minPrice, float maxPrice);
+    Flux<Product> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Product> findByPunctuation(float punctuation);
+    Flux<Product> findByPunctuation(float punctuation);
 
-    List<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    Flux<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    List<Product> findByInMenu(boolean inMenu);
+    Flux<Product> findByInMenu(boolean inMenu);
 
-    List<Product> findByMenu(Menu menu);
+    Flux<Product> findByMenu(Menu menu);
 
-    List<Product> findByPublication(Publication publication);
+    Flux<Product> findByPublication(Publication publication);
 }

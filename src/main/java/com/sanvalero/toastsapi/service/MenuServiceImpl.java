@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
@@ -10,6 +9,9 @@ import com.sanvalero.toastsapi.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @Service
 public class MenuServiceImpl implements MenuService {
 
@@ -17,52 +19,52 @@ public class MenuServiceImpl implements MenuService {
     private MenuRepository mr;
 
     @Override
-    public List<Menu> findByDate(LocalDate date) {
+    public Flux<Menu> findByDate(LocalDate date) {
         return mr.findByDate(date);
     }
 
     @Override
-    public List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
+    public Flux<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
         return mr.findByDateBetween(minDate, maxDate);
     }
 
     @Override
-    public List<Menu> findByPrice(float price) {
+    public Flux<Menu> findByPrice(float price) {
         return mr.findByPrice(price);
     }
 
     @Override
-    public List<Menu> findByPriceBetween(float minPrice, float maxPrice) {
+    public Flux<Menu> findByPriceBetween(float minPrice, float maxPrice) {
         return mr.findByPriceBetween(minPrice, maxPrice);
     }
 
     @Override
-    public List<Menu> findByPunctuation(float punctuation) {
+    public Flux<Menu> findByPunctuation(float punctuation) {
         return mr.findByPunctuation(punctuation);
     }
 
     @Override
-    public List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
+    public Flux<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
         return mr.findByPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
-    public Menu findById(int id) throws NotFoundException {
-        return mr.findById(id).orElseThrow(NotFoundException::new);
+    public Mono<Menu> findById(int id) throws NotFoundException {
+        return mr.findById(id).onErrorReturn(new Menu());
     }
 
     @Override
-    public List<Menu> findAll() {
+    public Flux<Menu> findAll() {
         return mr.findAll();
     }
 
     @Override
-    public Menu addMenu(Menu menu) {
+    public Mono<Menu> addMenu(Menu menu) {
         return mr.save(menu);
     }
 
     @Override
-    public Menu updateMenu(Menu menu) {
+    public Mono<Menu> updateMenu(Menu menu) {
         return mr.save(menu);
     }
 

@@ -1,37 +1,40 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.UserModel;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public interface PublicationService {
-    List<Publication> findByDate(LocalDate date);
+    Flux<Publication> findByDate(LocalDate date);
 
-    List<Publication> findByDateBetween(LocalDate minDate, LocalDate maxDate);
+    Flux<Publication> findByDateBetween(LocalDate minDate, LocalDate maxDate);
 
-    List<Publication> findByTotalPrice(float price);
+    Flux<Publication> findByTotalPrice(float price);
 
-    List<Publication> findByTotalPriceBetween(float minPrice, float maxPrice);
+    Flux<Publication> findByTotalPriceBetween(float minPrice, float maxPrice);
 
-    List<Publication> findByTotalPunctuation(float punctuation);
+    Flux<Publication> findByTotalPunctuation(float punctuation);
 
-    List<Publication> findByTotalPunctuationBetween(float minPunctuation, float maxPunctuation);
+    Flux<Publication> findByTotalPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    List<Publication> findByEstablishment(Establishment establishment);
+    Flux<Publication> findByEstablishment(Establishment establishment);
 
-    List<Publication> findByUser(UserModel user);
+    Flux<Publication> findByUser(UserModel user);
 
-    List<Publication> findByProductType(String type);
+    Flux<Publication> findByProductType(String type);
 
-    List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctiation);
+    Flux<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
+            LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctiation);
 
-    List<Publication> findAll();
+    Flux<Publication> findAll();
 
-    Publication findById(int id) throws NotFoundException;
+    Mono<Publication> findById(int id) throws NotFoundException;
 
     float totalPrice(int id);
 
@@ -39,9 +42,9 @@ public interface PublicationService {
 
     void updatePricePunctuation(Publication publication);
 
-    Publication addPublication(Publication publication);
+    Mono<Publication> addPublication(Publication publication);
 
-    Publication updatePublication(Publication publication);
+    Mono<Publication> updatePublication(Publication publication);
 
     void deletePublication(Publication publication);
 

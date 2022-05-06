@@ -1,26 +1,27 @@
 package com.sanvalero.toastsapi.repository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.model.Menu;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
+import reactor.core.publisher.Flux;
+
 @Repository
-public interface MenuRepository extends CrudRepository<Menu, Integer> {
-    List<Menu> findAll();
+public interface MenuRepository extends ReactiveCrudRepository<Menu, Integer> {
+    Flux<Menu> findAll();
 
-    List<Menu> findByDate(LocalDate date);
+    Flux<Menu> findByDate(LocalDate date);
 
-    List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
+    Flux<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
 
-    List<Menu> findByPrice(float price);
+    Flux<Menu> findByPrice(float price);
 
-    List<Menu> findByPriceBetween(float minPrice, float maxPrice);
+    Flux<Menu> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Menu> findByPunctuation(float punctuation);
+    Flux<Menu> findByPunctuation(float punctuation);
 
-    List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    Flux<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 }

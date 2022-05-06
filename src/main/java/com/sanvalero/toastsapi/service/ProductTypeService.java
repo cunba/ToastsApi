@@ -1,27 +1,29 @@
 package com.sanvalero.toastsapi.service;
 
-import java.util.List;
 import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.ProductType;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public interface ProductTypeService {
-    List<ProductType> findByProductName(String name);
+    Flux<ProductType> findByProductName(String name);
 
-    ProductType findByType(String type);
+    Mono<ProductType> findByType(String type);
 
-    ProductType findByProductNameAndType(String name, String type);
+    Mono<ProductType> findByProductNameAndType(String name, String type);
 
-    List<ProductType> findAll();
+    Flux<ProductType> findAll();
 
-    ProductType findById(int id) throws NotFoundException;
+    Mono<ProductType> findById(int id) throws NotFoundException;
 
-    List<ProductType> findByIds(Vector<Integer> ids);
+    Flux<ProductType> findByIds(Vector<Integer> ids);
 
-    ProductType addType(ProductType type);
+    Mono<ProductType> addType(ProductType type);
 
-    ProductType updateType(ProductType type);
+    Mono<ProductType> updateType(ProductType type);
 
     void deleteType(ProductType type);
 

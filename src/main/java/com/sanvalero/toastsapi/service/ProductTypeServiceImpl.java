@@ -1,6 +1,5 @@
 package com.sanvalero.toastsapi.service;
 
-import java.util.List;
 import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
@@ -10,6 +9,9 @@ import com.sanvalero.toastsapi.repository.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @Service
 public class ProductTypeServiceImpl implements ProductTypeService {
 
@@ -17,42 +19,42 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     private ProductTypeRepository ptr;
 
     @Override
-    public List<ProductType> findByProductName(String name) {
+    public Flux<ProductType> findByProductName(String name) {
         return ptr.findByProductName(name);
     }
 
     @Override
-    public ProductType findByType(String type) {
+    public Mono<ProductType> findByType(String type) {
         return ptr.findByType(type);
     }
 
     @Override
-    public ProductType findByProductNameAndType(String name, String type) {
+    public Mono<ProductType> findByProductNameAndType(String name, String type) {
         return ptr.findByProductNameAndType(name, type);
     }
 
     @Override
-    public List<ProductType> findAll() {
+    public Flux<ProductType> findAll() {
         return ptr.findAll();
     }
 
     @Override
-    public ProductType findById(int id) throws NotFoundException {
-        return ptr.findById(id).orElseThrow(NotFoundException::new);
+    public Mono<ProductType> findById(int id) throws NotFoundException {
+        return ptr.findById(id).onErrorReturn(new ProductType());
     }
 
     @Override
-    public List<ProductType> findByIds(Vector<Integer> ids) {
-        return (List<ProductType>) ptr.findAllById(ids);
+    public Flux<ProductType> findByIds(Vector<Integer> ids) {
+        return (Flux<ProductType>) ptr.findAllById(ids);
     }
 
     @Override
-    public ProductType addType(ProductType type) {
+    public Mono<ProductType> addType(ProductType type) {
         return ptr.save(type);
     }
 
     @Override
-    public ProductType updateType(ProductType type) {
+    public Mono<ProductType> updateType(ProductType type) {
         return ptr.save(type);
     }
 

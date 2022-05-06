@@ -3,7 +3,6 @@ package com.sanvalero.toastsapi.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
@@ -40,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.security.SignatureException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @ControllerAdvice
@@ -54,15 +55,15 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserModel>> getAllUsers() {
+    public ResponseEntity<Flux<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserModel> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<UserModel>> getById(@PathVariable int id) throws NotFoundException {
 
         try {
-            UserModel user = us.findById(id);
+            Mono<UserModel> user = us.findById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NotFoundException e) {
             logger.error("User not found with id: " + id, e);
@@ -71,15 +72,15 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) throws BadRequestException {
-        List<UserModel> userList = us.findByUsername(userDTO.getUsername());
-        if (!userList.isEmpty()) {
+    public ResponseEntity<Mono<UserModel>> create(@RequestBody UserDTO userDTO) throws BadRequestException {
+        Flux<UserModel> userFlux = us.findByUsername(userDTO.getUsername());
+        if (!userFlux.equals(null)) {
             logger.error("Username in use.", new BadRequestException());
             throw new BadRequestException("The user " + userDTO.getUsername() + " already exists.");
         }
 
-        userList = us.findByEmail(userDTO.getEmail());
-        if (!userList.isEmpty()) {
+        userFlux = us.findByEmail(userDTO.getEmail());
+        if (!userFlux.equals(null)) {
             logger.error("Email in use.", new BadRequestException());
             throw new BadRequestException("The email " + userDTO.getEmail() + " already exists.");
         }
@@ -105,19 +106,20 @@ public class UserController {
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request)
             throws Exception {
 
-        List<UserModel> user = us.findByUsername(request.getUsername());
+        Flux<UserModel> user = us.findByUsername(request.getUsername());
 
-        if (user.isEmpty()) {
+        if (user.equals(null)) {
             logger.error("User " + request.getUsername() + " not found.", new BadRequestException());
             throw new BadRequestException("User not found with username: " + request.getUsername());
         }
 
-        if (!(UserModel.encoder().matches(request.getPassword(), user.get(0).getPassword()))) {
+        if (!(UserModel.encoder().matches(request.getPassword(), user.last().block().getPassword()))) {
             logger.error("Credentials error user " + request.getUsername() + ".", new BadRequestException());
             throw new BadRequestException("Credentials error, incorrect password for user " + request.getUsername());
         }
 
-        String token = jwtTokenProvider.createToken(user.get(0).getId(), request.getUsername(), user.get(0).getRole());
+        String token = jwtTokenProvider.createToken(user.last().block().getId(), request.getUsername(),
+                user.last().block().getRole());
         JwtResponse jwtResponse = new JwtResponse(token);
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
@@ -128,7 +130,7 @@ public class UserController {
 
         logger.info("begin update publications number");
         try {
-            UserModel user = us.findById(id);
+            UserModel user = us.findById(id).block();
             logger.info("User found: " + user.getId());
             user.setPublicationsNumber(us.countPublications(id));
             us.updatePublicationsNumber(user);
@@ -148,7 +150,7 @@ public class UserController {
 
         logger.info("begin update money spent");
         try {
-            UserModel user = us.findById(id);
+            UserModel user = us.findById(id).block();
             logger.info("User found: " + user.getId());
 
             try {
@@ -178,7 +180,7 @@ public class UserController {
         logger.info("begin update password");
 
         try {
-            UserModel user = us.findById(id);
+            UserModel user = us.findById(id).block();
             logger.info("User found: " + user.getId());
             user.setPassword(UserModel.encoder().encode(password.getPassword()));
             us.updatePassword(user);
@@ -198,7 +200,7 @@ public class UserController {
         logger.info("begin disable user");
 
         try {
-            UserModel user = us.findById(id);
+            UserModel user = us.findById(id).block();
             logger.info("User found: " + user.getId());
             user.setActive(false);
             us.disable(user);
@@ -217,7 +219,7 @@ public class UserController {
         logger.info("begin activate user");
 
         try {
-            UserModel user = us.findById(id);
+            UserModel user = us.findById(id).block();
             logger.info("User found: " + user.getId());
             user.setActive(true);
             us.activate(user);
@@ -236,7 +238,7 @@ public class UserController {
         logger.info("Begin delete user");
 
         try {
-            UserModel user = us.findById(id);
+            UserModel user = us.findById(id).block();
             logger.info("User found: " + user.getId());
             us.deleteUser(user);
             logger.info("User deleted");

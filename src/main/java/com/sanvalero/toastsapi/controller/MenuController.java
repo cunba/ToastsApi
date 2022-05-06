@@ -3,7 +3,6 @@ package com.sanvalero.toastsapi.controller;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
@@ -33,6 +32,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @RestController
 public class MenuController {
     @Autowired
@@ -42,7 +44,7 @@ public class MenuController {
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
     @GetMapping("/menus/date/{date}")
-    public ResponseEntity<List<Menu>> getByDate(@PathVariable long date) throws BadRequestException {
+    public ResponseEntity<Flux<Menu>> getByDate(@PathVariable long date) throws BadRequestException {
         if (date < dateFrom) {
             logger.error("Establishment get by date error.", new BadRequestException());
             throw new BadRequestException(
@@ -56,7 +58,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/date/between")
-    public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
+    public ResponseEntity<Flux<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
         if (minDate < dateFrom || maxDate < dateFrom) {
@@ -81,7 +83,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/price/{price}")
-    public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) throws BadRequestException {
+    public ResponseEntity<Flux<Menu>> getByPrice(@PathVariable float price) throws BadRequestException {
         if (price < 0) {
             logger.error("Establishment get by price error.", new BadRequestException());
             throw new BadRequestException("The price must be 0 or more.");
@@ -91,7 +93,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/price/between")
-    public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
+    public ResponseEntity<Flux<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
         if (minPrice < 0 || maxPrice < 0) {
@@ -109,7 +111,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/punctuation/{punctuation}")
-    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
+    public ResponseEntity<Flux<Menu>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
         if (punctuation < 0 || punctuation > 5) {
             logger.error("Establishment get by puntuation error.", new BadRequestException());
             throw new BadRequestException("The punctuation must be between 0 and 5.");
@@ -118,7 +120,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/punctuation/between")
-    public ResponseEntity<List<Menu>> getByPunbtuationBetween(
+    public ResponseEntity<Flux<Menu>> getByPunbtuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
 
@@ -138,9 +140,9 @@ public class MenuController {
     }
 
     @GetMapping("/menus/{id}")
-    public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<Menu>> getById(@PathVariable int id) throws NotFoundException {
         try {
-            Menu menu = ms.findById(id);
+            Mono<Menu> menu = ms.findById(id);
             return new ResponseEntity<>(menu, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Menu not found exception with id " + id + ".", nfe);
@@ -149,18 +151,18 @@ public class MenuController {
     }
 
     @GetMapping("/menus")
-    public ResponseEntity<List<Menu>> getAll() {
+    public ResponseEntity<Flux<Menu>> getAll() {
         return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/menus")
-    public ResponseEntity<Menu> create(@RequestBody MenuDTO menuDTO) {
+    public ResponseEntity<Mono<Menu>> create(@RequestBody MenuDTO menuDTO) {
         logger.info("begin create menu");
         ModelMapper mapper = new ModelMapper();
         Menu menu = mapper.map(menuDTO, Menu.class);
         menu.setDate(LocalDate.now());
         logger.info("Menu mapped");
-        Menu toPrint = ms.addMenu(menu);
+        Mono<Menu> toPrint = ms.addMenu(menu);
         logger.info("Menu created");
         logger.info("end create establishment");
 
@@ -168,10 +170,11 @@ public class MenuController {
     }
 
     @PutMapping("/menus/{id}")
-    public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
+    public ResponseEntity<Mono<Menu>> update(@PathVariable int id, @RequestBody MenuDTO menuDTO)
+            throws NotFoundException {
         logger.info("begin update menu");
         try {
-            Menu menuToUpdate = ms.findById(id);
+            Menu menuToUpdate = ms.findById(id).block();
             logger.info("Menu found: " + id);
             menuToUpdate.setPrice(menuDTO.getPrice());
             menuToUpdate.setPunctuation(menuDTO.getPunctuation());
@@ -189,7 +192,7 @@ public class MenuController {
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
         try {
-            Menu menu = ms.findById(id);
+            Menu menu = ms.findById(id).block();
             logger.info("Menu found: " + menu.getId());
             ms.deleteMenu(menu);
             logger.info("Menu deleted");

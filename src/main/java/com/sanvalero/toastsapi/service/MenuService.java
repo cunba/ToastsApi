@@ -1,31 +1,33 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public interface MenuService {
-    List<Menu> findByDate(LocalDate date);
+    Flux<Menu> findByDate(LocalDate date);
 
-    List<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
+    Flux<Menu> findByDateBetween(LocalDate minDate, LocalDate maxDate);
 
-    List<Menu> findByPrice(float price);
+    Flux<Menu> findByPrice(float price);
 
-    List<Menu> findByPriceBetween(float minPrice, float maxPrice);
+    Flux<Menu> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Menu> findByPunctuation(float punctuation);
+    Flux<Menu> findByPunctuation(float punctuation);
 
-    List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    Flux<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Menu findById(int id) throws NotFoundException;
+    Mono<Menu> findById(int id) throws NotFoundException;
 
-    List<Menu> findAll();
+    Flux<Menu> findAll();
 
-    Menu addMenu(Menu menu);
+    Mono<Menu> addMenu(Menu menu);
 
-    Menu updateMenu(Menu menu);
+    Mono<Menu> updateMenu(Menu menu);
 
     void deleteMenu(Menu menu);
 

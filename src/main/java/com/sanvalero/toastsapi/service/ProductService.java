@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
@@ -9,34 +8,37 @@ import com.sanvalero.toastsapi.model.Product;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.model.Publication;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public interface ProductService {
-    List<Product> findByDate(LocalDate date);
+    Flux<Product> findByDate(LocalDate date);
 
-    List<Product> findByDateBetween(LocalDate minDate, LocalDate maxDate);
+    Flux<Product> findByDateBetween(LocalDate minDate, LocalDate maxDate);
 
-    List<Product> findByPrice(float price);
+    Flux<Product> findByPrice(float price);
 
-    List<Product> findByPriceBetween(float minPrice, float maxPrice);
+    Flux<Product> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Product> findByPunctuation(float punctuation);
+    Flux<Product> findByPunctuation(float punctuation);
 
-    List<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    Flux<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    List<Product> findByInMenu(boolean inMenu);
+    Flux<Product> findByInMenu(boolean inMenu);
 
-    List<Product> findByMenu(Menu menu);
+    Flux<Product> findByMenu(Menu menu);
 
-    List<Product> findByPublication(Publication publication);
+    Flux<Product> findByPublication(Publication publication);
 
-    List<Product> findAll();
+    Flux<Product> findAll();
 
-    Product findById(int id) throws NotFoundException;
+    Mono<Product> findById(int id) throws NotFoundException;
 
-    List<Product> findByType(ProductType productType);
+    Flux<Product> findByType(ProductType productType);
 
-    Product addProduct(Product product);
+    Mono<Product> addProduct(Product product);
 
-    Product updateProduct(Product product);
+    Mono<Product> updateProduct(Product product);
 
     void updatePrice(Product product);
 

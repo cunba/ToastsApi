@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
@@ -28,6 +27,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @RestController
 public class ProductTypeController {
 
@@ -37,15 +39,15 @@ public class ProductTypeController {
     private final Logger logger = LoggerFactory.getLogger(ProductTypeController.class);
 
     @GetMapping("/types")
-    public ResponseEntity<List<ProductType>> getAllTypes() {
+    public ResponseEntity<Flux<ProductType>> getAllTypes() {
         return new ResponseEntity<>(pts.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/types/{id}")
-    public ResponseEntity<ProductType> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<ProductType>> getById(@PathVariable int id) throws NotFoundException {
         logger.info("begin getting types by id");
         try {
-            ProductType toPrint = pts.findById(id);
+            Mono<ProductType> toPrint = pts.findById(id);
             logger.info("Type found");
             logger.info("end getting types by id");
             return new ResponseEntity<>(toPrint, HttpStatus.OK);
@@ -56,24 +58,24 @@ public class ProductTypeController {
     }
 
     @GetMapping("/types/name/{name}")
-    public ResponseEntity<List<ProductType>> getByName(@PathVariable String name) {
+    public ResponseEntity<Flux<ProductType>> getByName(@PathVariable String name) {
         return new ResponseEntity<>(pts.findByProductName(name), HttpStatus.OK);
     }
 
     @GetMapping("/types/type/{type}")
-    public ResponseEntity<ProductType> getByType(@PathVariable String type) {
+    public ResponseEntity<Mono<ProductType>> getByType(@PathVariable String type) {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
     @GetMapping("/types/name/{name}/type/{type}")
-    public ResponseEntity<ProductType> getByNameAndType(@PathVariable String name,
+    public ResponseEntity<Mono<ProductType>> getByNameAndType(@PathVariable String name,
             @PathVariable String type) {
 
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }
 
     @PostMapping("/types")
-    public ResponseEntity<ProductType> create(@RequestBody ProductTypeDTO typeDTO) {
+    public ResponseEntity<Mono<ProductType>> create(@RequestBody ProductTypeDTO typeDTO) {
         ProductType type = new ProductType();
         type.setProductName(typeDTO.getProduct_name());
         type.setType(typeDTO.getType());
@@ -81,12 +83,12 @@ public class ProductTypeController {
     }
 
     @PutMapping("/types/{id}")
-    public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type)
+    public ResponseEntity<Mono<ProductType>> update(@PathVariable int id, @RequestBody ProductType type)
             throws NotFoundException {
 
         logger.info("begin update type");
         try {
-            ProductType typeToUpdate = pts.findById(id);
+            ProductType typeToUpdate = pts.findById(id).block();
             logger.info("Type found: " + typeToUpdate.getId());
             typeToUpdate.setProductName(type.getProductName());
             typeToUpdate.setType(type.getType());
@@ -104,7 +106,7 @@ public class ProductTypeController {
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         try {
             logger.info("begin delete type");
-            ProductType type = pts.findById(id);
+            ProductType type = pts.findById(id).block();
             logger.info("Type found: " + type.getId());
             pts.deleteType(type);
             logger.info("Type deleted");

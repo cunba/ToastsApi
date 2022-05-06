@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -12,6 +11,9 @@ import com.sanvalero.toastsapi.repository.PublicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @Service
 public class PublicationServiceImpl implements PublicationService {
 
@@ -19,52 +21,52 @@ public class PublicationServiceImpl implements PublicationService {
     private PublicationRepository pr;
 
     @Override
-    public List<Publication> findByDate(LocalDate date) {
+    public Flux<Publication> findByDate(LocalDate date) {
         return pr.findByDate(date);
     }
 
     @Override
-    public List<Publication> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
+    public Flux<Publication> findByDateBetween(LocalDate minDate, LocalDate maxDate) {
         return pr.findByDateBetween(minDate, maxDate);
     }
 
     @Override
-    public List<Publication> findByTotalPrice(float price) {
+    public Flux<Publication> findByTotalPrice(float price) {
         return pr.findByTotalPrice(price);
     }
 
     @Override
-    public List<Publication> findByTotalPriceBetween(float minPrice, float maxPrice) {
+    public Flux<Publication> findByTotalPriceBetween(float minPrice, float maxPrice) {
         return pr.findByTotalPriceBetween(minPrice, maxPrice);
     }
 
     @Override
-    public List<Publication> findByTotalPunctuation(float punctuation) {
+    public Flux<Publication> findByTotalPunctuation(float punctuation) {
         return pr.findByTotalPunctuation(punctuation);
     }
 
     @Override
-    public List<Publication> findByTotalPunctuationBetween(float minPunctuation, float maxPunctuation) {
+    public Flux<Publication> findByTotalPunctuationBetween(float minPunctuation, float maxPunctuation) {
         return pr.findByTotalPunctuationBetween(minPunctuation, maxPunctuation);
     }
 
     @Override
-    public List<Publication> findByEstablishment(Establishment establishment) {
+    public Flux<Publication> findByEstablishment(Establishment establishment) {
         return pr.findByEstablishment(establishment);
     }
 
     @Override
-    public List<Publication> findByUser(UserModel user) {
+    public Flux<Publication> findByUser(UserModel user) {
         return pr.findByUser(user);
     }
 
     @Override
-    public List<Publication> findByProductType(String type) {
+    public Flux<Publication> findByProductType(String type) {
         return pr.findByProductType(type);
     }
 
     @Override
-    public List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
+    public Flux<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
             LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation) {
 
         return pr.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(minDate, maxDate, minPrice, maxPrice,
@@ -72,13 +74,13 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findAll() {
+    public Flux<Publication> findAll() {
         return pr.findAll();
     }
 
     @Override
-    public Publication findById(int id) throws NotFoundException {
-        return pr.findById(id).orElseThrow(NotFoundException::new);
+    public Mono<Publication> findById(int id) throws NotFoundException {
+        return pr.findById(id).onErrorReturn(new Publication());
     }
 
     @Override
@@ -97,12 +99,12 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Publication addPublication(Publication publication) {
+    public Mono<Publication> addPublication(Publication publication) {
         return pr.save(publication);
     }
 
     @Override
-    public Publication updatePublication(Publication publication) {
+    public Mono<Publication> updatePublication(Publication publication) {
         return pr.save(publication);
     }
 

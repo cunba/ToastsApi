@@ -1,13 +1,14 @@
 package com.sanvalero.toastsapi.service;
 
-import java.util.List;
-
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,22 +17,22 @@ public class UserServiceImpl implements UserService {
     private UserRepository ur;
 
     @Override
-    public List<UserModel> findAllUsers() {
-        return (List<UserModel>) ur.findAll();
+    public Flux<UserModel> findAllUsers() {
+        return ur.findAll();
     }
 
     @Override
-    public UserModel findById(int id) throws NotFoundException {
-        return ur.findById(id).orElseThrow(NotFoundException::new);
+    public Mono<UserModel> findById(int id) throws NotFoundException {
+        return ur.findById(id).onErrorReturn(new UserModel());
     }
 
     @Override
-    public List<UserModel> findByUsername(String username) {
+    public Flux<UserModel> findByUsername(String username) {
         return ur.findByUsername(username);
     }
 
     @Override
-    public List<UserModel> findByEmail(String email) {
+    public Flux<UserModel> findByEmail(String email) {
         return ur.findByEmail(email);
     }
 
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel addUser(UserModel user) {
+    public Mono<UserModel> addUser(UserModel user) {
         return ur.save(user);
     }
 
@@ -76,9 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel deleteUser(UserModel user) {
+    public void deleteUser(UserModel user) {
         ur.delete(user);
-        return user;
     }
 
     @Override

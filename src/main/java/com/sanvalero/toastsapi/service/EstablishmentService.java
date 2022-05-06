@@ -1,33 +1,35 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 public interface EstablishmentService {
-    Establishment findByName(String name);
+    Mono<Establishment> findByName(String name);
 
-    List<Establishment> findByCreationDate(LocalDate date);
+    Flux<Establishment> findByCreationDate(LocalDate date);
 
-    List<Establishment> findByCreationDateBetween(LocalDate minDate, LocalDate maxDate);
+    Flux<Establishment> findByCreationDateBetween(LocalDate minDate, LocalDate maxDate);
 
-    List<Establishment> findByOpen(boolean open);
+    Flux<Establishment> findByOpen(boolean open);
 
-    List<Establishment> findByLocation(String location);
+    Flux<Establishment> findByLocation(String location);
 
-    List<Establishment> findByPunctuation(float punctuation);
+    Flux<Establishment> findByPunctuation(float punctuation);
 
-    List<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    Flux<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Establishment findById(int id) throws NotFoundException;
+    Mono<Establishment> findById(int id) throws NotFoundException;
 
-    List<Establishment> findAll();
+    Flux<Establishment> findAll();
 
-    Establishment addEstablishment(Establishment establishment);
-    
-    Establishment updateEstablishment(Establishment establishment);
+    Mono<Establishment> addEstablishment(Establishment establishment);
+
+    Mono<Establishment> updateEstablishment(Establishment establishment);
 
     void deleteEstablishment(Establishment establishment);
 

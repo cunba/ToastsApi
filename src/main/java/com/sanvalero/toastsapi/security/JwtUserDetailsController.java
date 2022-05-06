@@ -1,7 +1,5 @@
 package com.sanvalero.toastsapi.security;
 
-import java.util.List;
-
 import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.service.UserService;
 
@@ -11,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import reactor.core.publisher.Flux;
+
 @Service
 public class JwtUserDetailsController implements UserDetailsService {
 
@@ -19,15 +19,15 @@ public class JwtUserDetailsController implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final List<UserModel> user = us.findByUsername(username);
+        final Flux<UserModel> user = us.findByUsername(username);
 
-        if (user.isEmpty()) {
+        if (user.equals(null)) {
             throw new UsernameNotFoundException("UserDTO '" + username + "' not found");
         }
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(username)
-                .password(user.get(0).getPassword())
+                .password(user.last().block().getPassword())
                 .authorities("USER")
                 .accountExpired(false)
                 .accountLocked(false)
