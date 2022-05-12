@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -54,11 +55,13 @@ public class UserController {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @Secured({ "ROLE_ADMIN" })
     @GetMapping("/users")
     public ResponseEntity<Flux<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @GetMapping("/users/{id}")
     public ResponseEntity<Mono<UserModel>> getById(@PathVariable String id) throws NotFoundException {
 
@@ -173,6 +176,7 @@ public class UserController {
     //     }
     // }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/password")
     public ResponseEntity<String> updatePassword(@PathVariable String id,
             @RequestBody PasswordChangeDTO password) throws NotFoundException {
@@ -195,6 +199,7 @@ public class UserController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/disable")
     public ResponseEntity<String> disable(@PathVariable String id) throws NotFoundException {
         logger.info("begin disable user");
@@ -214,6 +219,7 @@ public class UserController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/activate")
     public ResponseEntity<String> activate(@PathVariable String id) throws NotFoundException {
         logger.info("begin activate user");
@@ -233,6 +239,7 @@ public class UserController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("Begin delete user");
@@ -251,6 +258,7 @@ public class UserController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/users")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();

@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -139,6 +140,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PostMapping("/establishments")
     public ResponseEntity<Mono<Establishment>> create(@RequestBody EstablishmentDTO establishmentDTO) {
         logger.info("begin create establishment");
@@ -155,6 +157,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(toPrint, HttpStatus.CREATED);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/establishments/{id}")
     public ResponseEntity<Mono<Establishment>> update(@RequestBody EstablishmentDTO establishmentDTO,
             @PathVariable String id)
@@ -204,6 +207,7 @@ public class EstablishmentController {
     //     }
     // }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/establishments/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete establishment");
@@ -221,6 +225,7 @@ public class EstablishmentController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/establishments")
     public ResponseEntity<String> deleteAll() {
         es.deleteAll();

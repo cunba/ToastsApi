@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -242,6 +243,7 @@ public class PublicationController {
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PostMapping("/publications")
     public ResponseEntity<Mono<Publication>> create(@RequestBody PublicationDTO publicationDTO)
             throws NotFoundException {
@@ -279,6 +281,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.CREATED);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/publications/{id}")
     public ResponseEntity<Mono<Publication>> update(@RequestBody PublicationDTO publicationDTO,
             @PathVariable String id) throws NotFoundException {
@@ -344,6 +347,7 @@ public class PublicationController {
     //     }
     // }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/publications/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete publication");
@@ -360,6 +364,7 @@ public class PublicationController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/publications")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
