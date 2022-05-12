@@ -21,7 +21,7 @@ public interface MenuService {
 
     Flux<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Mono<Menu> findById(int id) throws NotFoundException;
+    Mono<Menu> findById(String id) throws NotFoundException;
 
     Flux<Menu> findAll();
 

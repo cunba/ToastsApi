@@ -26,10 +26,10 @@ public class ProductDTO {
     @Min(value = 0)
     @Max(value = 5)
     private float punctuation;
-    private int typeId;
-    private int menuId;
+    private String typeId;
+    private String menuId;
     @NotNull
     @NotBlank
     @NotEmpty
-    private int publicationId;
+    private String publicationId;
 }

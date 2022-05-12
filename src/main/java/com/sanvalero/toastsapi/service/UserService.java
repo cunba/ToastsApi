@@ -9,15 +9,15 @@ import reactor.core.publisher.Mono;
 public interface UserService {
     Flux<UserModel> findAllUsers();
 
-    Mono<UserModel> findById(int id) throws NotFoundException;
+    Mono<UserModel> findById(String id) throws NotFoundException;
 
     Flux<UserModel> findByUsername(String username);
 
     Flux<UserModel> findByEmail(String email);
 
-    int countPublications(int id);
+    int countPublications(String id);
 
-    float sumPrice(int id) throws NullPointerException;
+    float sumPrice(String id) throws NullPointerException;
 
     Mono<UserModel> addUser(UserModel user);
 

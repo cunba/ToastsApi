@@ -57,7 +57,7 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/{id}")
-    public ResponseEntity<Mono<Publication>> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<Publication>> getById(@PathVariable String id) throws NotFoundException {
         try {
             return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
@@ -161,7 +161,7 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/establishment/{id}")
-    public ResponseEntity<Flux<Publication>> getByEstablishmentId(@PathVariable int id)
+    public ResponseEntity<Flux<Publication>> getByEstablishmentId(@PathVariable String id)
             throws NotFoundException {
 
         try {
@@ -174,7 +174,7 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/user/{id}")
-    public ResponseEntity<Flux<Publication>> getByUserId(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Flux<Publication>> getByUserId(@PathVariable String id) throws NotFoundException {
         try {
             UserModel user = us.findById(id).block();
             return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
@@ -282,7 +282,7 @@ public class PublicationController {
 
     @PutMapping("/publications/{id}")
     public ResponseEntity<Mono<Publication>> update(@RequestBody PublicationDTO publicationDTO,
-            @PathVariable int id) throws NotFoundException {
+            @PathVariable String id) throws NotFoundException {
 
         logger.info("begin update publication");
         Publication publication = null;
@@ -322,7 +322,7 @@ public class PublicationController {
     }
 
     @PatchMapping("/publications/{id}/price-punctuation")
-    public ResponseEntity<String> totalPricePunctuation(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> totalPricePunctuation(@PathVariable String id) throws NotFoundException {
         logger.info("begin set total price punctuation");
         try {
             Publication publication = ps.findById(id).block();
@@ -346,7 +346,7 @@ public class PublicationController {
     }
 
     @DeleteMapping("/publications/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete publication");
         try {
             Publication publication = ps.findById(id).block();

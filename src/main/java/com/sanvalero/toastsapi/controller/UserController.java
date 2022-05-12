@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<Mono<UserModel>> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<UserModel>> getById(@PathVariable String id) throws NotFoundException {
 
         try {
             Mono<UserModel> user = us.findById(id);
@@ -125,7 +125,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}/publications-number")
-    public ResponseEntity<String> updatePublicationsNumber(@PathVariable int id)
+    public ResponseEntity<String> updatePublicationsNumber(@PathVariable String id)
             throws NotFoundException {
 
         logger.info("begin update publications number");
@@ -145,7 +145,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}/money-spent")
-    public ResponseEntity<String> updateMoneySpent(@PathVariable int id)
+    public ResponseEntity<String> updateMoneySpent(@PathVariable String id)
             throws NotFoundException {
 
         logger.info("begin update money spent");
@@ -174,7 +174,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}/password")
-    public ResponseEntity<String> updatePassword(@PathVariable int id,
+    public ResponseEntity<String> updatePassword(@PathVariable String id,
             @RequestBody PasswordChangeDTO password) throws NotFoundException {
 
         logger.info("begin update password");
@@ -196,7 +196,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}/disable")
-    public ResponseEntity<String> disable(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> disable(@PathVariable String id) throws NotFoundException {
         logger.info("begin disable user");
 
         try {
@@ -215,7 +215,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}/activate")
-    public ResponseEntity<String> activate(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> activate(@PathVariable String id) throws NotFoundException {
         logger.info("begin activate user");
 
         try {
@@ -234,7 +234,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("Begin delete user");
 
         try {

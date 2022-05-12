@@ -49,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Mono<Menu> findById(int id) throws NotFoundException {
+    public Mono<Menu> findById(String id) throws NotFoundException {
         return mr.findById(id).onErrorReturn(new Menu());
     }
 

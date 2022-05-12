@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Mono<Product> findById(int id) throws NotFoundException {
+    public Mono<Product> findById(String id) throws NotFoundException {
         return pr.findById(id).onErrorReturn(new Product());
     }
 

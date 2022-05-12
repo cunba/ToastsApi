@@ -15,9 +15,9 @@ public class PublicationDTO {
     @NotNull
     @NotBlank
     @NotEmpty
-    private int userId;
+    private String userId;
     @NotNull
     @NotBlank
     @NotEmpty
-    private int establishmentId;
+    private String establishmentId;
 }

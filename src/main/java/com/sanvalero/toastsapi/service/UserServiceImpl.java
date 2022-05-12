@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Mono<UserModel> findById(int id) throws NotFoundException {
+    public Mono<UserModel> findById(String id) throws NotFoundException {
         return ur.findById(id).onErrorReturn(new UserModel());
     }
 
@@ -37,12 +37,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int countPublications(int id) {
+    public int countPublications(String id) {
         return ur.countPublications(id);
     }
 
     @Override
-    public float sumPrice(int id) throws NullPointerException {
+    public float sumPrice(String id) throws NullPointerException {
         return ur.sumPrice(id);
     }
 

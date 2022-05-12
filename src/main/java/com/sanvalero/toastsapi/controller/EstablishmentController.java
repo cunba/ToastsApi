@@ -50,7 +50,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/{id}")
-    public ResponseEntity<Mono<Establishment>> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<Establishment>> getById(@PathVariable String id) throws NotFoundException {
         try {
             Mono<Establishment> establishment = es.findById(id);
             return new ResponseEntity<>(establishment, HttpStatus.OK);
@@ -158,7 +158,7 @@ public class EstablishmentController {
 
     @PutMapping("/establishments/{id}")
     public ResponseEntity<Mono<Establishment>> update(@RequestBody EstablishmentDTO establishmentDTO,
-            @PathVariable int id)
+            @PathVariable String id)
             throws NotFoundException {
 
         logger.info("begin update establishment");
@@ -182,7 +182,7 @@ public class EstablishmentController {
     }
 
     @PatchMapping("/establishments/{id}/punctuation")
-    public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> updatePunctuation(@PathVariable String id) throws NotFoundException {
         logger.info("begin update punctuation");
         try {
             Establishment establishment = es.findById(id).block();
@@ -206,7 +206,7 @@ public class EstablishmentController {
     }
 
     @DeleteMapping("/establishments/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
             Establishment establishment = es.findById(id).block();

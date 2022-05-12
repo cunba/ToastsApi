@@ -79,17 +79,17 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Mono<Publication> findById(int id) throws NotFoundException {
+    public Mono<Publication> findById(String id) throws NotFoundException {
         return pr.findById(id).onErrorReturn(new Publication());
     }
 
     @Override
-    public float totalPrice(int id) {
+    public float totalPrice(String id) {
         return pr.totalPrice(id);
     }
 
     @Override
-    public float totalPunctuation(int id) {
+    public float totalPunctuation(String id) {
         return pr.totalPunctuation(id);
     }
 

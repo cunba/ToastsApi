@@ -54,7 +54,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public Mono<Establishment> findById(int id) throws NotFoundException {
+    public Mono<Establishment> findById(String id) throws NotFoundException {
         return er.findById(id).onErrorReturn(new Establishment());
     }
 
@@ -84,7 +84,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public float sumPunctuation(int id) {
+    public float sumPunctuation(String id) {
         return er.sumPunctuation(id);
     }
 

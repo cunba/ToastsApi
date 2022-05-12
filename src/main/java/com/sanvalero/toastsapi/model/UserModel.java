@@ -4,10 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
@@ -21,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -31,51 +29,50 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "users")
+@Document(value = "users")
 public class UserModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column
+    private String id;
+    @Field
     @NotNull
     @NotEmpty
     @NotBlank
     private String username;
-    @Column
+    @Field
     @NotNull
     private String name;
-    @Column
+    @Field
     @NotNull
     private String surname;
-    @Column(name = "birth_date")
+    @Field(name = "birth_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Past
     private LocalDate birthDate;
-    @Column
+    @Field
     @Email
     @NotNull
     @NotEmpty
     @NotBlank
     private String email;
-    @Column
+    @Field
     @NotNull
     @NotEmpty
     @NotBlank
     private String password;
-    @Column(name = "creation_date")
+    @Field(name = "creation_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
-    @Column
+    @Field
     @NotNull
     private boolean active;
-    @Column(name = "money_spent")
+    @Field(name = "money_spent")
     @PositiveOrZero
     private float moneySpent;
-    @Column(name = "publications_number")
+    @Field(name = "publications_number")
     @PositiveOrZero
     private int publicationsNumber;
-    @Column
+    @Field
     @NotNull
     @NotEmpty
     @NotBlank

@@ -4,13 +4,13 @@ import java.time.LocalDate;
 
 import com.sanvalero.toastsapi.model.Menu;
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface MenuRepository extends ReactiveCrudRepository<Menu, Integer> {
+public interface MenuRepository extends ReactiveMongoRepository<Menu, String> {
     Flux<Menu> findAll();
 
     Flux<Menu> findByDate(LocalDate date);

@@ -17,9 +17,9 @@ public interface ProductTypeService {
 
     Flux<ProductType> findAll();
 
-    Mono<ProductType> findById(int id) throws NotFoundException;
+    Mono<ProductType> findById(String id) throws NotFoundException;
 
-    Flux<ProductType> findByIds(Vector<Integer> ids);
+    Flux<ProductType> findByIds(Vector<String> ids);
 
     Mono<ProductType> addType(ProductType type);
 

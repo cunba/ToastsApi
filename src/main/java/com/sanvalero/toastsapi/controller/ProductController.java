@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Mono<Product>> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<Product>> getById(@PathVariable String id) throws NotFoundException {
         try {
             return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
@@ -168,7 +168,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/type/{id}")
-    public ResponseEntity<Flux<Product>> getByTypeId(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Flux<Product>> getByTypeId(@PathVariable String id) throws NotFoundException {
         try {
             ProductType type = pts.findById(id).block();
             return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
@@ -179,7 +179,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/menu/{id}")
-    public ResponseEntity<Flux<Product>> getByMenu(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Flux<Product>> getByMenu(@PathVariable String id) throws NotFoundException {
         try {
             Menu menu = ms.findById(id).block();
             return new ResponseEntity<>(ps.findByMenu(menu), HttpStatus.OK);
@@ -190,7 +190,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/publication/{id}")
-    public ResponseEntity<Flux<Product>> getByPublication(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Flux<Product>> getByPublication(@PathVariable String id) throws NotFoundException {
         try {
             Publication publication = publicationService.findById(id).block();
             return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
@@ -255,7 +255,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Mono<Product>> update(@RequestBody ProductDTO productDTO, @PathVariable int id)
+    public ResponseEntity<Mono<Product>> update(@RequestBody ProductDTO productDTO, @PathVariable String id)
             throws NotFoundException, BadRequestException {
         logger.info("begin update product");
         Product product = null;
@@ -314,7 +314,7 @@ public class ProductController {
     }
 
     @PatchMapping("/products/{id}/price/{price}")
-    public ResponseEntity<String> updatePrice(@PathVariable int id,
+    public ResponseEntity<String> updatePrice(@PathVariable String id,
             @PathVariable float price) throws NotFoundException, BadRequestException {
 
         logger.info("begin update price of product");
@@ -342,7 +342,7 @@ public class ProductController {
     }
 
     @PatchMapping("/products/{id}/punctuation/{punctuation}")
-    public ResponseEntity<String> updatePunctuation(@PathVariable int id,
+    public ResponseEntity<String> updatePunctuation(@PathVariable String id,
             @PathVariable float punctuation) throws NotFoundException, BadRequestException {
 
         logger.info("begin update punctuation of product");
@@ -370,7 +370,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete product");
         try {
             Product product = ps.findById(id).block();

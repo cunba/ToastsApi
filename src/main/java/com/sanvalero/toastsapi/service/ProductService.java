@@ -32,7 +32,7 @@ public interface ProductService {
 
     Flux<Product> findAll();
 
-    Mono<Product> findById(int id) throws NotFoundException;
+    Mono<Product> findById(String id) throws NotFoundException;
 
     Flux<Product> findByType(ProductType productType);
 

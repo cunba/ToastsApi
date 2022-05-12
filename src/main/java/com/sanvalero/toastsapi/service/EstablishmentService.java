@@ -23,7 +23,7 @@ public interface EstablishmentService {
 
     Flux<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Mono<Establishment> findById(int id) throws NotFoundException;
+    Mono<Establishment> findById(String id) throws NotFoundException;
 
     Flux<Establishment> findAll();
 
@@ -35,7 +35,7 @@ public interface EstablishmentService {
 
     void deleteAll();
 
-    float sumPunctuation(int id);
+    float sumPunctuation(String id);
 
     void updatePunctuation(Establishment establishment);
 }

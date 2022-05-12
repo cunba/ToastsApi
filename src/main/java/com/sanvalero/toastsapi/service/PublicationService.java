@@ -34,11 +34,11 @@ public interface PublicationService {
 
     Flux<Publication> findAll();
 
-    Mono<Publication> findById(int id) throws NotFoundException;
+    Mono<Publication> findById(String id) throws NotFoundException;
 
-    float totalPrice(int id);
+    float totalPrice(String id);
 
-    float totalPunctuation(int id);
+    float totalPunctuation(String id);
 
     void updatePricePunctuation(Publication publication);
 

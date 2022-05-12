@@ -7,13 +7,13 @@ import com.sanvalero.toastsapi.model.Product;
 import com.sanvalero.toastsapi.model.ProductType;
 import com.sanvalero.toastsapi.model.Publication;
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface ProductRepository extends ReactiveCrudRepository<Product, Integer> {
+public interface ProductRepository extends ReactiveMongoRepository<Product, String> {
     Flux<Product> findAll();
 
     Flux<Product> findByType(ProductType productType);

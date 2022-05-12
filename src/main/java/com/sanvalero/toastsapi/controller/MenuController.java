@@ -140,7 +140,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/{id}")
-    public ResponseEntity<Mono<Menu>> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<Menu>> getById(@PathVariable String id) throws NotFoundException {
         try {
             Mono<Menu> menu = ms.findById(id);
             return new ResponseEntity<>(menu, HttpStatus.OK);
@@ -170,7 +170,7 @@ public class MenuController {
     }
 
     @PutMapping("/menus/{id}")
-    public ResponseEntity<Mono<Menu>> update(@PathVariable int id, @RequestBody MenuDTO menuDTO)
+    public ResponseEntity<Mono<Menu>> update(@PathVariable String id, @RequestBody MenuDTO menuDTO)
             throws NotFoundException {
         logger.info("begin update menu");
         try {
@@ -189,7 +189,7 @@ public class MenuController {
     }
 
     @DeleteMapping("/menus/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete menu");
         try {
             Menu menu = ms.findById(id).block();

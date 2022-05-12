@@ -44,7 +44,7 @@ public class ProductTypeController {
     }
 
     @GetMapping("/types/{id}")
-    public ResponseEntity<Mono<ProductType>> getById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<Mono<ProductType>> getById(@PathVariable String id) throws NotFoundException {
         logger.info("begin getting types by id");
         try {
             Mono<ProductType> toPrint = pts.findById(id);
@@ -83,7 +83,7 @@ public class ProductTypeController {
     }
 
     @PutMapping("/types/{id}")
-    public ResponseEntity<Mono<ProductType>> update(@PathVariable int id, @RequestBody ProductType type)
+    public ResponseEntity<Mono<ProductType>> update(@PathVariable String id, @RequestBody ProductType type)
             throws NotFoundException {
 
         logger.info("begin update type");
@@ -103,7 +103,7 @@ public class ProductTypeController {
     }
 
     @DeleteMapping("/types/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         try {
             logger.info("begin delete type");
             ProductType type = pts.findById(id).block();

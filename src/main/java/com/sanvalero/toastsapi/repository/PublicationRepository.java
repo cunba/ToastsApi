@@ -7,13 +7,13 @@ import com.sanvalero.toastsapi.model.Publication;
 import com.sanvalero.toastsapi.model.UserModel;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface PublicationRepository extends ReactiveCrudRepository<Publication, Integer> {
+public interface PublicationRepository extends ReactiveMongoRepository<Publication, String> {
     Flux<Publication> findAll();
 
     Flux<Publication> findByDate(LocalDate date);
@@ -39,8 +39,8 @@ public interface PublicationRepository extends ReactiveCrudRepository<Publicatio
     Flux<Publication> findByProductType(String type);
 
     @Query(value = "SELECT SUM(suma) FROM (SELECT SUM(price) AS suma FROM products WHERE publication_id = :id UNION ALL SELECT SUM(price) AS suma FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = :id)) T", nativeQuery = true)
-    float totalPrice(int id);
+    float totalPrice(String id);
 
     @Query(value = "SELECT SUM(suma)/SUM(num) FROM (SELECT SUM(punctuation) AS suma, COUNT(id) AS num FROM products WHERE publication_id = 1 UNION ALL SELECT SUM(punctuation) AS suma, COUNT(id) AS num FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = 1)) T", nativeQuery = true)
-    float totalPunctuation(int id);
+    float totalPunctuation(String id);
 }

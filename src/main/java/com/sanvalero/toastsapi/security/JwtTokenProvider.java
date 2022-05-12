@@ -41,7 +41,7 @@ public class JwtTokenProvider {
 
     }
 
-    public String createToken(int id, String username, String role) {
+    public String createToken(String id, String username, String role) {
 
         Claims claims = Jwts.claims();
         claims.put("id", String.valueOf(id));
