@@ -25,7 +25,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -181,29 +180,29 @@ public class EstablishmentController {
 
     }
 
-    @PatchMapping("/establishments/{id}/punctuation")
-    public ResponseEntity<String> updatePunctuation(@PathVariable String id) throws NotFoundException {
-        logger.info("begin update punctuation");
-        try {
-            Establishment establishment = es.findById(id).block();
-            logger.info("Establishment found: " + id);
-            establishment.setPunctuation(es.sumPunctuation(id));
-            es.updatePunctuation(establishment);
-            logger.info("Establishment punctuation updated");
-            logger.info("end update punctuation");
+    // @PatchMapping("/establishments/{id}/punctuation")
+    // public ResponseEntity<String> updatePunctuation(@PathVariable String id) throws NotFoundException {
+    //     logger.info("begin update punctuation");
+    //     try {
+    //         Establishment establishment = es.findById(id).block();
+    //         logger.info("Establishment found: " + id);
+    //         establishment.setPunctuation(es.sumPunctuation(id));
+    //         es.updatePunctuation(establishment);
+    //         logger.info("Establishment punctuation updated");
+    //         logger.info("end update punctuation");
 
-            return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
-        } catch (NotFoundException nfe) {
-            logger.error("Establihsment not found exception with id " + id + ".", nfe);
-            throw new NotFoundException("Establishment with ID " + id + " does not exists.");
-        } catch (Exception e) {
-            // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-            return new ResponseEntity<>(
-                    "Money spent can't be updated due to lack of publications for the establishment "
-                            + id + ".",
-                    HttpStatus.OK);
-        }
-    }
+    //         return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
+    //     } catch (NotFoundException nfe) {
+    //         logger.error("Establihsment not found exception with id " + id + ".", nfe);
+    //         throw new NotFoundException("Establishment with ID " + id + " does not exists.");
+    //     } catch (Exception e) {
+    //         // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
+    //         return new ResponseEntity<>(
+    //                 "Money spent can't be updated due to lack of publications for the establishment "
+    //                         + id + ".",
+    //                 HttpStatus.OK);
+    //     }
+    // }
 
     @DeleteMapping("/establishments/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {

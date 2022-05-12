@@ -60,10 +60,10 @@ public class PublicationServiceImpl implements PublicationService {
         return pr.findByUser(user);
     }
 
-    @Override
-    public Flux<Publication> findByProductType(String type) {
-        return pr.findByProductType(type);
-    }
+    // @Override
+    // public Flux<Publication> findByProductType(String type) {
+    //     return pr.findByProductType(type);
+    // }
 
     @Override
     public Flux<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
@@ -83,15 +83,15 @@ public class PublicationServiceImpl implements PublicationService {
         return pr.findById(id).onErrorReturn(new Publication());
     }
 
-    @Override
-    public float totalPrice(String id) {
-        return pr.totalPrice(id);
-    }
+    // @Override
+    // public float totalPrice(String id) {
+    //     return pr.totalPrice(id);
+    // }
 
-    @Override
-    public float totalPunctuation(String id) {
-        return pr.totalPunctuation(id);
-    }
+    // @Override
+    // public float totalPunctuation(String id) {
+    //     return pr.totalPunctuation(id);
+    // }
 
     @Override
     public void updatePricePunctuation(Publication publication) {

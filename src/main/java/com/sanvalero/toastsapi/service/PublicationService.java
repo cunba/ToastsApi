@@ -27,7 +27,7 @@ public interface PublicationService {
 
     Flux<Publication> findByUser(UserModel user);
 
-    Flux<Publication> findByProductType(String type);
+    // Flux<Publication> findByProductType(String type);
 
     Flux<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
             LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctiation);
@@ -36,9 +36,9 @@ public interface PublicationService {
 
     Mono<Publication> findById(String id) throws NotFoundException;
 
-    float totalPrice(String id);
+    // float totalPrice(String id);
 
-    float totalPunctuation(String id);
+    // float totalPunctuation(String id);
 
     void updatePricePunctuation(Publication publication);
 

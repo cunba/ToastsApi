@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.sanvalero.toastsapi.model.Establishment;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +28,6 @@ public interface EstablishmentRepository extends ReactiveMongoRepository<Establi
 
     Flux<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    @Query(value = "SELECT SUM(total_punctuation) FROM publications WHERE establishment_id = :id", nativeQuery = true)
-    float sumPunctuation(String id);
+    // @Query(value = "SELECT SUM(total_punctuation) FROM publications WHERE establishment_id = :id", nativeQuery = true)
+    // float sumPunctuation(String id);
 }

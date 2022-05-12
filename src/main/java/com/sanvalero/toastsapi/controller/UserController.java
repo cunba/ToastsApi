@@ -124,54 +124,54 @@ public class UserController {
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
-    @PatchMapping("/users/{id}/publications-number")
-    public ResponseEntity<String> updatePublicationsNumber(@PathVariable String id)
-            throws NotFoundException {
+    // @PatchMapping("/users/{id}/publications-number")
+    // public ResponseEntity<String> updatePublicationsNumber(@PathVariable String id)
+    //         throws NotFoundException {
 
-        logger.info("begin update publications number");
-        try {
-            UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.getId());
-            user.setPublicationsNumber(us.countPublications(id));
-            us.updatePublicationsNumber(user);
-            logger.info("User publication number updated");
-            logger.info("end update publications number");
-            return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
-        } catch (NotFoundException e) {
-            logger.error("User not found with id: " + id, e);
-            throw new NotFoundException("User not found with id: " + id);
-        }
+    //     logger.info("begin update publications number");
+    //     try {
+    //         UserModel user = us.findById(id).block();
+    //         logger.info("User found: " + user.getId());
+    //         user.setPublicationsNumber(us.countPublications(id));
+    //         us.updatePublicationsNumber(user);
+    //         logger.info("User publication number updated");
+    //         logger.info("end update publications number");
+    //         return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
+    //     } catch (NotFoundException e) {
+    //         logger.error("User not found with id: " + id, e);
+    //         throw new NotFoundException("User not found with id: " + id);
+    //     }
 
-    }
+    // }
 
-    @PatchMapping("/users/{id}/money-spent")
-    public ResponseEntity<String> updateMoneySpent(@PathVariable String id)
-            throws NotFoundException {
+    // @PatchMapping("/users/{id}/money-spent")
+    // public ResponseEntity<String> updateMoneySpent(@PathVariable String id)
+    //         throws NotFoundException {
 
-        logger.info("begin update money spent");
-        try {
-            UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.getId());
+    //     logger.info("begin update money spent");
+    //     try {
+    //         UserModel user = us.findById(id).block();
+    //         logger.info("User found: " + user.getId());
 
-            try {
-                float price = us.sumPrice(id);
-                user.setMoneySpent(price);
-            } catch (Exception e) {
-                // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-                return new ResponseEntity<>("Money spent can't be updated due to lack of publications for the user "
-                        + user.getUsername() + ".", HttpStatus.OK);
-            }
+    //         try {
+    //             float price = us.sumPrice(id);
+    //             user.setMoneySpent(price);
+    //         } catch (Exception e) {
+    //             // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
+    //             return new ResponseEntity<>("Money spent can't be updated due to lack of publications for the user "
+    //                     + user.getUsername() + ".", HttpStatus.OK);
+    //         }
 
-            us.updateMoneySpent(user);
-            logger.info("User money spent updated");
-            logger.info("end update money spent");
+    //         us.updateMoneySpent(user);
+    //         logger.info("User money spent updated");
+    //         logger.info("end update money spent");
 
-            return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
-        } catch (NotFoundException e) {
-            logger.error("User not found with id: " + id, e);
-            throw new NotFoundException("User not found with id: " + id);
-        }
-    }
+    //         return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
+    //     } catch (NotFoundException e) {
+    //         logger.error("User not found with id: " + id, e);
+    //         throw new NotFoundException("User not found with id: " + id);
+    //     }
+    // }
 
     @PatchMapping("/users/{id}/password")
     public ResponseEntity<String> updatePassword(@PathVariable String id,

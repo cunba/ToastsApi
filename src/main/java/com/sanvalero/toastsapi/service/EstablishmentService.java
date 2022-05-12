@@ -35,7 +35,7 @@ public interface EstablishmentService {
 
     void deleteAll();
 
-    float sumPunctuation(String id);
+    // float sumPunctuation(String id);
 
     void updatePunctuation(Establishment establishment);
 }

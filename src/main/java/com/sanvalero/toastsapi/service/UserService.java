@@ -15,9 +15,9 @@ public interface UserService {
 
     Flux<UserModel> findByEmail(String email);
 
-    int countPublications(String id);
+    // int countPublications(String id);
 
-    float sumPrice(String id) throws NullPointerException;
+    // float sumPrice(String id) throws NullPointerException;
 
     Mono<UserModel> addUser(UserModel user);
 

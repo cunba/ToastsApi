@@ -83,10 +83,10 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         er.deleteAll();
     }
 
-    @Override
-    public float sumPunctuation(String id) {
-        return er.sumPunctuation(id);
-    }
+    // @Override
+    // public float sumPunctuation(String id) {
+    //     return er.sumPunctuation(id);
+    // }
 
     @Override
     public void updatePunctuation(Establishment establishment) {

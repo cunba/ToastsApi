@@ -36,15 +36,15 @@ public class UserServiceImpl implements UserService {
         return ur.findByEmail(email);
     }
 
-    @Override
-    public int countPublications(String id) {
-        return ur.countPublications(id);
-    }
+    // @Override
+    // public int countPublications(String id) {
+    // return ur.countPublications(id);
+    // }
 
-    @Override
-    public float sumPrice(String id) throws NullPointerException {
-        return ur.sumPrice(id);
-    }
+    // @Override
+    // public float sumPrice(String id) throws NullPointerException {
+    // return ur.sumPrice(id);
+    // }
 
     @Override
     public Mono<UserModel> addUser(UserModel user) {

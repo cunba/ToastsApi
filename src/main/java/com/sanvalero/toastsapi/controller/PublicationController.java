@@ -28,7 +28,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -184,10 +183,10 @@ public class PublicationController {
         }
     }
 
-    @GetMapping("/publications/type/{type}")
-    public ResponseEntity<Flux<Publication>> getByProductType(@PathVariable String type) {
-        return new ResponseEntity<>(ps.findByProductType(type), HttpStatus.OK);
-    }
+    // @GetMapping("/publications/type/{type}")
+    // public ResponseEntity<Flux<Publication>> getByProductType(@PathVariable String type) {
+    //     return new ResponseEntity<>(ps.findByProductType(type), HttpStatus.OK);
+    // }
 
     @GetMapping("/publications/date/price/punctuation/between")
     public ResponseEntity<Flux<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
@@ -305,13 +304,13 @@ public class PublicationController {
 
         publication.setPhoto(publicationDTO.getPhoto());
 
-        try {
-            publication.setTotalPrice(ps.totalPrice(publication.getId()));
-            publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
-        } catch (Exception e) {
-            // Quiere decir que no hay productos para obtener el precio y actualizarlo
-            logger.info("No hay productos para actualizar el precio y la puntuación");
-        }
+        // try {
+        //     publication.setTotalPrice(ps.totalPrice(publication.getId()));
+        //     publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
+        // } catch (Exception e) {
+        //     // Quiere decir que no hay productos para obtener el precio y actualizarlo
+        //     logger.info("No hay productos para actualizar el precio y la puntuación");
+        // }
         publication.setEstablishment(establishment);
 
         Mono<Publication> toPrint = ps.updatePublication(publication);
@@ -321,29 +320,29 @@ public class PublicationController {
         return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
-    @PatchMapping("/publications/{id}/price-punctuation")
-    public ResponseEntity<String> totalPricePunctuation(@PathVariable String id) throws NotFoundException {
-        logger.info("begin set total price punctuation");
-        try {
-            Publication publication = ps.findById(id).block();
-            logger.info("Publication found: " + publication.getId());
+    // @PatchMapping("/publications/{id}/price-punctuation")
+    // public ResponseEntity<String> totalPricePunctuation(@PathVariable String id) throws NotFoundException {
+    //     logger.info("begin set total price punctuation");
+    //     try {
+    //         Publication publication = ps.findById(id).block();
+    //         logger.info("Publication found: " + publication.getId());
 
-            publication.setTotalPrice(ps.totalPrice(id));
-            publication.setTotalPunctuation(ps.totalPunctuation(id));
-            ps.updatePricePunctuation(publication);
-            logger.info("Publication price and punctuation updated");
-            logger.info("end set total price punctuation");
+    //         publication.setTotalPrice(ps.totalPrice(id));
+    //         publication.setTotalPunctuation(ps.totalPunctuation(id));
+    //         ps.updatePricePunctuation(publication);
+    //         logger.info("Publication price and punctuation updated");
+    //         logger.info("end set total price punctuation");
 
-            return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
-        } catch (NotFoundException nfe) {
-            logger.error("Publication not found exception with id " + id + ".", nfe);
-            throw new NotFoundException("Publication with ID " + id + " does not exists.");
-        } catch (Exception e) {
-            // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-            return new ResponseEntity<>("Money spent can't be updated due to lack of products for the publication "
-                    + id + ".", HttpStatus.OK);
-        }
-    }
+    //         return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
+    //     } catch (NotFoundException nfe) {
+    //         logger.error("Publication not found exception with id " + id + ".", nfe);
+    //         throw new NotFoundException("Publication with ID " + id + " does not exists.");
+    //     } catch (Exception e) {
+    //         // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
+    //         return new ResponseEntity<>("Money spent can't be updated due to lack of products for the publication "
+    //                 + id + ".", HttpStatus.OK);
+    //     }
+    // }
 
     @DeleteMapping("/publications/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
