@@ -11,6 +11,9 @@
 				{
 					"name": "Get all types",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -30,10 +33,13 @@
 				{
 					"name": "Get type by ID",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/types/10",
+							"raw": "http://{{ip}}:{{port}}/types/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -41,7 +47,13 @@
 							"port": "{{port}}",
 							"path": [
 								"types",
-								"10"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -50,10 +62,13 @@
 				{
 					"name": "Get type by name",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/types/name/Tostada",
+							"raw": "http://{{ip}}:{{port}}/types/name/:name",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -62,7 +77,13 @@
 							"path": [
 								"types",
 								"name",
-								"Tostada"
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "Tostada"
+								}
 							]
 						}
 					},
@@ -71,10 +92,13 @@
 				{
 					"name": "Get type by type",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/types/type/de Jamón",
+							"raw": "http://{{ip}}:{{port}}/types/type/:type",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -83,7 +107,13 @@
 							"path": [
 								"types",
 								"type",
-								"de Jamón"
+								":type"
+							],
+							"variable": [
+								{
+									"key": "type",
+									"value": "de jamón"
+								}
 							]
 						}
 					},
@@ -92,10 +122,13 @@
 				{
 					"name": "Get type by name and type",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/types/name/Tostada/type/de jamón",
+							"raw": "http://{{ip}}:{{port}}/types/name/:name/type/:type",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -104,9 +137,19 @@
 							"path": [
 								"types",
 								"name",
-								"Tostada",
+								":name",
 								"type",
-								"de jamón"
+								":type"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "Tostada"
+								},
+								{
+									"key": "type",
+									"value": "de jamón"
+								}
 							]
 						}
 					},
@@ -155,7 +198,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/types/26",
+							"raw": "http://{{ip}}:{{port}}/types/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -163,7 +206,13 @@
 							"port": "{{port}}",
 							"path": [
 								"types",
-								"26"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "26"
+								}
 							]
 						}
 					},
@@ -175,7 +224,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/types/26",
+							"raw": "http://{{ip}}:{{port}}/types/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -183,7 +232,13 @@
 							"port": "{{port}}",
 							"path": [
 								"types",
-								"26"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "26"
+								}
 							]
 						}
 					},
@@ -216,6 +271,9 @@
 				{
 					"name": "Get all Menus",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -235,10 +293,13 @@
 				{
 					"name": "Get menu by id",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/2",
+							"raw": "http://{{ip}}:{{port}}/menus/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -246,7 +307,13 @@
 							"port": "{{port}}",
 							"path": [
 								"menus",
-								"2"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -255,10 +322,13 @@
 				{
 					"name": "Get menu by date",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/date/1650987797000",
+							"raw": "http://{{ip}}:{{port}}/menus/date/:date",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -267,7 +337,13 @@
 							"path": [
 								"menus",
 								"date",
-								"1650987797000"
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "1650987797000"
+								}
 							]
 						}
 					},
@@ -276,6 +352,9 @@
 				{
 					"name": "Get menu by date between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -307,10 +386,13 @@
 				{
 					"name": "Get menu by price",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/price/1",
+							"raw": "http://{{ip}}:{{port}}/menus/price/:price",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -319,7 +401,13 @@
 							"path": [
 								"menus",
 								"price",
-								"1"
+								":price"
+							],
+							"variable": [
+								{
+									"key": "price",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -328,6 +416,9 @@
 				{
 					"name": "Get menu by price between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -359,10 +450,13 @@
 				{
 					"name": "Get menu by punctuation",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/punctuation/4",
+							"raw": "http://{{ip}}:{{port}}/menus/punctuation/:punctuation",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -371,7 +465,13 @@
 							"path": [
 								"menus",
 								"punctuation",
-								"4"
+								":punctuation"
+							],
+							"variable": [
+								{
+									"key": "punctuation",
+									"value": "4"
+								}
 							]
 						}
 					},
@@ -380,6 +480,9 @@
 				{
 					"name": "Get menu by punctuation between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -451,7 +554,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/2",
+							"raw": "http://{{ip}}:{{port}}/menus/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -459,7 +562,13 @@
 							"port": "{{port}}",
 							"path": [
 								"menus",
-								"2"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -471,7 +580,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/1",
+							"raw": "http://{{ip}}:{{port}}/menus/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -479,7 +588,13 @@
 							"port": "{{port}}",
 							"path": [
 								"menus",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -512,16 +627,6 @@
 				{
 					"name": "Get all users",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjciLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUwOTg2NDQwLCJleHAiOjE2NTA5OTAwNDB9.dqbxipmup6jIwGeN_pPSGss_1gMeCtQISkpBBSJb2dVDFull-VwMTbdMJqm734Sq1KtreDdYuMmDRMuJk9kLxg",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -544,7 +649,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/8",
+							"raw": "http://{{ip}}:{{port}}/users/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -552,7 +657,13 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"8"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -623,7 +734,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/7/publications-number",
+							"raw": "http://{{ip}}:{{port}}/users/:id/publications-number",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -631,8 +742,14 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"7",
+								":id",
 								"publications-number"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -644,7 +761,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/7/money-spent",
+							"raw": "http://{{ip}}:{{port}}/users/:id/money-spent",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -652,8 +769,14 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"7",
+								":id",
 								"money-spent"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -674,7 +797,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/8/password",
+							"raw": "http://{{ip}}:{{port}}/users/:id/password",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -682,8 +805,14 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"8",
+								":id",
 								"password"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -695,7 +824,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/8/disable",
+							"raw": "http://{{ip}}:{{port}}/users/:id/disable",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -703,8 +832,14 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"8",
+								":id",
 								"disable"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -716,7 +851,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/8/activate",
+							"raw": "http://{{ip}}:{{port}}/users/:id/activate",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -724,8 +859,14 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"8",
+								":id",
 								"activate"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -737,7 +878,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/users/5",
+							"raw": "http://{{ip}}:{{port}}/users/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -745,7 +886,13 @@
 							"port": "{{port}}",
 							"path": [
 								"users",
-								"5"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -778,6 +925,9 @@
 				{
 					"name": "Get all establishments",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -797,10 +947,13 @@
 				{
 					"name": "Get establishment by id",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/1",
+							"raw": "http://{{ip}}:{{port}}/establishments/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -808,7 +961,13 @@
 							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -817,10 +976,13 @@
 				{
 					"name": "Get establishment by name",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/name/Criollo",
+							"raw": "http://{{ip}}:{{port}}/establishments/name/:name",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -829,7 +991,13 @@
 							"path": [
 								"establishments",
 								"name",
-								"Criollo"
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "Criollo"
+								}
 							]
 						}
 					},
@@ -838,10 +1006,13 @@
 				{
 					"name": "Get establishment by date",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/date/1650490680000",
+							"raw": "http://{{ip}}:{{port}}/establishments/date/:date",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -850,7 +1021,13 @@
 							"path": [
 								"establishments",
 								"date",
-								"1650490680000"
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "1650490680000"
+								}
 							]
 						}
 					},
@@ -859,6 +1036,9 @@
 				{
 					"name": "Get establishment by date between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -890,10 +1070,13 @@
 				{
 					"name": "Get establishment by open",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/open/true",
+							"raw": "http://{{ip}}:{{port}}/establishments/open/:open",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -902,7 +1085,13 @@
 							"path": [
 								"establishments",
 								"open",
-								"true"
+								":open"
+							],
+							"variable": [
+								{
+									"key": "open",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -911,10 +1100,13 @@
 				{
 					"name": "Get establishment by punctuation",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/punctuation/0",
+							"raw": "http://{{ip}}:{{port}}/establishments/punctuation/:punctuation",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -923,7 +1115,13 @@
 							"path": [
 								"establishments",
 								"punctuation",
-								"0"
+								":punctuation"
+							],
+							"variable": [
+								{
+									"key": "punctuation",
+									"value": "0"
+								}
 							]
 						}
 					},
@@ -932,6 +1130,9 @@
 				{
 					"name": "Get establishment by punctuation min and max",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1003,7 +1204,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/6",
+							"raw": "http://{{ip}}:{{port}}/establishments/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1011,7 +1212,13 @@
 							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"6"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6"
+								}
 							]
 						}
 					},
@@ -1022,17 +1229,8 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Mezcalito\",\n\t\"location\": {\n        \"latitude\": 41.6536650638226, \n        \"longitude\": -0.8843359286918279\n    },\n\t\"open\": true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/1/punctuation/",
+							"raw": "http://{{ip}}:{{port}}/establishments/:id/punctuation",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1040,9 +1238,14 @@
 							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"1",
-								"punctuation",
-								""
+								":id",
+								"punctuation"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1054,7 +1257,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/17",
+							"raw": "http://{{ip}}:{{port}}/establishments/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1062,7 +1265,13 @@
 							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"17"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "17"
+								}
 							]
 						}
 					},
@@ -1095,6 +1304,9 @@
 				{
 					"name": "Get all products",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1114,10 +1326,13 @@
 				{
 					"name": "Get product by id",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/menu/1",
+							"raw": "http://{{ip}}:{{port}}/products/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1125,8 +1340,13 @@
 							"port": "{{port}}",
 							"path": [
 								"products",
-								"menu",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1135,10 +1355,13 @@
 				{
 					"name": "Get product by date",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/date/1650987797000",
+							"raw": "http://{{ip}}:{{port}}/products/date/:date",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1147,7 +1370,13 @@
 							"path": [
 								"products",
 								"date",
-								"1650987797000"
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "1650987797000"
+								}
 							]
 						}
 					},
@@ -1156,6 +1385,9 @@
 				{
 					"name": "Get product by date min and max",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1187,10 +1419,13 @@
 				{
 					"name": "Get product by in menu",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/inMenu/true",
+							"raw": "http://{{ip}}:{{port}}/products/inMenu/:inMenu",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1199,7 +1434,13 @@
 							"path": [
 								"products",
 								"inMenu",
-								"true"
+								":inMenu"
+							],
+							"variable": [
+								{
+									"key": "inMenu",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -1208,10 +1449,13 @@
 				{
 					"name": "Get product by price",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/price/0",
+							"raw": "http://{{ip}}:{{port}}/products/price/:price",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1220,7 +1464,13 @@
 							"path": [
 								"products",
 								"price",
-								"0"
+								":price"
+							],
+							"variable": [
+								{
+									"key": "price",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -1229,6 +1479,9 @@
 				{
 					"name": "Get product by price min and max",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1260,10 +1513,13 @@
 				{
 					"name": "Get product by puncuation",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/punctuation/0",
+							"raw": "http://{{ip}}:{{port}}/products/punctuation/:punctuation",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1272,7 +1528,13 @@
 							"path": [
 								"products",
 								"punctuation",
-								"0"
+								":punctuation"
+							],
+							"variable": [
+								{
+									"key": "punctuation",
+									"value": "0"
+								}
 							]
 						}
 					},
@@ -1281,6 +1543,9 @@
 				{
 					"name": "Get product by punctuation min and max",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1312,10 +1577,13 @@
 				{
 					"name": "Get product by type",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/type/2",
+							"raw": "http://{{ip}}:{{port}}/products/type/:typeId",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1324,7 +1592,13 @@
 							"path": [
 								"products",
 								"type",
-								"2"
+								":typeId"
+							],
+							"variable": [
+								{
+									"key": "typeId",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1333,10 +1607,13 @@
 				{
 					"name": "Get product by menu",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/menu/1",
+							"raw": "http://{{ip}}:{{port}}/products/menu/:menuId",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1345,7 +1622,13 @@
 							"path": [
 								"products",
 								"menu",
-								"1"
+								":menuId"
+							],
+							"variable": [
+								{
+									"key": "menuId",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1354,10 +1637,13 @@
 				{
 					"name": "Get product by publication",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/publication/3",
+							"raw": "http://{{ip}}:{{port}}/products/publication/:publicationId",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1366,7 +1652,13 @@
 							"path": [
 								"products",
 								"publication",
-								"3"
+								":publicationId"
+							],
+							"variable": [
+								{
+									"key": "publicationId",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1379,7 +1671,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": true,\n\t\"punctuation\": 2,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 1\n}",
+							"raw": "{\n\n\t\"inMenu\": true,\n\t\"punctuation\": 6,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1443,7 +1735,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/2",
+							"raw": "http://{{ip}}:{{port}}/products/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1451,7 +1743,13 @@
 							"port": "{{port}}",
 							"path": [
 								"products",
-								"2"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1472,7 +1770,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/1",
+							"raw": "http://{{ip}}:{{port}}/products/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1480,7 +1778,13 @@
 							"port": "{{port}}",
 							"path": [
 								"products",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1492,7 +1796,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/1",
+							"raw": "http://{{ip}}:{{port}}/products/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1500,7 +1804,13 @@
 							"port": "{{port}}",
 							"path": [
 								"products",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1533,6 +1843,9 @@
 				{
 					"name": "Get all publications",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1552,10 +1865,13 @@
 				{
 					"name": "Get publication by id",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/1",
+							"raw": "http://{{ip}}:{{port}}/publications/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1563,7 +1879,13 @@
 							"port": "{{port}}",
 							"path": [
 								"publications",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1572,10 +1894,13 @@
 				{
 					"name": "Get publication by date",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/date/1650987797000",
+							"raw": "http://{{ip}}:{{port}}/publications/date/:date",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1584,7 +1909,13 @@
 							"path": [
 								"publications",
 								"date",
-								"1650987797000"
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "1650987797000"
+								}
 							]
 						}
 					},
@@ -1593,6 +1924,9 @@
 				{
 					"name": "Get publication by date between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1624,10 +1958,13 @@
 				{
 					"name": "Get publication by total price",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/price/0",
+							"raw": "http://{{ip}}:{{port}}/publications/price/:price",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1636,7 +1973,13 @@
 							"path": [
 								"publications",
 								"price",
-								"0"
+								":price"
+							],
+							"variable": [
+								{
+									"key": "price",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -1645,6 +1988,9 @@
 				{
 					"name": "Get publication by total price between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1676,10 +2022,13 @@
 				{
 					"name": "Get publication by total punctuaiton",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/punctuation/0",
+							"raw": "http://{{ip}}:{{port}}/publications/punctuation/:punctuation",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1688,7 +2037,13 @@
 							"path": [
 								"publications",
 								"punctuation",
-								"0"
+								":punctuation"
+							],
+							"variable": [
+								{
+									"key": "punctuation",
+									"value": "4"
+								}
 							]
 						}
 					},
@@ -1697,6 +2052,9 @@
 				{
 					"name": "Get publication by total punctuation between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1728,10 +2086,13 @@
 				{
 					"name": "Get publication by establishment",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/establishment/1",
+							"raw": "http://{{ip}}:{{port}}/publications/establishment/:establishmentId",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1740,7 +2101,13 @@
 							"path": [
 								"publications",
 								"establishment",
-								"1"
+								":establishmentId"
+							],
+							"variable": [
+								{
+									"key": "establishmentId",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -1749,10 +2116,13 @@
 				{
 					"name": "Get publication by user",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/user/5",
+							"raw": "http://{{ip}}:{{port}}/publications/user/:userId",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1761,7 +2131,13 @@
 							"path": [
 								"publications",
 								"user",
-								"5"
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "8"
+								}
 							]
 						}
 					},
@@ -1770,10 +2146,13 @@
 				{
 					"name": "Get publication by product type",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/type/de jamón",
+							"raw": "http://{{ip}}:{{port}}/publications/type/:type",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1782,7 +2161,13 @@
 							"path": [
 								"publications",
 								"type",
-								"de jamón"
+								":type"
+							],
+							"variable": [
+								{
+									"key": "type",
+									"value": "de jamón"
+								}
 							]
 						}
 					},
@@ -1791,6 +2176,9 @@
 				{
 					"name": "Get publication by date between, price between and punctuation between",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1908,7 +2296,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/1/price-punctuation",
+							"raw": "http://{{ip}}:{{port}}/publications/:id/price-punctuation",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1916,8 +2304,14 @@
 							"port": "{{port}}",
 							"path": [
 								"publications",
-								"1",
+								":id",
 								"price-punctuation"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -1929,7 +2323,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/1",
+							"raw": "http://{{ip}}:{{port}}/publications/:id",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1937,7 +2331,13 @@
 							"port": "{{port}}",
 							"path": [
 								"publications",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1970,7 +2370,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUxNjkyNjg2LCJleHAiOjE2NTE2OTYyODZ9.FRw3TkfOt9orBhXg9sK3tcnHlmf5j2Ad5LixN-RaHb87bYOQsWL_EY3xJmuuSmmwqnrnlj3iL4KqYL7yT760uA",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjgiLCJ1c2VybmFtZSI6ImN1bmJhIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJST0xFX1VTRVIifSwiaWF0IjoxNjUyMzg5Mjc3LCJleHAiOjE2NTIzOTI4Nzd9.eBN7Pi3xOnFjBQwZnHcAk4qUog4BvgdaVxEEyE7EW6ABs1lpiI8Alm6uR6epfZcNeVK1Y4tgWmEj84pAHj3-GQ",
 				"type": "string"
 			}
 		]

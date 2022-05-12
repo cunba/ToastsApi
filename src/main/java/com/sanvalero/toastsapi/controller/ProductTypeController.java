@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -72,6 +73,7 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.findByProductNameAndType(name, type), HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PostMapping("/types")
     public ResponseEntity<ProductType> create(@RequestBody ProductTypeDTO typeDTO) {
         ProductType type = new ProductType();
@@ -80,6 +82,7 @@ public class ProductTypeController {
         return new ResponseEntity<>(pts.addType(type), HttpStatus.CREATED);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/types/{id}")
     public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type)
             throws NotFoundException {
@@ -100,6 +103,7 @@ public class ProductTypeController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/types/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         try {
@@ -117,6 +121,7 @@ public class ProductTypeController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/types")
     public ResponseEntity<String> deleteAll() {
         pts.deleteAll();

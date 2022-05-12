@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -153,6 +154,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PostMapping("/menus")
     public ResponseEntity<Menu> create(@RequestBody MenuDTO menuDTO) {
         logger.info("begin create menu");
@@ -167,6 +169,7 @@ public class MenuController {
         return new ResponseEntity<>(toPrint, HttpStatus.CREATED);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/menus/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
         logger.info("begin update menu");
@@ -185,6 +188,7 @@ public class MenuController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/menus/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
@@ -202,6 +206,7 @@ public class MenuController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/menus")
     public ResponseEntity<String> deleteAll() {
         ms.deleteAll();

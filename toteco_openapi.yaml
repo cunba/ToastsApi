@@ -8,6 +8,8 @@ info:
 servers:
   - url: http://localhost:8081
 tags:
+  - name: Login
+    description: Login to post, put, patch and delete
   - name: Products
     description: Everything about the products
   - name: Product type
@@ -24,8 +26,6 @@ tags:
 paths:
   /products:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get all the products
@@ -130,8 +130,6 @@ paths:
                 
   /products/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get a product
@@ -252,8 +250,6 @@ paths:
       
   /products/date/{date}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products by date
@@ -291,8 +287,6 @@ paths:
           
   /products/date/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products between dates
@@ -331,8 +325,6 @@ paths:
           
   /products/inMenu/{inMenu}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products which belongs (or not) to menus
@@ -410,8 +402,6 @@ paths:
           
   /products/price/{price}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get all products by price
@@ -449,8 +439,6 @@ paths:
                 
   /products/price/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products by price between
@@ -535,8 +523,6 @@ paths:
                 
   /products/punctuation/{punctuation}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get all products by punctuation
@@ -574,8 +560,6 @@ paths:
                 
   /products/punctuation/between/:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products by punctuation between
@@ -614,8 +598,6 @@ paths:
                 
   /products/type/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products by type id
@@ -654,8 +636,6 @@ paths:
                 
   /products/menu/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products by menu id
@@ -693,8 +673,6 @@ paths:
   
   /products/publication/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Products
       summary: Get products by publication id
@@ -733,8 +711,6 @@ paths:
                 
   /types:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Product type
       summary: Get all types
@@ -827,8 +803,6 @@ paths:
                     
   /types/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by id
@@ -943,8 +917,6 @@ paths:
                     
   /types/name/{name}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by name
@@ -976,8 +948,6 @@ paths:
                     
   /types/type/{type}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by type
@@ -1009,8 +979,6 @@ paths:
                     
   /types/name/{name}/type/{type}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Product type
       summary: Get type by name and type
@@ -1044,8 +1012,6 @@ paths:
                     
   /menus:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get all menus
@@ -1136,8 +1102,6 @@ paths:
                     
   /menus/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by id
@@ -1251,8 +1215,6 @@ paths:
                     
   /menus/date/{date}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by date
@@ -1290,8 +1252,6 @@ paths:
     
   /menus/date/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by date between
@@ -1330,8 +1290,6 @@ paths:
                     
   /menus/price/{price}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by price
@@ -1369,8 +1327,6 @@ paths:
     
   /menus/price/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by price between
@@ -1409,8 +1365,6 @@ paths:
                     
   /menus/punctuation/{punctuation}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by punctuation
@@ -1448,8 +1402,6 @@ paths:
     
   /menus/punctuation/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Menu
       summary: Get menu by punctuation between
@@ -1489,8 +1441,6 @@ paths:
                     
   /publications:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get all publications
@@ -1734,8 +1684,6 @@ paths:
                     
   /publications/date/{date}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by date
@@ -1773,8 +1721,6 @@ paths:
     
   /publications/date/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by date between
@@ -1813,8 +1759,6 @@ paths:
                     
   /publications/price/{price}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by price
@@ -1852,8 +1796,6 @@ paths:
     
   /publications/price/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by price between
@@ -1892,8 +1834,6 @@ paths:
                     
   /publications/punctuation/{punctuation}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by punctuation
@@ -1931,8 +1871,6 @@ paths:
     
   /publications/punctuation/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by punctuation between
@@ -1971,8 +1909,6 @@ paths:
                     
   /publications/establishment/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by establishment id
@@ -2010,8 +1946,6 @@ paths:
                     
   /publications/user/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by user id
@@ -2049,8 +1983,6 @@ paths:
                     
   /publications/type/{type}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by product type
@@ -2082,8 +2014,6 @@ paths:
                     
   /publications/date/price/punctuation/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Publication
       summary: Get publication by date, price and punctuation between
@@ -2127,8 +2057,6 @@ paths:
                     
   /establishments:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get all establishments
@@ -2220,8 +2148,6 @@ paths:
                     
   /establishments/{id}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by id
@@ -2335,8 +2261,6 @@ paths:
                     
   /establishment/name/{name}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by user id
@@ -2368,8 +2292,6 @@ paths:
                     
   /establishment/open/{open}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by open
@@ -2401,8 +2323,6 @@ paths:
                              
   /establishments/date/{date}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by date
@@ -2440,8 +2360,6 @@ paths:
     
   /establishments/date/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by date between
@@ -2517,8 +2435,6 @@ paths:
                     
   /establishments/punctuation/{punctuation}:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by punctuation
@@ -2556,8 +2472,6 @@ paths:
     
   /establishment/punctuation/between:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Establishment
       summary: Get establishment by punctuation between
@@ -2598,7 +2512,7 @@ paths:
   /login:
     post:
       tags:
-        - User
+        - Login
       summary: Login
       description: Login with an existing user
       operationId: login

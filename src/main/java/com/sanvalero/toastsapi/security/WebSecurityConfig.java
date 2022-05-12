@@ -38,7 +38,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
 				.cors().and()
-				.authorizeRequests().antMatchers("/login").permitAll()
+				.authorizeRequests().antMatchers(
+					"/login", 
+					"/users",
+					"/establishments",
+					"/menus",
+					"/products",
+					"/types",
+					"/publications"
+					).permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().headers().frameOptions().disable().and().csrf()
 				.disable()
 				.exceptionHandling().authenticationEntryPoint(jwtAuthEndPoint).and()
