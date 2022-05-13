@@ -3087,6 +3087,9 @@ components:
           type: integer
           format: int64
           example: 0
+        username:
+          type: string
+          example: cunba
         name:
           type: string
           example: Irene
@@ -3117,6 +3120,9 @@ components:
           example: 17       
     UserDTO:
       properties:
+        username:
+          type: string
+          example: cunba
         name:
           type: string
           example: Irene
