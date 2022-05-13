@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
@@ -21,7 +22,7 @@ public interface MenuService {
 
     Flux<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Mono<Menu> findById(String id) throws NotFoundException;
+    Mono<Menu> findById(UUID id) throws NotFoundException;
 
     Flux<Menu> findAll();
 

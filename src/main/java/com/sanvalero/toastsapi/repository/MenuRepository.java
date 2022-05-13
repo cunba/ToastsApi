@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.repository;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.model.Menu;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface MenuRepository extends ReactiveMongoRepository<Menu, String> {
+public interface MenuRepository extends ReactiveMongoRepository<Menu, UUID> {
     Flux<Menu> findAll();
 
     Flux<Menu> findByDate(LocalDate date);

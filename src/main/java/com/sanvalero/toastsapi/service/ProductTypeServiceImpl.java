@@ -1,5 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
+import java.util.UUID;
 import java.util.Vector;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
@@ -39,18 +40,18 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public Mono<ProductType> findById(String id) throws NotFoundException {
+    public Mono<ProductType> findById(UUID id) throws NotFoundException {
         return ptr.findById(id).onErrorReturn(new ProductType());
     }
 
     @Override
-    public Flux<ProductType> findByIds(Vector<String> ids) {
+    public Flux<ProductType> findByIds(Vector<UUID> ids) {
         return (Flux<ProductType>) ptr.findAllById(ids);
     }
 
     @Override
     public Mono<ProductType> addType(ProductType type) {
-        return ptr.save(type);
+        return ptr.insert(type);
     }
 
     @Override

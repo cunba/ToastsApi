@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Product {
 
     @Id
-    private String id;
+    private UUID _id;
     @Field
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;

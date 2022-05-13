@@ -1,5 +1,7 @@
 package com.sanvalero.toastsapi.model.dto;
 
+import java.util.UUID;
+
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
@@ -26,10 +28,10 @@ public class ProductDTO {
     @Min(value = 0)
     @Max(value = 5)
     private float punctuation;
-    private String typeId;
-    private String menuId;
+    private UUID typeId;
+    private UUID menuId;
     @NotNull
     @NotBlank
     @NotEmpty
-    private String publicationId;
+    private UUID publicationId;
 }

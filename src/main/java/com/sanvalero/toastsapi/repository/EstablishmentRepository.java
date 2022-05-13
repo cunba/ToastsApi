@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.repository;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.model.Establishment;
 
@@ -11,7 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface EstablishmentRepository extends ReactiveMongoRepository<Establishment, String> {
+public interface EstablishmentRepository extends ReactiveMongoRepository<Establishment, UUID> {
     Flux<Establishment> findAll();
 
     Mono<Establishment> findByName(String name);

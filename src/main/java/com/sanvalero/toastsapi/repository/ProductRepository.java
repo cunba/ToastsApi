@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.repository;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.model.Menu;
 import com.sanvalero.toastsapi.model.Product;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface ProductRepository extends ReactiveMongoRepository<Product, String> {
+public interface ProductRepository extends ReactiveMongoRepository<Product, UUID> {
     Flux<Product> findAll();
 
     Flux<Product> findByType(ProductType productType);

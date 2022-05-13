@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.repository;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.model.Establishment;
 import com.sanvalero.toastsapi.model.Publication;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface PublicationRepository extends ReactiveMongoRepository<Publication, String> {
+public interface PublicationRepository extends ReactiveMongoRepository<Publication, UUID> {
     Flux<Publication> findAll();
 
     Flux<Publication> findByDate(LocalDate date);

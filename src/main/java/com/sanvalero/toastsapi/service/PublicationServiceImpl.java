@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -62,7 +63,7 @@ public class PublicationServiceImpl implements PublicationService {
 
     // @Override
     // public Flux<Publication> findByProductType(String type) {
-    //     return pr.findByProductType(type);
+    // return pr.findByProductType(type);
     // }
 
     @Override
@@ -79,18 +80,18 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Mono<Publication> findById(String id) throws NotFoundException {
+    public Mono<Publication> findById(UUID id) throws NotFoundException {
         return pr.findById(id).onErrorReturn(new Publication());
     }
 
     // @Override
     // public float totalPrice(String id) {
-    //     return pr.totalPrice(id);
+    // return pr.totalPrice(id);
     // }
 
     // @Override
     // public float totalPunctuation(String id) {
-    //     return pr.totalPunctuation(id);
+    // return pr.totalPunctuation(id);
     // }
 
     @Override
@@ -100,7 +101,7 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public Mono<Publication> addPublication(Publication publication) {
-        return pr.save(publication);
+        return pr.insert(publication);
     }
 
     @Override

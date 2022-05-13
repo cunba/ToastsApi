@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -63,7 +64,7 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @GetMapping("/users/{id}")
-    public ResponseEntity<Mono<UserModel>> getById(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<Mono<UserModel>> getById(@PathVariable UUID id) throws NotFoundException {
 
         try {
             Mono<UserModel> user = us.findById(id);
@@ -77,13 +78,13 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<Mono<UserModel>> create(@RequestBody UserDTO userDTO) throws BadRequestException {
         Flux<UserModel> userFlux = us.findByUsername(userDTO.getUsername());
-        if (!userFlux.equals(null)) {
+        if (userFlux.count().block() < 0) {
             logger.error("Username in use.", new BadRequestException());
             throw new BadRequestException("The user " + userDTO.getUsername() + " already exists.");
         }
 
         userFlux = us.findByEmail(userDTO.getEmail());
-        if (!userFlux.equals(null)) {
+        if (userFlux.count().block() < 0) {
             logger.error("Email in use.", new BadRequestException());
             throw new BadRequestException("The email " + userDTO.getEmail() + " already exists.");
         }
@@ -121,71 +122,74 @@ public class UserController {
             throw new BadRequestException("Credentials error, incorrect password for user " + request.getUsername());
         }
 
-        String token = jwtTokenProvider.createToken(user.last().block().getId(), request.getUsername(),
+        String token = jwtTokenProvider.createToken(user.last().block().get_id(), request.getUsername(),
                 user.last().block().getRole());
         JwtResponse jwtResponse = new JwtResponse(token);
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
     // @PatchMapping("/users/{id}/publications-number")
-    // public ResponseEntity<String> updatePublicationsNumber(@PathVariable String id)
-    //         throws NotFoundException {
+    // public ResponseEntity<String> updatePublicationsNumber(@PathVariable String
+    // id)
+    // throws NotFoundException {
 
-    //     logger.info("begin update publications number");
-    //     try {
-    //         UserModel user = us.findById(id).block();
-    //         logger.info("User found: " + user.getId());
-    //         user.setPublicationsNumber(us.countPublications(id));
-    //         us.updatePublicationsNumber(user);
-    //         logger.info("User publication number updated");
-    //         logger.info("end update publications number");
-    //         return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
-    //     } catch (NotFoundException e) {
-    //         logger.error("User not found with id: " + id, e);
-    //         throw new NotFoundException("User not found with id: " + id);
-    //     }
+    // logger.info("begin update publications number");
+    // try {
+    // UserModel user = us.findById(id).block();
+    // logger.info("User found: " + user.get_id());
+    // user.setPublicationsNumber(us.countPublications(id));
+    // us.updatePublicationsNumber(user);
+    // logger.info("User publication number updated");
+    // logger.info("end update publications number");
+    // return new ResponseEntity<>("Publications number updated.", HttpStatus.OK);
+    // } catch (NotFoundException e) {
+    // logger.error("User not found with id: " + id, e);
+    // throw new NotFoundException("User not found with id: " + id);
+    // }
 
     // }
 
     // @PatchMapping("/users/{id}/money-spent")
-    // public ResponseEntity<String> updateMoneySpent(@PathVariable String id)
-    //         throws NotFoundException {
+    // public ResponseEntity<String> updateMoneySpent(@PathVariable UUID id)
+    // throws NotFoundException {
 
-    //     logger.info("begin update money spent");
-    //     try {
-    //         UserModel user = us.findById(id).block();
-    //         logger.info("User found: " + user.getId());
+    // logger.info("begin update money spent");
+    // try {
+    // UserModel user = us.findById(id).block();
+    // logger.info("User found: " + user.get_id());
 
-    //         try {
-    //             float price = us.sumPrice(id);
-    //             user.setMoneySpent(price);
-    //         } catch (Exception e) {
-    //             // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-    //             return new ResponseEntity<>("Money spent can't be updated due to lack of publications for the user "
-    //                     + user.getUsername() + ".", HttpStatus.OK);
-    //         }
+    // try {
+    // float price = us.sumPrice(id);
+    // user.setMoneySpent(price);
+    // } catch (Exception e) {
+    // // Quiere decir que no hay publicaciones para obtener el precio y
+    // actualizarlo
+    // return new ResponseEntity<>("Money spent can't be updated due to lack of
+    // publications for the user "
+    // + user.getUsername() + ".", HttpStatus.OK);
+    // }
 
-    //         us.updateMoneySpent(user);
-    //         logger.info("User money spent updated");
-    //         logger.info("end update money spent");
+    // us.updateMoneySpent(user);
+    // logger.info("User money spent updated");
+    // logger.info("end update money spent");
 
-    //         return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
-    //     } catch (NotFoundException e) {
-    //         logger.error("User not found with id: " + id, e);
-    //         throw new NotFoundException("User not found with id: " + id);
-    //     }
+    // return new ResponseEntity<>("Money spent updated.", HttpStatus.OK);
+    // } catch (NotFoundException e) {
+    // logger.error("User not found with id: " + id, e);
+    // throw new NotFoundException("User not found with id: " + id);
+    // }
     // }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/password")
-    public ResponseEntity<String> updatePassword(@PathVariable String id,
+    public ResponseEntity<String> updatePassword(@PathVariable UUID id,
             @RequestBody PasswordChangeDTO password) throws NotFoundException {
 
         logger.info("begin update password");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.getId());
+            logger.info("User found: " + user.get_id());
             user.setPassword(UserModel.encoder().encode(password.getPassword()));
             us.updatePassword(user);
             logger.info("User password updated");
@@ -201,12 +205,12 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/disable")
-    public ResponseEntity<String> disable(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<String> disable(@PathVariable UUID id) throws NotFoundException {
         logger.info("begin disable user");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.getId());
+            logger.info("User found: " + user.get_id());
             user.setActive(false);
             us.disable(user);
             logger.info("User disabled");
@@ -221,12 +225,12 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/activate")
-    public ResponseEntity<String> activate(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<String> activate(@PathVariable UUID id) throws NotFoundException {
         logger.info("begin activate user");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.getId());
+            logger.info("User found: " + user.get_id());
             user.setActive(true);
             us.activate(user);
             logger.info("User activated");
@@ -241,12 +245,12 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
         logger.info("Begin delete user");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.getId());
+            logger.info("User found: " + user.get_id());
             us.deleteUser(user);
             logger.info("User deleted");
             logger.info("end delete user");

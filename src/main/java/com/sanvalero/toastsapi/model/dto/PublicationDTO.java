@@ -1,5 +1,7 @@
 package com.sanvalero.toastsapi.model.dto;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,9 +17,9 @@ public class PublicationDTO {
     @NotNull
     @NotBlank
     @NotEmpty
-    private String userId;
+    private UUID userId;
     @NotNull
     @NotBlank
     @NotEmpty
-    private String establishmentId;
+    private UUID establishmentId;
 }

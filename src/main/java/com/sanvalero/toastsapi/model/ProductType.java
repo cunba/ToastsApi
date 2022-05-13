@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Document(value = "products_types")
 public class ProductType {
     @Id
-    private String id;
+    private UUID _id;
     @Field(name = "product_name")
     @NotNull
     private String productName;

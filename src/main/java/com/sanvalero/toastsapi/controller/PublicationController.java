@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -57,7 +58,7 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/{id}")
-    public ResponseEntity<Mono<Publication>> getById(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<Mono<Publication>> getById(@PathVariable UUID id) throws NotFoundException {
         try {
             return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
@@ -161,7 +162,7 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/establishment/{id}")
-    public ResponseEntity<Flux<Publication>> getByEstablishmentId(@PathVariable String id)
+    public ResponseEntity<Flux<Publication>> getByEstablishmentId(@PathVariable UUID id)
             throws NotFoundException {
 
         try {
@@ -174,7 +175,7 @@ public class PublicationController {
     }
 
     @GetMapping("/publications/user/{id}")
-    public ResponseEntity<Flux<Publication>> getByUserId(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<Flux<Publication>> getByUserId(@PathVariable UUID id) throws NotFoundException {
         try {
             UserModel user = us.findById(id).block();
             return new ResponseEntity<>(ps.findByUser(user), HttpStatus.OK);
@@ -257,7 +258,7 @@ public class PublicationController {
             throw new NotFoundException(
                     "Establishment with ID " + publicationDTO.getEstablishmentId() + " does not exists.");
         }
-        logger.info("Establishment found: " + establishment.getId());
+        logger.info("Establishment found: " + establishment.get_id());
 
         UserModel user = null;
         try {
@@ -266,7 +267,7 @@ public class PublicationController {
             logger.error("User not found exception with id " + publicationDTO.getUserId() + ".", nfe);
             throw new NotFoundException("User with ID " + publicationDTO.getUserId() + " does not exists.");
         }
-        logger.info("User found: " + user.getId());
+        logger.info("User found: " + user.get_id());
 
         Publication publication = new Publication();
         publication.setPhoto(publicationDTO.getPhoto());
@@ -284,13 +285,13 @@ public class PublicationController {
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/publications/{id}")
     public ResponseEntity<Mono<Publication>> update(@RequestBody PublicationDTO publicationDTO,
-            @PathVariable String id) throws NotFoundException {
+            @PathVariable UUID id) throws NotFoundException {
 
         logger.info("begin update publication");
         Publication publication = null;
         try {
             publication = ps.findById(id).block();
-            logger.info("Publication found: " + publication.getId());
+            logger.info("Publication found: " + publication.get_id());
         } catch (NotFoundException nfe) {
             logger.error("Publication not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Publication with ID " + id + " does not exists.");
@@ -303,13 +304,13 @@ public class PublicationController {
             logger.error("Establishment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");
         }
-        logger.info("Establishment found: " + establishment.getId());
+        logger.info("Establishment found: " + establishment.get_id());
 
         publication.setPhoto(publicationDTO.getPhoto());
 
         // try {
-        //     publication.setTotalPrice(ps.totalPrice(publication.getId()));
-        //     publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
+        //     publication.setTotalPrice(ps.totalPrice(publication.get_id()));
+        //     publication.setTotalPunctuation(ps.totalPunctuation(publication.get_id()));
         // } catch (Exception e) {
         //     // Quiere decir que no hay productos para obtener el precio y actualizarlo
         //     logger.info("No hay productos para actualizar el precio y la puntuación");
@@ -324,11 +325,11 @@ public class PublicationController {
     }
 
     // @PatchMapping("/publications/{id}/price-punctuation")
-    // public ResponseEntity<String> totalPricePunctuation(@PathVariable String id) throws NotFoundException {
+    // public ResponseEntity<String> totalPricePunctuation(@PathVariable UUID id) throws NotFoundException {
     //     logger.info("begin set total price punctuation");
     //     try {
     //         Publication publication = ps.findById(id).block();
-    //         logger.info("Publication found: " + publication.getId());
+    //         logger.info("Publication found: " + publication.get_id());
 
     //         publication.setTotalPrice(ps.totalPrice(id));
     //         publication.setTotalPunctuation(ps.totalPunctuation(id));
@@ -349,11 +350,11 @@ public class PublicationController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/publications/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
         logger.info("begin delete publication");
         try {
             Publication publication = ps.findById(id).block();
-            logger.info("Publication found:" + publication.getId());
+            logger.info("Publication found:" + publication.get_id());
             ps.deletePublication(publication);
             logger.info("Publication deleted");
 

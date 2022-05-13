@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -50,7 +51,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/{id}")
-    public ResponseEntity<Mono<Establishment>> getById(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<Mono<Establishment>> getById(@PathVariable UUID id) throws NotFoundException {
         try {
             Mono<Establishment> establishment = es.findById(id);
             return new ResponseEntity<>(establishment, HttpStatus.OK);
@@ -159,23 +160,23 @@ public class EstablishmentController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/establishments/{id}")
-    public ResponseEntity<Mono<Establishment>> update(@RequestBody EstablishmentDTO establishmentDTO,
-            @PathVariable String id)
+    public ResponseEntity<String> update(@RequestBody EstablishmentDTO establishmentDTO,
+            @PathVariable UUID id)
             throws NotFoundException {
 
         logger.info("begin update establishment");
         try {
             Establishment establishmentToUpdate = es.findById(id).block();
-            logger.info("Establishment found: " + establishmentToUpdate.getId());
+            logger.info("Establishment found: " + establishmentToUpdate.get_id());
             establishmentToUpdate.setLocation(establishmentDTO.getLocation());
             establishmentToUpdate.setName(establishmentDTO.getName());
             establishmentToUpdate.setOpen(establishmentDTO.isOpen());
             logger.info("Properties setted");
-            Mono<Establishment> toPrint = es.updateEstablishment(establishmentToUpdate);
+             es.updateEstablishment(establishmentToUpdate);
             logger.info("Establishments updated");
             logger.info("end update establishment");
 
-            return new ResponseEntity<>(toPrint, HttpStatus.OK);
+            return new ResponseEntity<>("toPrint", HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Establihsment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");
@@ -184,7 +185,7 @@ public class EstablishmentController {
     }
 
     // @PatchMapping("/establishments/{id}/punctuation")
-    // public ResponseEntity<String> updatePunctuation(@PathVariable String id) throws NotFoundException {
+    // public ResponseEntity<String> updatePunctuation(@PathVariable UUID id) throws NotFoundException {
     //     logger.info("begin update punctuation");
     //     try {
     //         Establishment establishment = es.findById(id).block();
@@ -209,11 +210,11 @@ public class EstablishmentController {
 
     @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/establishments/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
             Establishment establishment = es.findById(id).block();
-            logger.info("Establishment found: " + establishment.getId());
+            logger.info("Establishment found: " + establishment.get_id());
             es.deleteEstablishment(establishment);
             logger.info("Establishment deleted");
             logger.info("end delete establishment");

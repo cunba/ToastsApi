@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -54,7 +55,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public Mono<Establishment> findById(String id) throws NotFoundException {
+    public Mono<Establishment> findById(UUID id) throws NotFoundException {
         return er.findById(id).onErrorReturn(new Establishment());
     }
 
@@ -65,7 +66,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Override
     public Mono<Establishment> addEstablishment(Establishment establishment) {
-        return er.save(establishment);
+        return er.insert(establishment);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     // @Override
     // public float sumPunctuation(String id) {
-    //     return er.sumPunctuation(id);
+    // return er.sumPunctuation(id);
     // }
 
     @Override

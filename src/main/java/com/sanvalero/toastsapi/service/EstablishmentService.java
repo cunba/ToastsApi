@@ -1,6 +1,7 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -23,7 +24,7 @@ public interface EstablishmentService {
 
     Flux<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
 
-    Mono<Establishment> findById(String id) throws NotFoundException;
+    Mono<Establishment> findById(UUID id) throws NotFoundException;
 
     Flux<Establishment> findAll();
 
