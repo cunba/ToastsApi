@@ -2,7 +2,6 @@ package com.sanvalero.toastsapi.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -46,7 +45,7 @@ public class ProductTypeController {
     }
 
     @GetMapping("/types/{id}")
-    public ResponseEntity<Mono<ProductType>> getById(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Mono<ProductType>> getById(@PathVariable String id) throws NotFoundException {
         logger.info("begin getting types by id");
         try {
             Mono<ProductType> toPrint = pts.findById(id);
@@ -87,13 +86,13 @@ public class ProductTypeController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/types/{id}")
-    public ResponseEntity<Mono<ProductType>> update(@PathVariable UUID id, @RequestBody ProductType type)
+    public ResponseEntity<Mono<ProductType>> update(@PathVariable String id, @RequestBody ProductType type)
             throws NotFoundException {
 
         logger.info("begin update type");
         try {
             ProductType typeToUpdate = pts.findById(id).block();
-            logger.info("Type found: " + typeToUpdate.get_id());
+            logger.info("Type found: " + typeToUpdate.getId());
             typeToUpdate.setProductName(type.getProductName());
             typeToUpdate.setType(type.getType());
             logger.info("Type properties updated");
@@ -108,11 +107,11 @@ public class ProductTypeController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/types/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         try {
             logger.info("begin delete type");
             ProductType type = pts.findById(id).block();
-            logger.info("Type found: " + type.get_id());
+            logger.info("Type found: " + type.getId());
             pts.deleteType(type);
             logger.info("Type deleted");
             logger.info("end delete type");

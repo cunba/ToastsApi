@@ -1,7 +1,5 @@
 package com.sanvalero.toastsapi.repository;
 
-import java.util.UUID;
-
 import com.sanvalero.toastsapi.model.ProductType;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
@@ -11,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface ProductTypeRepository extends ReactiveMongoRepository<ProductType, UUID> {
+public interface ProductTypeRepository extends ReactiveMongoRepository<ProductType, String> {
     Flux<ProductType> findAll();
 
     Flux<ProductType> findByProductName(String name);

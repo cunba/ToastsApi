@@ -2,7 +2,6 @@ package com.sanvalero.toastsapi.security;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +41,7 @@ public class JwtTokenProvider {
 
     }
 
-    public String createToken(UUID id, String username, String role) {
+    public String createToken(String id, String username, String role) {
 
         Claims claims = Jwts.claims();
         claims.put("id", String.valueOf(id));

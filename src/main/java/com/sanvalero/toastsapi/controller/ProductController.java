@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -64,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Mono<Product>> getById(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Mono<Product>> getById(@PathVariable String id) throws NotFoundException {
         try {
             return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
@@ -170,7 +169,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/type/{id}")
-    public ResponseEntity<Flux<Product>> getByTypeId(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Flux<Product>> getByTypeId(@PathVariable String id) throws NotFoundException {
         try {
             ProductType type = pts.findById(id).block();
             return new ResponseEntity<>(ps.findByType(type), HttpStatus.OK);
@@ -181,7 +180,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/menu/{id}")
-    public ResponseEntity<Flux<Product>> getByMenu(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Flux<Product>> getByMenu(@PathVariable String id) throws NotFoundException {
         try {
             Menu menu = ms.findById(id).block();
             return new ResponseEntity<>(ps.findByMenu(menu), HttpStatus.OK);
@@ -192,7 +191,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/publication/{id}")
-    public ResponseEntity<Flux<Product>> getByPublication(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Flux<Product>> getByPublication(@PathVariable String id) throws NotFoundException {
         try {
             Publication publication = publicationService.findById(id).block();
             return new ResponseEntity<>(ps.findByPublication(publication), HttpStatus.OK);
@@ -224,8 +223,8 @@ public class ProductController {
             throw new NotFoundException("Publication with ID " + productDTO.getPublicationId() + " does not exists.");
         }
 
-        logger.info("Product type found: " + type.get_id());
-        logger.info("Publication found: " + publication.get_id());
+        logger.info("Product type found: " + type.getId());
+        logger.info("Publication found: " + publication.getId());
 
         Product product = new Product();
         product.setPunctuation(productDTO.getPunctuation());
@@ -245,7 +244,7 @@ public class ProductController {
                         "Menu with ID " + productDTO.getMenuId() + " does not exists.");
             }
             product.setPrice(0);
-            logger.info("Menu found: " + menu.get_id());
+            logger.info("Menu found: " + menu.getId());
         } else {
             product.setPrice(productDTO.getPrice());
         }
@@ -259,7 +258,7 @@ public class ProductController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/products/{id}")
-    public ResponseEntity<Mono<Product>> update(@RequestBody ProductDTO productDTO, @PathVariable UUID id)
+    public ResponseEntity<Mono<Product>> update(@RequestBody ProductDTO productDTO, @PathVariable String id)
             throws NotFoundException, BadRequestException {
         logger.info("begin update product");
         Product product = null;
@@ -270,7 +269,7 @@ public class ProductController {
             throw new NotFoundException("Product with ID " + id + " does not exists.");
         }
 
-        logger.info("Product found: " + product.get_id());
+        logger.info("Product found: " + product.getId());
 
         ProductType type = null;
         try {
@@ -280,7 +279,7 @@ public class ProductController {
             throw new NotFoundException("Type with ID " + productDTO.getTypeId() + " does not exists.");
         }
 
-        logger.info("Product type found: " + type.get_id());
+        logger.info("Product type found: " + type.getId());
 
         if (productDTO.getPrice() < 0) {
             logger.error("Product price error.", new BadRequestException());
@@ -307,7 +306,7 @@ public class ProductController {
                 throw new NotFoundException(
                         "Menu with ID " + productDTO.getMenuId() + " does not exists.");
             }
-            logger.info("Menu found: " + menu.get_id());
+            logger.info("Menu found: " + menu.getId());
         }
         product.setMenu(menu);
         logger.info("Product properties updated");
@@ -319,14 +318,14 @@ public class ProductController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/products/{id}/price/{price}")
-    public ResponseEntity<String> updatePrice(@PathVariable UUID id,
+    public ResponseEntity<String> updatePrice(@PathVariable String id,
             @PathVariable float price) throws NotFoundException, BadRequestException {
 
         logger.info("begin update price of product");
         try {
             Product product = ps.findById(id).block();
 
-            logger.info("Product found: " + product.get_id());
+            logger.info("Product found: " + product.getId());
 
             if (price < 0) {
                 logger.error("Product price error.", new BadRequestException());
@@ -348,14 +347,14 @@ public class ProductController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/products/{id}/punctuation/{punctuation}")
-    public ResponseEntity<String> updatePunctuation(@PathVariable UUID id,
+    public ResponseEntity<String> updatePunctuation(@PathVariable String id,
             @PathVariable float punctuation) throws NotFoundException, BadRequestException {
 
         logger.info("begin update punctuation of product");
         try {
             Product product = ps.findById(id).block();
 
-            logger.info("Product found: " + product.get_id());
+            logger.info("Product found: " + product.getId());
 
             if (punctuation < 0) {
                 logger.error("Product punctuation error.", new BadRequestException());
@@ -377,11 +376,11 @@ public class ProductController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete product");
         try {
             Product product = ps.findById(id).block();
-            logger.info("Product found: " + product.get_id());
+            logger.info("Product found: " + product.getId());
             ps.deleteProduct(product);
             logger.info("Product deleted");
             logger.info("end delete product");

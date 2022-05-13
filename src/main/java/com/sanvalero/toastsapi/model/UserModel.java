@@ -2,7 +2,6 @@ package com.sanvalero.toastsapi.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Id;
@@ -34,7 +33,7 @@ import lombok.NoArgsConstructor;
 public class UserModel {
 
     @Id
-    private UUID _id;
+    private String id;
     @Field
     @NotNull
     @NotEmpty

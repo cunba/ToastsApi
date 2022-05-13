@@ -1,14 +1,12 @@
 package com.sanvalero.toastsapi.repository;
 
-import java.util.UUID;
-
 import com.sanvalero.toastsapi.model.UserModel;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import reactor.core.publisher.Flux;
 
-public interface UserRepository extends ReactiveMongoRepository<UserModel, UUID> {
+public interface UserRepository extends ReactiveMongoRepository<UserModel, String> {
     // @Query(value = "SELECT COUNT(*) FROM publications WHERE user_id = :id", nativeQuery = true)
     // int countPublications(String id);
 

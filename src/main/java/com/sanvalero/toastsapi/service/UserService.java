@@ -1,7 +1,5 @@
 package com.sanvalero.toastsapi.service;
 
-import java.util.UUID;
-
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.UserModel;
 
@@ -11,7 +9,7 @@ import reactor.core.publisher.Mono;
 public interface UserService {
     Flux<UserModel> findAllUsers();
 
-    Mono<UserModel> findById(UUID id) throws NotFoundException;
+    Mono<UserModel> findById(String id) throws NotFoundException;
 
     Flux<UserModel> findByUsername(String username);
 

@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -80,7 +79,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Mono<Publication> findById(UUID id) throws NotFoundException {
+    public Mono<Publication> findById(String id) throws NotFoundException {
         return pr.findById(id).onErrorReturn(new Publication());
     }
 

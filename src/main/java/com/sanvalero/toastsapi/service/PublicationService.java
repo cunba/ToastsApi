@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Establishment;
@@ -35,7 +34,7 @@ public interface PublicationService {
 
     Flux<Publication> findAll();
 
-    Mono<Publication> findById(UUID id) throws NotFoundException;
+    Mono<Publication> findById(String id) throws NotFoundException;
 
     // float totalPrice(String id);
 

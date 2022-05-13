@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -142,7 +141,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/{id}")
-    public ResponseEntity<Mono<Menu>> getById(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Mono<Menu>> getById(@PathVariable String id) throws NotFoundException {
         try {
             Mono<Menu> menu = ms.findById(id);
             return new ResponseEntity<>(menu, HttpStatus.OK);
@@ -174,7 +173,7 @@ public class MenuController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/menus/{id}")
-    public ResponseEntity<Mono<Menu>> update(@PathVariable UUID id, @RequestBody MenuDTO menuDTO)
+    public ResponseEntity<Mono<Menu>> update(@PathVariable String id, @RequestBody MenuDTO menuDTO)
             throws NotFoundException {
         logger.info("begin update menu");
         try {
@@ -194,11 +193,11 @@ public class MenuController {
 
     @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/menus/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete menu");
         try {
             Menu menu = ms.findById(id).block();
-            logger.info("Menu found: " + menu.get_id());
+            logger.info("Menu found: " + menu.getId());
             ms.deleteMenu(menu);
             logger.info("Menu deleted");
             logger.info("end delete menu");

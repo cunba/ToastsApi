@@ -2,7 +2,6 @@ package com.sanvalero.toastsapi.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Id;
@@ -28,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Document(value = "menus")
 public class Menu {
     @Id
-    private UUID _id;
+    private String id;
     @Field
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;

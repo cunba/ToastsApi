@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
@@ -73,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Mono<Product> findById(UUID id) throws NotFoundException {
+    public Mono<Product> findById(String id) throws NotFoundException {
         return pr.findById(id).onErrorReturn(new Product());
     }
 

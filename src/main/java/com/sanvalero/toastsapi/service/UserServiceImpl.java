@@ -1,7 +1,5 @@
 package com.sanvalero.toastsapi.service;
 
-import java.util.UUID;
-
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.UserModel;
 import com.sanvalero.toastsapi.repository.UserRepository;
@@ -24,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Mono<UserModel> findById(UUID id) throws NotFoundException {
+    public Mono<UserModel> findById(String id) throws NotFoundException {
         return ur.findById(id).onErrorReturn(new UserModel());
     }
 

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -64,7 +63,7 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @GetMapping("/users/{id}")
-    public ResponseEntity<Mono<UserModel>> getById(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Mono<UserModel>> getById(@PathVariable String id) throws NotFoundException {
 
         try {
             Mono<UserModel> user = us.findById(id);
@@ -122,7 +121,7 @@ public class UserController {
             throw new BadRequestException("Credentials error, incorrect password for user " + request.getUsername());
         }
 
-        String token = jwtTokenProvider.createToken(user.last().block().get_id(), request.getUsername(),
+        String token = jwtTokenProvider.createToken(user.last().block().getId(), request.getUsername(),
                 user.last().block().getRole());
         JwtResponse jwtResponse = new JwtResponse(token);
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
@@ -136,7 +135,7 @@ public class UserController {
     // logger.info("begin update publications number");
     // try {
     // UserModel user = us.findById(id).block();
-    // logger.info("User found: " + user.get_id());
+    // logger.info("User found: " + user.getId());
     // user.setPublicationsNumber(us.countPublications(id));
     // us.updatePublicationsNumber(user);
     // logger.info("User publication number updated");
@@ -150,13 +149,13 @@ public class UserController {
     // }
 
     // @PatchMapping("/users/{id}/money-spent")
-    // public ResponseEntity<String> updateMoneySpent(@PathVariable UUID id)
+    // public ResponseEntity<String> updateMoneySpent(@PathVariable String id)
     // throws NotFoundException {
 
     // logger.info("begin update money spent");
     // try {
     // UserModel user = us.findById(id).block();
-    // logger.info("User found: " + user.get_id());
+    // logger.info("User found: " + user.getId());
 
     // try {
     // float price = us.sumPrice(id);
@@ -182,14 +181,14 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/password")
-    public ResponseEntity<String> updatePassword(@PathVariable UUID id,
+    public ResponseEntity<String> updatePassword(@PathVariable String id,
             @RequestBody PasswordChangeDTO password) throws NotFoundException {
 
         logger.info("begin update password");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.get_id());
+            logger.info("User found: " + user.getId());
             user.setPassword(UserModel.encoder().encode(password.getPassword()));
             us.updatePassword(user);
             logger.info("User password updated");
@@ -205,12 +204,12 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/disable")
-    public ResponseEntity<String> disable(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> disable(@PathVariable String id) throws NotFoundException {
         logger.info("begin disable user");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.get_id());
+            logger.info("User found: " + user.getId());
             user.setActive(false);
             us.disable(user);
             logger.info("User disabled");
@@ -225,12 +224,12 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/users/{id}/activate")
-    public ResponseEntity<String> activate(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> activate(@PathVariable String id) throws NotFoundException {
         logger.info("begin activate user");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.get_id());
+            logger.info("User found: " + user.getId());
             user.setActive(true);
             us.activate(user);
             logger.info("User activated");
@@ -245,12 +244,12 @@ public class UserController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("Begin delete user");
 
         try {
             UserModel user = us.findById(id).block();
-            logger.info("User found: " + user.get_id());
+            logger.info("User found: " + user.getId());
             us.deleteUser(user);
             logger.info("User deleted");
             logger.info("end delete user");

@@ -1,7 +1,6 @@
 package com.sanvalero.toastsapi.service;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import com.sanvalero.toastsapi.exception.NotFoundException;
 import com.sanvalero.toastsapi.model.Menu;
@@ -33,7 +32,7 @@ public interface ProductService {
 
     Flux<Product> findAll();
 
-    Mono<Product> findById(UUID id) throws NotFoundException;
+    Mono<Product> findById(String id) throws NotFoundException;
 
     Flux<Product> findByType(ProductType productType);
 

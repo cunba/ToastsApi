@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
@@ -51,7 +50,7 @@ public class EstablishmentController {
     }
 
     @GetMapping("/establishments/{id}")
-    public ResponseEntity<Mono<Establishment>> getById(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<Mono<Establishment>> getById(@PathVariable String id) throws NotFoundException {
         try {
             Mono<Establishment> establishment = es.findById(id);
             return new ResponseEntity<>(establishment, HttpStatus.OK);
@@ -161,13 +160,13 @@ public class EstablishmentController {
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/establishments/{id}")
     public ResponseEntity<String> update(@RequestBody EstablishmentDTO establishmentDTO,
-            @PathVariable UUID id)
+            @PathVariable String id)
             throws NotFoundException {
 
         logger.info("begin update establishment");
         try {
             Establishment establishmentToUpdate = es.findById(id).block();
-            logger.info("Establishment found: " + establishmentToUpdate.get_id());
+            logger.info("Establishment found: " + establishmentToUpdate.getId());
             establishmentToUpdate.setLocation(establishmentDTO.getLocation());
             establishmentToUpdate.setName(establishmentDTO.getName());
             establishmentToUpdate.setOpen(establishmentDTO.isOpen());
@@ -185,7 +184,7 @@ public class EstablishmentController {
     }
 
     // @PatchMapping("/establishments/{id}/punctuation")
-    // public ResponseEntity<String> updatePunctuation(@PathVariable UUID id) throws NotFoundException {
+    // public ResponseEntity<String> updatePunctuation(@PathVariable String id) throws NotFoundException {
     //     logger.info("begin update punctuation");
     //     try {
     //         Establishment establishment = es.findById(id).block();
@@ -210,11 +209,11 @@ public class EstablishmentController {
 
     @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/establishments/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id) throws NotFoundException {
+    public ResponseEntity<String> delete(@PathVariable String id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
             Establishment establishment = es.findById(id).block();
-            logger.info("Establishment found: " + establishment.get_id());
+            logger.info("Establishment found: " + establishment.getId());
             es.deleteEstablishment(establishment);
             logger.info("Establishment deleted");
             logger.info("end delete establishment");
