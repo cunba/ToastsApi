@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/menus/12"
+    },
+    "response": {
+        "status": 404,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "menu-404.json"
+    }
+}

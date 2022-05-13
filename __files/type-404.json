@@ -1,0 +1,7 @@
+{
+    "code": "404",
+    "errors": {
+        "error": "Not found exception"
+    },
+    "message": "Type with ID 12 does not exists."
+}

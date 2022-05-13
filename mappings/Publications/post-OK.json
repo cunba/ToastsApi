@@ -1,0 +1,20 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/publications",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "photo": "${json-unit.any-string}",
+                "establishmentId": 1,
+                "userId": 8
+            }
+        }]
+    },
+    "response": {
+        "status": 201,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "publication.json"
+    }
+}

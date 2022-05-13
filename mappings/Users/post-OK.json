@@ -1,0 +1,24 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/users",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "username": "${json-unit.any-string}",
+                "name": "${json-unit.any-string}",
+                "surname": "${json-unit.any-string}",
+                "birth_date": "${json-unit.any-string}",
+                "email": "${json-unit.any-string}",
+                "password": "${json-unit.any-string}",
+                "role": "USER"
+            }
+        }]
+    },
+    "response": {
+        "status": 201,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "user.json"
+    }
+}

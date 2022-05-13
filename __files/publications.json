@@ -1,0 +1,96 @@
+[
+    {
+        "id": 0,
+        "type": {
+            "id": 0,
+            "type": "Tostada",
+            "productName": "de tomate"
+        },
+        "date": "04-03-2022",
+        "price": 3.4,
+        "punctuation": 4.3,
+        "menu": {
+            "id": 0,
+            "date": "02-04-2022",
+            "price": 3.4,
+            "punctuation": 4.5
+        },
+        "publication": {
+            "id": 0,
+            "date": "03-05-2022",
+            "totalPrice": 3.4,
+            "totalPunctuation": 2.5,
+            "photo": "string",
+            "user": {
+                "id": 0,
+                "name": "Irene",
+                "surname": "Cunto",
+                "birthDate": "05-09-1995",
+                "email": "a25540@svalero.com",
+                "password": "string",
+                "creationDate": "04-03-2022",
+                "active": true,
+                "moneySpent": 25.4,
+                "publicationsNumber": 17
+            },
+            "establishment": {
+                "id": 0,
+                "name": "Casa Paco",
+                "creationDate": "05-04-2021",
+                "location": {
+                    "latitude": 0,
+                    "longitude": 0
+                },
+                "open": false,
+                "punctuation": 4.5
+            }
+        }
+    },
+    {
+        "id": 2,
+        "type": {
+            "id": 0,
+            "type": "Tostada",
+            "productName": "de tomate"
+        },
+        "date": "04-03-2022",
+        "price": 3.4,
+        "punctuation": 4.3,
+        "menu": {
+            "id": 0,
+            "date": "02-04-2022",
+            "price": 3.4,
+            "punctuation": 4.5
+        },
+        "publication": {
+            "id": 0,
+            "date": "03-05-2022",
+            "totalPrice": 3.4,
+            "totalPunctuation": 2.5,
+            "photo": "string",
+            "user": {
+                "id": 0,
+                "name": "Irene",
+                "surname": "Cunto",
+                "birthDate": "05-09-1995",
+                "email": "a25540@svalero.com",
+                "password": "string",
+                "creationDate": "04-03-2022",
+                "active": true,
+                "moneySpent": 25.4,
+                "publicationsNumber": 17
+            },
+            "establishment": {
+                "id": 0,
+                "name": "Casa Paco",
+                "creationDate": "05-04-2021",
+                "location": {
+                    "latitude": 0,
+                    "longitude": 0
+                },
+                "open": false,
+                "punctuation": 4.5
+            }
+        }
+    }
+]

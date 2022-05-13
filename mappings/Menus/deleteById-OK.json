@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "DELETE",
+        "url": "/menus/1"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": "Menu deleted."
+    }
+}

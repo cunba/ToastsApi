@@ -1,0 +1,11 @@
+{
+    "id": 0,
+    "name": "Casa Paco",
+    "creationDate": "05-04-2021",
+    "location": {
+        "latitude": 0,
+        "longitude": 0
+    },
+    "open": false,
+    "punctuation": 4.5
+}

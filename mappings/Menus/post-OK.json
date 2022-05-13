@@ -1,0 +1,19 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/menus",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "punctuation": 2,
+                "price": 4
+            }
+        }]
+    },
+    "response": {
+        "status": 201,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "menu.json"
+    }
+}

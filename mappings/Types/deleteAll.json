@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "DELETE",
+        "url": "/types"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": "All types deleted."
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/products",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "inMenu": "${json-unit.any-boolean}",
+                "punctuation": 2.3,
+                "typeId": 2,
+                "menuId": 2,
+                "publicationId": 1
+            }
+        }]
+    },
+    "response": {
+        "status": 201,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "product.json"
+    }
+}

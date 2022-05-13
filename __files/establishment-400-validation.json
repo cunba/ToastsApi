@@ -1,0 +1,7 @@
+{
+    "code": "400",
+    "errors": {
+        "name": "no puede estar vacío"
+    },
+    "message": "Bad Request Exception"
+}

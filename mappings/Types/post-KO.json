@@ -1,0 +1,18 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/types",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "type": "${json-unit.any-string}"
+            }
+        }]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "type-400-validation.json"
+    }
+}

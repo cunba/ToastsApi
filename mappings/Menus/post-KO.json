@@ -1,0 +1,19 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/menus",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "price": -2,
+                "punctuation": 2
+            }
+        }]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "menu-400-validation.json"
+    }
+}

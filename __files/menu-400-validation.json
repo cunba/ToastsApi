@@ -1,0 +1,7 @@
+{
+    "code": "400",
+    "errors": {
+        "price": "debe ser mayor que o igual que 0"
+    },
+    "message": "Bad Request Exception"
+}

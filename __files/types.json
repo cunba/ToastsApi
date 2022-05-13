@@ -1,0 +1,12 @@
+[
+    {
+        "id": 0,
+        "type": "Tostada",
+        "productName": "de tomate"
+    },
+    {
+        "id": 2,
+        "type": "Café",
+        "productName": "solo"
+    }
+]

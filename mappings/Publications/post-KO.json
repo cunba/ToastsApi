@@ -1,0 +1,19 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/publications",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "establishmentId": 12
+            },
+            "ignoreExtraElements": true
+        }]
+    },
+    "response": {
+        "status": 404,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "establishment-404.json"
+    }
+}

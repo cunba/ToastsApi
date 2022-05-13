@@ -1,0 +1,21 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/products",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "inMenu": "${json-unit.any-boolean}",
+                "typeId": 2,
+                "menuId": 2,
+                "publicationId": 1
+            }
+        }]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "product-400-validation.json"
+    }
+}

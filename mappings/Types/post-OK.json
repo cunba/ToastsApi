@@ -1,0 +1,19 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/types",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "type": "${json-unit.any-string}",
+                "product_name": "${json-unit.any-string}"
+            }
+        }]
+    },
+    "response": {
+        "status": 201,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "type.json"
+    }
+}

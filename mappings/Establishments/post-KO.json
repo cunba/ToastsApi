@@ -1,0 +1,22 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/establishments",
+        "bodyPatterns":  [{
+            "equalToJson": {
+                "location": {
+                    "latitude": "${json-unit.any-number}",
+                    "longitude": "${json-unit.any-number}"
+                },
+                "open": "${json-unit.any-boolean}"
+            }
+        }]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "establishment-400-validation.json"
+    }
+}

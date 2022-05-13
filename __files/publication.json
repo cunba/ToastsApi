@@ -1,0 +1,30 @@
+{
+    "id": 0,
+    "date": "03-05-2022",
+    "totalPrice": 3.4,
+    "totalPunctuation": 2.5,
+    "photo": "string",
+    "user": {
+        "id": 0,
+        "name": "Irene",
+        "surname": "Cunto",
+        "birthDate": "05-09-1995",
+        "email": "a25540@svalero.com",
+        "password": "string",
+        "creationDate": "04-03-2022",
+        "active": true,
+        "moneySpent": 25.4,
+        "publicationsNumber": 17
+    },
+    "establishment": {
+        "id": 0,
+        "name": "Casa Paco",
+        "creationDate": "05-04-2021",
+        "location": {
+            "latitude": 0,
+            "longitude": 0
+        },
+        "open": false,
+        "punctuation": 4.5
+    }
+}

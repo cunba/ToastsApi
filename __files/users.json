@@ -1,0 +1,30 @@
+[
+    {
+        "id": 0,
+        "username": "cunba",
+        "name": "Irene",
+        "surname": "Cunto",
+        "birthDate": "05-09-1995",
+        "email": "a25540@svalero.com",
+        "password": "string",
+        "creationDate": "04-03-2022",
+        "active": true,
+        "moneySpent": 25.4,
+        "publicationsNumber": 17,
+        "role": "USER"
+    },
+    {
+        "id": 0,
+        "username": "admin",
+        "name": "admin",
+        "surname": "admin",
+        "birthDate": "05-09-1995",
+        "email": "admin@svalero.com",
+        "password": "string",
+        "creationDate": "04-03-2022",
+        "active": true,
+        "moneySpent": 0,
+        "publicationsNumber": 0,
+        "role": "ADMIN"
+    }
+]
