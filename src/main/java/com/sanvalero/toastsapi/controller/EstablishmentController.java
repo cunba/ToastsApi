@@ -159,7 +159,7 @@ public class EstablishmentController {
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/establishments/{id}")
-    public ResponseEntity<String> update(@RequestBody EstablishmentDTO establishmentDTO,
+    public ResponseEntity<Mono<Establishment>> update(@RequestBody EstablishmentDTO establishmentDTO,
             @PathVariable String id)
             throws NotFoundException {
 
@@ -171,11 +171,11 @@ public class EstablishmentController {
             establishmentToUpdate.setName(establishmentDTO.getName());
             establishmentToUpdate.setOpen(establishmentDTO.isOpen());
             logger.info("Properties setted");
-             es.updateEstablishment(establishmentToUpdate);
+            Mono<Establishment> establishmentToPrint = es.updateEstablishment(establishmentToUpdate);
             logger.info("Establishments updated");
             logger.info("end update establishment");
 
-            return new ResponseEntity<>("toPrint", HttpStatus.OK);
+            return new ResponseEntity<>(establishmentToPrint, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Establihsment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");
@@ -184,27 +184,31 @@ public class EstablishmentController {
     }
 
     // @PatchMapping("/establishments/{id}/punctuation")
-    // public ResponseEntity<String> updatePunctuation(@PathVariable String id) throws NotFoundException {
-    //     logger.info("begin update punctuation");
-    //     try {
-    //         Establishment establishment = es.findById(id).block();
-    //         logger.info("Establishment found: " + id);
-    //         establishment.setPunctuation(es.sumPunctuation(id));
-    //         es.updatePunctuation(establishment);
-    //         logger.info("Establishment punctuation updated");
-    //         logger.info("end update punctuation");
+    // public ResponseEntity<String> updatePunctuation(@PathVariable String id)
+    // throws NotFoundException {
+    // logger.info("begin update punctuation");
+    // try {
+    // Establishment establishment = es.findById(id).block();
+    // logger.info("Establishment found: " + id);
+    // establishment.setPunctuation(es.sumPunctuation(id));
+    // es.updatePunctuation(establishment);
+    // logger.info("Establishment punctuation updated");
+    // logger.info("end update punctuation");
 
-    //         return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
-    //     } catch (NotFoundException nfe) {
-    //         logger.error("Establihsment not found exception with id " + id + ".", nfe);
-    //         throw new NotFoundException("Establishment with ID " + id + " does not exists.");
-    //     } catch (Exception e) {
-    //         // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-    //         return new ResponseEntity<>(
-    //                 "Money spent can't be updated due to lack of publications for the establishment "
-    //                         + id + ".",
-    //                 HttpStatus.OK);
-    //     }
+    // return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
+    // } catch (NotFoundException nfe) {
+    // logger.error("Establihsment not found exception with id " + id + ".", nfe);
+    // throw new NotFoundException("Establishment with ID " + id + " does not
+    // exists.");
+    // } catch (Exception e) {
+    // // Quiere decir que no hay publicaciones para obtener el precio y
+    // actualizarlo
+    // return new ResponseEntity<>(
+    // "Money spent can't be updated due to lack of publications for the
+    // establishment "
+    // + id + ".",
+    // HttpStatus.OK);
+    // }
     // }
 
     @Secured({ "ROLE_ADMIN" })
