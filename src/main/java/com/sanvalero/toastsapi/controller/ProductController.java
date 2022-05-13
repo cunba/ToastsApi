@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -198,6 +199,7 @@ public class ProductController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PostMapping("/products")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO)
             throws NotFoundException, BadRequestException {
@@ -262,6 +264,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.addProduct(product), HttpStatus.CREATED);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id)
             throws NotFoundException, BadRequestException {
@@ -321,6 +324,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.updateProduct(product), HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/products/{id}/price/{price}")
     public ResponseEntity<String> updatePrice(@PathVariable int id,
             @PathVariable float price) throws NotFoundException, BadRequestException {
@@ -349,6 +353,7 @@ public class ProductController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/products/{id}/punctuation/{punctuation}")
     public ResponseEntity<String> updatePunctuation(@PathVariable int id,
             @PathVariable float punctuation) throws NotFoundException, BadRequestException {
@@ -377,6 +382,7 @@ public class ProductController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/products/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete product");
@@ -394,6 +400,7 @@ public class ProductController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/products")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();

@@ -1,9 +1,9 @@
-# TOASTS API
+# TOTECO API
 
 _Se trata de una aplicación de gestión de publicaciones de productos, estilo red social. La idea surge de poder crear una comunidad que publique fotos de desayunos incluyendo el precio de los productos y la puntuación._
 
 ## Modelo entidad relación 🔛
-![Screenshot](toastsApi.jpg)
+![Screenshot](totecoApi.jpg)
 
 ## Explicación de clases 🗂
 

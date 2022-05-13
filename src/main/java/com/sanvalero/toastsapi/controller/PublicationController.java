@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -241,6 +242,7 @@ public class PublicationController {
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PostMapping("/publications")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         logger.info("begin create publication");
@@ -277,6 +279,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.addPublication(publication), HttpStatus.CREATED);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PutMapping("/publications/{id}")
     public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO,
             @PathVariable int id) throws NotFoundException {
@@ -318,6 +321,7 @@ public class PublicationController {
         return new ResponseEntity<>(toPrint, HttpStatus.OK);
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping("/publications/{id}/price-punctuation")
     public ResponseEntity<String> totalPricePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin set total price punctuation");
@@ -342,6 +346,7 @@ public class PublicationController {
         }
     }
 
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @DeleteMapping("/publications/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete publication");
@@ -358,6 +363,7 @@ public class PublicationController {
         }
     }
 
+    @Secured({ "ROLE_ADMIN" })
     @DeleteMapping("/publications")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
