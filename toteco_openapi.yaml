@@ -3117,7 +3117,10 @@ components:
           example: 25.4
         publicationsNumber:
           type: integer
-          example: 17       
+          example: 17
+        role:
+          type: string
+          example: USER
     UserDTO:
       properties:
         username:
@@ -3137,7 +3140,10 @@ components:
           type: string
           example: a25540@svalero.com
         password:
-          type: string       
+          type: string
+        role:
+          type: string
+          example: USER    
     JwtRequest:
       properties:
         username:
