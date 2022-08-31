@@ -42,7 +42,7 @@ public class MenuController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @GetMapping("/menus/date/{date}")
+    @GetMapping(value = "/menus/date/{date}")
     public ResponseEntity<List<Menu>> getByDate(@PathVariable long date) throws BadRequestException {
         if (date < dateFrom) {
             logger.error("Establishment get by date error.", new BadRequestException());
@@ -56,7 +56,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDate(dateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/date/between")
+    @GetMapping(value = "/menus/date/between")
     public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
@@ -81,7 +81,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/price/{price}")
+    @GetMapping(value = "/menus/price/{price}")
     public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) throws BadRequestException {
         if (price < 0) {
             logger.error("Establishment get by price error.", new BadRequestException());
@@ -91,7 +91,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/price/between")
+    @GetMapping(value = "/menus/price/between")
     public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
@@ -109,7 +109,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/punctuation/{punctuation}")
+    @GetMapping(value = "/menus/punctuation/{punctuation}")
     public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
         if (punctuation < 0 || punctuation > 5) {
             logger.error("Establishment get by puntuation error.", new BadRequestException());
@@ -118,7 +118,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/punctuation/between")
+    @GetMapping(value = "/menus/punctuation/between")
     public ResponseEntity<List<Menu>> getByPunbtuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
@@ -138,7 +138,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{id}")
+    @GetMapping(value = "/menus/{id}")
     public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
         try {
             Menu menu = ms.findById(id);
@@ -149,13 +149,13 @@ public class MenuController {
         }
     }
 
-    @GetMapping("/menus")
+    @GetMapping(value = "/menus")
     public ResponseEntity<List<Menu>> getAll() {
         return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/menus")
+    @PostMapping(value = "/menus")
     public ResponseEntity<Menu> create(@RequestBody MenuDTO menuDTO) {
         logger.info("begin create menu");
         ModelMapper mapper = new ModelMapper();
@@ -170,7 +170,7 @@ public class MenuController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/menus/{id}")
+    @PutMapping(value = "/menus/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
         logger.info("begin update menu");
         try {
@@ -189,7 +189,7 @@ public class MenuController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/menus/{id}")
+    @DeleteMapping(value = "/menus/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
         try {
@@ -207,7 +207,7 @@ public class MenuController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/menus")
+    @DeleteMapping(value = "/menus")
     public ResponseEntity<String> deleteAll() {
         ms.deleteAll();
 

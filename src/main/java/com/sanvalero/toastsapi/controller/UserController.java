@@ -55,13 +55,13 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Secured({ "ROLE_ADMIN" })
-    @GetMapping("/users")
+    @GetMapping(value = "/users")
     public ResponseEntity<List<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @GetMapping("/users/{id}")
+    @GetMapping(value = "/users/{id}")
     public ResponseEntity<UserModel> getById(@PathVariable int id) throws NotFoundException {
 
         try {
@@ -73,7 +73,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/users")
+    @PostMapping(value = "/users")
     public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) throws BadRequestException {
         List<UserModel> userList = us.findByUsername(userDTO.getUsername());
         if (!userList.isEmpty()) {
@@ -104,7 +104,7 @@ public class UserController {
         return new ResponseEntity<>(us.addUser(user), HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request)
             throws Exception {
 
@@ -126,7 +126,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/publications-number")
+    @PatchMapping(value = "/users/{id}/publications-number")
     public ResponseEntity<String> updatePublicationsNumber(@PathVariable int id)
             throws NotFoundException {
 
@@ -147,7 +147,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/money-spent")
+    @PatchMapping(value = "/users/{id}/money-spent")
     public ResponseEntity<String> updateMoneySpent(@PathVariable int id)
             throws NotFoundException {
 
@@ -177,7 +177,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/password")
+    @PatchMapping(value = "/users/{id}/password")
     public ResponseEntity<String> updatePassword(@PathVariable int id,
             @RequestBody PasswordChangeDTO password) throws NotFoundException {
 
@@ -200,7 +200,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/disable")
+    @PatchMapping(value = "/users/{id}/disable")
     public ResponseEntity<String> disable(@PathVariable int id) throws NotFoundException {
         logger.info("begin disable user");
 
@@ -220,7 +220,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/activate")
+    @PatchMapping(value = "/users/{id}/activate")
     public ResponseEntity<String> activate(@PathVariable int id) throws NotFoundException {
         logger.info("begin activate user");
 
@@ -240,7 +240,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping(value = "/users/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("Begin delete user");
 
@@ -259,7 +259,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/users")
+    @DeleteMapping(value = "/users")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
         return new ResponseEntity<>("All users deleted", HttpStatus.OK);

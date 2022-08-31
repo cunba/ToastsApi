@@ -37,12 +37,12 @@ public class ProductTypeController {
 
     private final Logger logger = LoggerFactory.getLogger(ProductTypeController.class);
 
-    @GetMapping("/types")
+    @GetMapping(value = "/types")
     public ResponseEntity<List<ProductType>> getAllTypes() {
         return new ResponseEntity<>(pts.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/types/{id}")
+    @GetMapping(value = "/types/{id}")
     public ResponseEntity<ProductType> getById(@PathVariable int id) throws NotFoundException {
         logger.info("begin getting types by id");
         try {
@@ -56,17 +56,17 @@ public class ProductTypeController {
         }
     }
 
-    @GetMapping("/types/name/{name}")
+    @GetMapping(value = "/types/name/{name}")
     public ResponseEntity<List<ProductType>> getByName(@PathVariable String name) {
         return new ResponseEntity<>(pts.findByProductName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/types/type/{type}")
+    @GetMapping(value = "/types/type/{type}")
     public ResponseEntity<ProductType> getByType(@PathVariable String type) {
         return new ResponseEntity<>(pts.findByType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/types/name/{name}/type/{type}")
+    @GetMapping(value = "/types/name/{name}/type/{type}")
     public ResponseEntity<ProductType> getByNameAndType(@PathVariable String name,
             @PathVariable String type) {
 
@@ -74,7 +74,7 @@ public class ProductTypeController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/types")
+    @PostMapping(value = "/types")
     public ResponseEntity<ProductType> create(@RequestBody ProductTypeDTO typeDTO) {
         ProductType type = new ProductType();
         type.setProductName(typeDTO.getProduct_name());
@@ -83,7 +83,7 @@ public class ProductTypeController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/types/{id}")
+    @PutMapping(value = "/types/{id}")
     public ResponseEntity<ProductType> update(@PathVariable int id, @RequestBody ProductType type)
             throws NotFoundException {
 
@@ -104,7 +104,7 @@ public class ProductTypeController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/types/{id}")
+    @DeleteMapping(value = "/types/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         try {
             logger.info("begin delete type");
@@ -122,7 +122,7 @@ public class ProductTypeController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/types")
+    @DeleteMapping(value = "/types")
     public ResponseEntity<String> deleteAll() {
         pts.deleteAll();
 

@@ -43,12 +43,12 @@ public class EstablishmentController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
-    @GetMapping("/establishments")
+    @GetMapping(value = "/establishments")
     public ResponseEntity<List<Establishment>> getAll() {
         return new ResponseEntity<>(es.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/{id}")
+    @GetMapping(value = "/establishments/{id}")
     public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
         try {
             Establishment establishment = es.findById(id);
@@ -59,12 +59,12 @@ public class EstablishmentController {
         }
     }
 
-    @GetMapping("/establishments/name/{name}")
+    @GetMapping(value = "/establishments/name/{name}")
     public ResponseEntity<Establishment> getByName(@PathVariable String name) {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/{date}")
+    @GetMapping(value = "/establishments/date/{date}")
     public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long date)
             throws BadRequestException {
         if (date < dateFrom) {
@@ -78,7 +78,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/between")
+    @GetMapping(value = "/establishments/date/between")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(
             @RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
@@ -104,12 +104,12 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/open/{open}")
+    @GetMapping(value = "/establishments/open/{open}")
     public ResponseEntity<List<Establishment>> getByOpen(@PathVariable boolean open) {
         return new ResponseEntity<>(es.findByOpen(open), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/punctuation/{punctuation}")
+    @GetMapping(value = "/establishments/punctuation/{punctuation}")
     public ResponseEntity<List<Establishment>> getByPunctuation(@PathVariable float punctuation)
             throws BadRequestException {
         if (punctuation < 0 || punctuation > 5) {
@@ -119,7 +119,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/punctuation/between")
+    @GetMapping(value = "/establishments/punctuation/between")
     public ResponseEntity<List<Establishment>> getByPunctuationBetween(
             @RequestParam(value = "minPunctuation") float minPunctuation,
             @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
@@ -140,7 +140,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/establishments")
+    @PostMapping(value = "/establishments")
     public ResponseEntity<Establishment> create(@RequestBody EstablishmentDTO establishmentDTO) {
         logger.info("begin create establishment");
         ModelMapper mapper = new ModelMapper();
@@ -157,7 +157,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/establishments/{id}")
+    @PutMapping(value = "/establishments/{id}")
     public ResponseEntity<Establishment> update(@RequestBody EstablishmentDTO establishmentDTO, @PathVariable int id)
             throws NotFoundException {
 
@@ -182,7 +182,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @PatchMapping("/establishments/{id}/punctuation")
+    @PatchMapping(value = "/establishments/{id}/punctuation")
     public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin update punctuation");
         try {
@@ -207,7 +207,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/establishments/{id}")
+    @DeleteMapping(value = "/establishments/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
@@ -225,7 +225,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/establishments")
+    @DeleteMapping(value = "/establishments")
     public ResponseEntity<String> deleteAll() {
         es.deleteAll();
         return new ResponseEntity<>("All establishments deleted.", HttpStatus.OK);
