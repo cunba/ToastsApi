@@ -13,5 +13,5 @@ public class ProductTypeDTO {
     @NotNull
     private String type;
     @NotNull
-    private String productName;
+    private String product_name;
 }

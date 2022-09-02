@@ -77,7 +77,7 @@ public class ProductTypeController {
     @PostMapping(value = "/types")
     public ResponseEntity<ProductType> create(@RequestBody ProductTypeDTO typeDTO) {
         ProductType type = new ProductType();
-        type.setProductName(typeDTO.getProductName());
+        type.setProductName(typeDTO.getProduct_name());
         type.setType(typeDTO.getType());
         return new ResponseEntity<>(pts.addType(type), HttpStatus.CREATED);
     }
