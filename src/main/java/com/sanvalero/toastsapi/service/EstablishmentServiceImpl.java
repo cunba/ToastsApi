@@ -87,6 +87,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
+    public float countPublications(int id) {
+        return er.sumPunctuation(id);
+    }
+
+    @Override
     public void updatePunctuation(Establishment establishment) {
         er.save(establishment);
     }

@@ -188,7 +188,8 @@ public class EstablishmentController {
         try {
             Establishment establishment = es.findById(id);
             logger.info("Establishment found: " + id);
-            establishment.setPunctuation(es.sumPunctuation(id));
+            float punctuation = es.sumPunctuation(id) / es.countPublications(id);
+            establishment.setPunctuation(punctuation);
             es.updatePunctuation(establishment);
             logger.info("Establishment punctuation updated");
             logger.info("end update punctuation");

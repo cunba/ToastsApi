@@ -35,5 +35,7 @@ public interface EstablishmentService {
 
     float sumPunctuation(int id);
 
+    float countPublications(int id);
+
     void updatePunctuation(Establishment establishment);
 }
