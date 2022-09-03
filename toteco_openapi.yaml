@@ -2923,7 +2923,7 @@ components:
           $ref: '#/components/schemas/Type'
         date:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 04-03-2022
         price:
           type: number
@@ -2988,7 +2988,7 @@ components:
           example: 0
         date:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 02-04-2022
         price:
           type: number
@@ -3013,7 +3013,7 @@ components:
           example: 0
         date:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 03-05-2022
         totalPrice:
           type: number
@@ -3052,7 +3052,7 @@ components:
           example: Casa Paco
         creationDate:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 05-04-2021
         location:
           $ref: '#/components/schemas/Location'
@@ -3098,7 +3098,7 @@ components:
           example: Cunto
         birthDate:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 05-09-1995
         email:
           type: string
@@ -3107,7 +3107,7 @@ components:
           type: string
         creationDate:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 04-03-2022
         active:
           type: boolean
@@ -3134,7 +3134,7 @@ components:
           example: Cunto
         birth_date:
           type: string
-          format: dd-MM-yyyy
+          format: dd/MM/yyyy
           example: 05-09-1995
         email:
           type: string

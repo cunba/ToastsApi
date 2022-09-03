@@ -40,7 +40,7 @@ public class Establishment implements Serializable {
     @NotNull
     private String name;
     @Column(name = "creation_date")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
     @Type(type = "json")
     @Column(columnDefinition = "json")

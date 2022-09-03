@@ -34,7 +34,7 @@ public class Publication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     @Column(name = "total_price")
     @NotNull

@@ -55,7 +55,7 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Secured({ "ROLE_ADMIN" })
@@ -105,7 +105,7 @@ public class UserController {
         user.setBirthDate(LocalDate.parse(userDTO.getBirth_date(), formatter));
         if (user.getBirthDate() == null) {
             logger.error("Users birth date error.", new BadRequestException());
-            throw new BadRequestException("The birth date is incorrect or the format is not dd-MM-yyyy");
+            throw new BadRequestException("The birth date is incorrect or the format is not dd/MM/yyyy");
         }
 
         user.setRole(userDTO.getRole().toUpperCase());
