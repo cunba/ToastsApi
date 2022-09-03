@@ -390,29 +390,31 @@ public class PublicationController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+    public ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(manve.getMessage(), manve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException cve) {
         Map<String, String> errors = new HashMap<>();
         cve.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(cve.getMessage(), cve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
