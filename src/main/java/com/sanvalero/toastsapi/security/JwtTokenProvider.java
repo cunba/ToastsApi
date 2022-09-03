@@ -66,6 +66,10 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().get("username", String.class);
     }
 
+    public String getId(String token) {
+        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().get("id", String.class);
+    }
+
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader(HEADER_STRING);
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {

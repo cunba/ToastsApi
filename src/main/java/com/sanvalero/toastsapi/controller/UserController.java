@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -71,6 +75,15 @@ public class UserController {
             logger.error("User not found with id: " + id, e);
             throw new NotFoundException("Not found user with id: " + id);
         }
+    }
+
+    @GetMapping(value = "/user-loged")
+    @Produces(MediaType.TEXT_PLAIN)
+    public ResponseEntity<UserModel> getUserLoged(@Context HttpServletRequest headers) throws NotFoundException {
+        String token = jwtTokenProvider.resolveToken(headers);
+        int id = Integer.parseInt(jwtTokenProvider.getId(token));
+        UserModel user = us.findById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping(value = "/users")
