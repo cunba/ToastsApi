@@ -50,6 +50,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;
+
     @ManyToOne
     @JoinColumn(name = "publication_id")
     private Publication publication;
