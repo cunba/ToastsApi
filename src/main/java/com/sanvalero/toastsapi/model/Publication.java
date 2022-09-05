@@ -46,7 +46,7 @@ public class Publication {
     @NotNull
     private float totalPunctuation;
     @Column
-    private String photo;
+    private byte[] photo;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

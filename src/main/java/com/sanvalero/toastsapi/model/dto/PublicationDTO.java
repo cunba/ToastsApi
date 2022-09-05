@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PublicationDTO {
 
-    private String photo;
+    private byte[] photo;
     @NotNull
     @NotBlank
     @NotEmpty
