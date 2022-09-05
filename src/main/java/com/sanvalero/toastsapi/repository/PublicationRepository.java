@@ -34,11 +34,5 @@ public interface PublicationRepository extends CrudRepository<Publication, Integ
     List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation);
 
     @Query(value = "SELECT * FROM publications WHERE id IN (SELECT publication_id FROM products WHERE type_id IN (SELECT id FROM products_types WHERE product_name = :type))", nativeQuery = true)
-    List<Publication> findByProductType(String type);
-
-    @Query(value = "SELECT SUM(suma) FROM (SELECT SUM(price) AS suma FROM products WHERE publication_id = :id UNION ALL SELECT SUM(price) AS suma FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = :id)) T", nativeQuery = true)
-    float totalPrice(int id);
-
-    @Query(value = "SELECT SUM(suma)/SUM(num) FROM (SELECT SUM(punctuation) AS suma, COUNT(id) AS num FROM products WHERE publication_id = 1 UNION ALL SELECT SUM(punctuation) AS suma, COUNT(id) AS num FROM menus WHERE id IN ( SELECT menu_id FROM products WHERE publication_id = 1)) T", nativeQuery = true)
-    float totalPunctuation(int id);    
+    List<Publication> findByProductType(String type);   
 }

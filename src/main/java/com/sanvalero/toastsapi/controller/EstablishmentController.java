@@ -181,7 +181,7 @@ public class EstablishmentController {
 
     }
 
-    @Secured({ "ROLE_ADMIN" })
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
     @PatchMapping(value = "/establishments/{id}/punctuation")
     public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
         logger.info("begin update punctuation");

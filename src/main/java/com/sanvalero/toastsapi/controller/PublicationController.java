@@ -8,17 +8,6 @@ import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
 
-import com.sanvalero.toastsapi.exception.BadRequestException;
-import com.sanvalero.toastsapi.exception.ErrorResponse;
-import com.sanvalero.toastsapi.exception.NotFoundException;
-import com.sanvalero.toastsapi.model.Establishment;
-import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.UserModel;
-import com.sanvalero.toastsapi.model.dto.PublicationDTO;
-import com.sanvalero.toastsapi.service.EstablishmentService;
-import com.sanvalero.toastsapi.service.PublicationService;
-import com.sanvalero.toastsapi.service.UserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +19,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.sanvalero.toastsapi.exception.BadRequestException;
+import com.sanvalero.toastsapi.exception.ErrorResponse;
+import com.sanvalero.toastsapi.exception.NotFoundException;
+import com.sanvalero.toastsapi.model.Establishment;
+import com.sanvalero.toastsapi.model.Publication;
+import com.sanvalero.toastsapi.model.UserModel;
+import com.sanvalero.toastsapi.model.dto.PublicationDTO;
+import com.sanvalero.toastsapi.service.EstablishmentService;
+import com.sanvalero.toastsapi.service.PublicationService;
+import com.sanvalero.toastsapi.service.UserService;
 
 @RestController
 public class PublicationController {
@@ -273,6 +272,8 @@ public class PublicationController {
         publication.setDate(LocalDate.now());
         publication.setEstablishment(establishment);
         publication.setUser(user);
+        publication.setTotalPrice(publicationDTO.getTotalPrice());
+        publication.setTotalPunctuation(publicationDTO.getTotalPunctuation());
         logger.info("Publication mapped");
         logger.info("end create publication");
 
@@ -304,14 +305,8 @@ public class PublicationController {
         logger.info("Establishment found: " + establishment.getId());
 
         publication.setPhoto(publicationDTO.getPhoto());
-
-        try {
-            publication.setTotalPrice(ps.totalPrice(publication.getId()));
-            publication.setTotalPunctuation(ps.totalPunctuation(publication.getId()));
-        } catch (Exception e) {
-            // Quiere decir que no hay productos para obtener el precio y actualizarlo
-            logger.info("No hay productos para actualizar el precio y la puntuación");
-        }
+        publication.setTotalPrice(publicationDTO.getTotalPrice());
+        publication.setTotalPunctuation(publicationDTO.getTotalPunctuation());
         publication.setEstablishment(establishment);
 
         Publication toPrint = ps.updatePublication(publication);
@@ -319,31 +314,6 @@ public class PublicationController {
         logger.info("end update publication");
 
         return new ResponseEntity<>(toPrint, HttpStatus.OK);
-    }
-
-    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping(value = "/publications/{id}/price-punctuation")
-    public ResponseEntity<String> totalPricePunctuation(@PathVariable int id) throws NotFoundException {
-        logger.info("begin set total price punctuation");
-        try {
-            Publication publication = ps.findById(id);
-            logger.info("Publication found: " + publication.getId());
-
-            publication.setTotalPrice(ps.totalPrice(id));
-            publication.setTotalPunctuation(ps.totalPunctuation(id));
-            ps.updatePricePunctuation(publication);
-            logger.info("Publication price and punctuation updated");
-            logger.info("end set total price punctuation");
-
-            return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
-        } catch (NotFoundException nfe) {
-            logger.error("Publication not found exception with id " + id + ".", nfe);
-            throw new NotFoundException("Publication with ID " + id + " does not exists.");
-        } catch (Exception e) {
-            // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-            return new ResponseEntity<>("Money spent can't be updated due to lack of products for the publication "
-                    + id + ".", HttpStatus.OK);
-        }
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
