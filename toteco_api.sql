@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2022 a las 18:40:47
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 7.4.28
+-- Tiempo de generación: 05-09-2022 a las 16:03:52
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -99,14 +99,6 @@ CREATE TABLE `products` (
   `publication_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `products`
---
-
-INSERT INTO `products` (`id`, `date`, `in_menu`, `price`, `punctuation`, `type_id`, `menu_id`, `publication_id`) VALUES
-(1, '2022-04-26', 0, 2, 5, 2, NULL, 1),
-(2, '2022-04-26', 1, 2, 3, 2, 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -151,17 +143,10 @@ CREATE TABLE `publications` (
   `date` date NOT NULL,
   `total_price` float NOT NULL,
   `total_punctuation` float NOT NULL,
-  `photo` varchar(50) NOT NULL,
+  `photo` longblob NOT NULL,
   `establishment_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `publications`
---
-
-INSERT INTO `publications` (`id`, `date`, `total_price`, `total_punctuation`, `photo`, `establishment_id`, `user_id`) VALUES
-(1, '2022-04-26', 0, 0, 'string.jpg', 1, 8);
 
 -- --------------------------------------------------------
 
