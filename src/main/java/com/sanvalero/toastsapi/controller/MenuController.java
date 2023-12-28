@@ -109,33 +109,33 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/menus/punctuation/{punctuation}")
-    public ResponseEntity<List<Menu>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
-        if (punctuation < 0 || punctuation > 5) {
+    @GetMapping(value = "/menus/score/{score}")
+    public ResponseEntity<List<Menu>> getByScore(@PathVariable float score) throws BadRequestException {
+        if (score < 0 || score > 5) {
             logger.error("Establishment get by puntuation error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
-        return new ResponseEntity<>(ms.findByPunctuation(punctuation), HttpStatus.OK);
+        return new ResponseEntity<>(ms.findByScore(score), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/menus/punctuation/between")
+    @GetMapping(value = "/menus/score/between")
     public ResponseEntity<List<Menu>> getByPunbtuationBetween(
-            @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
+            @RequestParam(value = "minScore") float minScore,
+            @RequestParam(value = "maxScore") float maxScore) throws BadRequestException {
 
-        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+        if (minScore < 0 || minScore > 5 || maxScore < 0 || maxScore > 5) {
             logger.error("Establishment get by puntuation between error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
 
-        float templatePunctuation = 0;
-        if (minPunctuation > maxPunctuation) {
-            templatePunctuation = minPunctuation;
-            minPunctuation = maxPunctuation;
-            maxPunctuation = templatePunctuation;
+        float templateScore = 0;
+        if (minScore > maxScore) {
+            templateScore = minScore;
+            minScore = maxScore;
+            maxScore = templateScore;
         }
 
-        return new ResponseEntity<>(ms.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
+        return new ResponseEntity<>(ms.findByScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
     @GetMapping(value = "/menus/{id}")
@@ -177,7 +177,7 @@ public class MenuController {
             Menu menuToUpdate = ms.findById(id);
             logger.info("Menu found: " + id);
             menuToUpdate.setPrice(menuDTO.getPrice());
-            menuToUpdate.setPunctuation(menuDTO.getPunctuation());
+            menuToUpdate.setScore(menuDTO.getScore());
             logger.info("Menu properties updated");
             logger.info("end update menu");
 

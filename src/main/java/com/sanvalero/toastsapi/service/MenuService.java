@@ -15,9 +15,9 @@ public interface MenuService {
 
     List<Menu> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Menu> findByPunctuation(float punctuation);
+    List<Menu> findByScore(float score);
 
-    List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    List<Menu> findByScoreBetween(float minScore, float maxScore);
 
     Menu findById(int id) throws NotFoundException;
 

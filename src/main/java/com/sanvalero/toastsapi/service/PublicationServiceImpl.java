@@ -39,13 +39,13 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findByTotalPunctuation(float punctuation) {
-        return pr.findByTotalPunctuation(punctuation);
+    public List<Publication> findByTotalScore(float score) {
+        return pr.findByTotalScore(score);
     }
 
     @Override
-    public List<Publication> findByTotalPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        return pr.findByTotalPunctuationBetween(minPunctuation, maxPunctuation);
+    public List<Publication> findByTotalScoreBetween(float minScore, float maxScore) {
+        return pr.findByTotalScoreBetween(minScore, maxScore);
     }
 
     @Override
@@ -64,11 +64,11 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate,
-            LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation) {
+    public List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalScoreBetween(LocalDate minDate,
+            LocalDate maxDate, float minPrice, float maxPrice, float minScore, float maxScore) {
 
-        return pr.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(minDate, maxDate, minPrice, maxPrice,
-                minPunctuation, maxPunctuation);
+        return pr.findByDateBetweenAndTotalPriceBetweenAndTotalScoreBetween(minDate, maxDate, minPrice, maxPrice,
+                minScore, maxScore);
     }
 
     @Override

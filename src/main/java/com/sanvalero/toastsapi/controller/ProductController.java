@@ -139,31 +139,31 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/products/punctuation/{punctuation}")
-    public ResponseEntity<List<Product>> getByPunctuation(@PathVariable float punctuation) throws BadRequestException {
-        if (punctuation < 0 || punctuation > 5) {
+    @GetMapping(value = "/products/score/{score}")
+    public ResponseEntity<List<Product>> getByScore(@PathVariable float score) throws BadRequestException {
+        if (score < 0 || score > 5) {
             logger.error("Product get by puntuation error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
-        return new ResponseEntity<>(ps.findByPunctuation(punctuation), HttpStatus.OK);
+        return new ResponseEntity<>(ps.findByScore(score), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/products/punctuation/between")
-    public ResponseEntity<List<Product>> getByPunctuationBetween(@PathVariable float minPunctuation,
-            @PathVariable float maxPunctuation) throws BadRequestException {
+    @GetMapping(value = "/products/score/between")
+    public ResponseEntity<List<Product>> getByScoreBetween(@PathVariable float minScore,
+            @PathVariable float maxScore) throws BadRequestException {
 
-        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+        if (minScore < 0 || minScore > 5 || maxScore < 0 || maxScore > 5) {
             logger.error("Product get by puntuation between error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
-        float templatePunctuation = 0;
-        if (minPunctuation > maxPunctuation) {
-            templatePunctuation = minPunctuation;
-            minPunctuation = maxPunctuation;
-            maxPunctuation = templatePunctuation;
+        float templateScore = 0;
+        if (minScore > maxScore) {
+            templateScore = minScore;
+            minScore = maxScore;
+            maxScore = templateScore;
         }
 
-        return new ResponseEntity<>(ps.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
+        return new ResponseEntity<>(ps.findByScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
     @GetMapping(value = "/products/type/{id}")
@@ -228,14 +228,14 @@ public class ProductController {
         // logger.error("Product price error.", new BadRequestException());
         // throw new BadRequestException("The price must be 0 or more.");
         // }
-        // if (productDTO.getPunctuation() < 0 || productDTO.getPunctuation() > 5) {
-        // logger.error("Product punctuation error.", new BadRequestException());
-        // throw new BadRequestException("The punctuation must be 0 or more and 5 or
+        // if (productDTO.getScore() < 0 || productDTO.getScore() > 5) {
+        // logger.error("Product score error.", new BadRequestException());
+        // throw new BadRequestException("The score must be 0 or more and 5 or
         // less.");
         // }
 
         Product product = new Product();
-        product.setPunctuation(productDTO.getPunctuation());
+        product.setScore(productDTO.getScore());
         product.setDate(LocalDate.now());
         product.setType(type);
         product.setPublication(publication);
@@ -293,14 +293,14 @@ public class ProductController {
             logger.error("Product price error.", new BadRequestException());
             throw new BadRequestException("The price must be 0 or more.");
         }
-        if (productDTO.getPunctuation() < 0 || productDTO.getPunctuation() > 5) {
-            logger.error("Product punctuation error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
+        if (productDTO.getScore() < 0 || productDTO.getScore() > 5) {
+            logger.error("Product score error.", new BadRequestException());
+            throw new BadRequestException("The score must be 0 or more and 5 or less.");
         }
 
         product.setInMenu(productDTO.isInMenu());
         product.setPrice(productDTO.getPrice());
-        product.setPunctuation(productDTO.getPunctuation());
+        product.setScore(productDTO.getScore());
         product.setType(type);
 
         logger.info("Prodcut new properties set");
@@ -354,28 +354,28 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping(value = "/products/{id}/punctuation/{punctuation}")
-    public ResponseEntity<String> updatePunctuation(@PathVariable int id,
-            @PathVariable float punctuation) throws NotFoundException, BadRequestException {
+    @PatchMapping(value = "/products/{id}/score/{score}")
+    public ResponseEntity<String> updateScore(@PathVariable int id,
+            @PathVariable float score) throws NotFoundException, BadRequestException {
 
-        logger.info("begin update punctuation of product");
+        logger.info("begin update score of product");
         try {
             Product product = ps.findById(id);
 
             logger.info("Product found: " + product.getId());
 
-            if (punctuation < 0) {
-                logger.error("Product punctuation error.", new BadRequestException());
-                throw new BadRequestException("The punctuation must be 0 or more and 5 or less.");
+            if (score < 0) {
+                logger.error("Product score error.", new BadRequestException());
+                throw new BadRequestException("The score must be 0 or more and 5 or less.");
             }
 
-            product.setPunctuation(punctuation);
-            ps.updatePunctuation(product);
+            product.setScore(score);
+            ps.updateScore(product);
 
-            logger.info("Product punctuation updated");
-            logger.info("end update punctuation of product");
+            logger.info("Product score updated");
+            logger.info("end update score of product");
 
-            return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
+            return new ResponseEntity<>("Score updated.", HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Product not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Product with ID " + id + " does not exists.");

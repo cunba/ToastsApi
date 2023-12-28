@@ -33,14 +33,14 @@ CREATE TABLE `establishments` (
   `creation_date` date NOT NULL,
   `location` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`location`)),
   `open` tinyint(1) NOT NULL,
-  `punctuation` float NOT NULL
+  `score` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `establishments`
 --
 
-INSERT INTO `establishments` (`id`, `name`, `creation_date`, `location`, `open`, `punctuation`) VALUES
+INSERT INTO `establishments` (`id`, `name`, `creation_date`, `location`, `open`, `score`) VALUES
 (1, 'Criollo', '2022-04-17', '{\"latitude\": 0.0, \"longitude\": 0.0}', 1, 0),
 (6, 'Doña hipólita', '2022-04-20', '{\"latitude\":2.0,\"longitude\":3.0}', 1, 0),
 (16, 'Mondo', '2022-04-20', '{\"latitude\":41.653664,\"longitude\":-0.88433594}', 1, 0);
@@ -72,14 +72,14 @@ CREATE TABLE `menus` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `price` decimal(4,2) NOT NULL,
-  `punctuation` decimal(2,1) NOT NULL
+  `score` decimal(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `menus`
 --
 
-INSERT INTO `menus` (`id`, `date`, `price`, `punctuation`) VALUES
+INSERT INTO `menus` (`id`, `date`, `price`, `score`) VALUES
 (2, '2022-04-26', '1.00', '4.0');
 
 -- --------------------------------------------------------
@@ -93,7 +93,7 @@ CREATE TABLE `products` (
   `date` date NOT NULL,
   `in_menu` tinyint(1) NOT NULL,
   `price` float NOT NULL,
-  `punctuation` float NOT NULL,
+  `score` float NOT NULL,
   `type_id` int(11) NOT NULL,
   `menu_id` int(11) DEFAULT NULL,
   `publication_id` int(11) NOT NULL
@@ -142,7 +142,7 @@ CREATE TABLE `publications` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `total_price` float NOT NULL,
-  `total_punctuation` float NOT NULL,
+  `total_score` float NOT NULL,
   `photo` longblob NOT NULL,
   `establishment_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL

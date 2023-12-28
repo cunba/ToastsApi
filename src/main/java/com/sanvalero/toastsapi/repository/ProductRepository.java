@@ -25,9 +25,9 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 
     List<Product> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Product> findByPunctuation(float punctuation);
+    List<Product> findByScore(float score);
 
-    List<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    List<Product> findByScoreBetween(float minScore, float maxScore);
 
     List<Product> findByInMenu(boolean inMenu);
 

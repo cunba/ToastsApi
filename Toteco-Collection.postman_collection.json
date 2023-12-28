@@ -448,7 +448,7 @@
 					"response": []
 				},
 				{
-					"name": "Get menu by punctuation",
+					"name": "Get menu by score",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -456,7 +456,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/punctuation/:punctuation",
+							"raw": "http://{{ip}}:{{port}}/menus/score/:score",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -464,12 +464,12 @@
 							"port": "{{port}}",
 							"path": [
 								"menus",
-								"punctuation",
-								":punctuation"
+								"score",
+								":score"
 							],
 							"variable": [
 								{
-									"key": "punctuation",
+									"key": "score",
 									"value": "4"
 								}
 							]
@@ -478,7 +478,7 @@
 					"response": []
 				},
 				{
-					"name": "Get menu by punctuation between",
+					"name": "Get menu by score between",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -486,7 +486,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/menus/punctuation/between?minPunctuation=1&maxPunctuation=3",
+							"raw": "http://{{ip}}:{{port}}/menus/score/between?minScore=1&maxScore=3",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -494,16 +494,16 @@
 							"port": "{{port}}",
 							"path": [
 								"menus",
-								"punctuation",
+								"score",
 								"between"
 							],
 							"query": [
 								{
-									"key": "minPunctuation",
+									"key": "minScore",
 									"value": "1"
 								},
 								{
-									"key": "maxPunctuation",
+									"key": "maxScore",
 									"value": "3"
 								}
 							]
@@ -518,7 +518,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"price\": -2,\n\t\"punctuation\": 5\n}",
+							"raw": "{\n\t\"price\": -2,\n\t\"score\": 5\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -546,7 +546,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"price\": 1,\n    \"punctuation\": 4\n}",
+							"raw": "{\n    \"price\": 1,\n    \"score\": 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1098,7 +1098,7 @@
 					"response": []
 				},
 				{
-					"name": "Get establishment by punctuation",
+					"name": "Get establishment by score",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1106,7 +1106,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/punctuation/:punctuation",
+							"raw": "http://{{ip}}:{{port}}/establishments/score/:score",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1114,12 +1114,12 @@
 							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"punctuation",
-								":punctuation"
+								"score",
+								":score"
 							],
 							"variable": [
 								{
-									"key": "punctuation",
+									"key": "score",
 									"value": "0"
 								}
 							]
@@ -1128,7 +1128,7 @@
 					"response": []
 				},
 				{
-					"name": "Get establishment by punctuation min and max",
+					"name": "Get establishment by score min and max",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1136,7 +1136,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/punctuation/between?minPunctuation=0&maxPunctuation=5",
+							"raw": "http://{{ip}}:{{port}}/establishments/score/between?minScore=0&maxScore=5",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1144,16 +1144,16 @@
 							"port": "{{port}}",
 							"path": [
 								"establishments",
-								"punctuation",
+								"score",
 								"between"
 							],
 							"query": [
 								{
-									"key": "minPunctuation",
+									"key": "minScore",
 									"value": "0"
 								},
 								{
-									"key": "maxPunctuation",
+									"key": "maxScore",
 									"value": "5"
 								}
 							]
@@ -1196,7 +1196,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Doña hipólita\",\n\t\"location\": {\n        \"latitude\": 2.0,\n        \"longitude\": 3.0\n    },\n\t\"open\": true,\n\t\"punctuation\": 2\n}",
+							"raw": "{\n\t\"name\": \"Doña hipólita\",\n\t\"location\": {\n        \"latitude\": 2.0,\n        \"longitude\": 3.0\n    },\n\t\"open\": true,\n\t\"score\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1225,12 +1225,12 @@
 					"response": []
 				},
 				{
-					"name": "Update punctuation",
+					"name": "Update score",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/establishments/:id/punctuation",
+							"raw": "http://{{ip}}:{{port}}/establishments/:id/score",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1239,7 +1239,7 @@
 							"path": [
 								"establishments",
 								":id",
-								"punctuation"
+								"score"
 							],
 							"variable": [
 								{
@@ -1519,7 +1519,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/punctuation/:punctuation",
+							"raw": "http://{{ip}}:{{port}}/products/score/:score",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1527,12 +1527,12 @@
 							"port": "{{port}}",
 							"path": [
 								"products",
-								"punctuation",
-								":punctuation"
+								"score",
+								":score"
 							],
 							"variable": [
 								{
-									"key": "punctuation",
+									"key": "score",
 									"value": "0"
 								}
 							]
@@ -1541,7 +1541,7 @@
 					"response": []
 				},
 				{
-					"name": "Get product by punctuation min and max",
+					"name": "Get product by score min and max",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1549,7 +1549,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/products/punctuation/between?minPunctuation=0&maxPunctuation=4",
+							"raw": "http://{{ip}}:{{port}}/products/score/between?minScore=0&maxScore=4",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -1557,16 +1557,16 @@
 							"port": "{{port}}",
 							"path": [
 								"products",
-								"punctuation",
+								"score",
 								"between"
 							],
 							"query": [
 								{
-									"key": "minPunctuation",
+									"key": "minScore",
 									"value": "0"
 								},
 								{
-									"key": "maxPunctuation",
+									"key": "maxScore",
 									"value": "4"
 								}
 							]
@@ -1671,7 +1671,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": true,\n\t\"punctuation\": 6,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 1\n}",
+							"raw": "{\n\n\t\"inMenu\": true,\n\t\"score\": 6,\n\t\"typeId\": 2,\n    \"menuId\": 2,\n\t\"publicationId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1699,7 +1699,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"inMenu\": false,\n\t\"price\": 2,\n\t\"punctuation\": 3,\n\t\"typeId\": 10,\n\t\"publicationId\": 1\n}",
+							"raw": "{\n\t\"inMenu\": false,\n\t\"price\": 2,\n\t\"score\": 3,\n\t\"typeId\": 10,\n\t\"publicationId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1727,7 +1727,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 2,\n\t\"punctuation\": 3,\n\t\"typeId\": 2,\n    \"menuId\": 2\n}",
+							"raw": "{\n\n\t\"inMenu\": true,\n\t\"price\": 2,\n\t\"score\": 3,\n\t\"typeId\": 2,\n    \"menuId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1762,7 +1762,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\"inMenu\": false,\n\t\"price\": 2,\n\t\"punctuation\": 5,\n\t\"typeId\": 2\n}",
+							"raw": "{\n\n\t\"inMenu\": false,\n\t\"price\": 2,\n\t\"score\": 5,\n\t\"typeId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2028,7 +2028,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/punctuation/:punctuation",
+							"raw": "http://{{ip}}:{{port}}/publications/score/:score",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -2036,12 +2036,12 @@
 							"port": "{{port}}",
 							"path": [
 								"publications",
-								"punctuation",
-								":punctuation"
+								"score",
+								":score"
 							],
 							"variable": [
 								{
-									"key": "punctuation",
+									"key": "score",
 									"value": "4"
 								}
 							]
@@ -2050,7 +2050,7 @@
 					"response": []
 				},
 				{
-					"name": "Get publication by total punctuation between",
+					"name": "Get publication by total score between",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2058,7 +2058,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/punctuation/between?minPunctuation=0&maxPunctuation=1",
+							"raw": "http://{{ip}}:{{port}}/publications/score/between?minScore=0&maxScore=1",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -2066,16 +2066,16 @@
 							"port": "{{port}}",
 							"path": [
 								"publications",
-								"punctuation",
+								"score",
 								"between"
 							],
 							"query": [
 								{
-									"key": "minPunctuation",
+									"key": "minScore",
 									"value": "0"
 								},
 								{
-									"key": "maxPunctuation",
+									"key": "maxScore",
 									"value": "1"
 								}
 							]
@@ -2174,7 +2174,7 @@
 					"response": []
 				},
 				{
-					"name": "Get publication by date between, price between and punctuation between",
+					"name": "Get publication by date between, price between and score between",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2182,7 +2182,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/date/price/punctuation/between?minDate=1650987797000&maxDate=1650987797000&minPrice=0&maxPrice=2&minPunctuation=0&maxPunctuation=1",
+							"raw": "http://{{ip}}:{{port}}/publications/date/price/score/between?minDate=1650987797000&maxDate=1650987797000&minPrice=0&maxPrice=2&minScore=0&maxScore=1",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -2192,7 +2192,7 @@
 								"publications",
 								"date",
 								"price",
-								"punctuation",
+								"score",
 								"between"
 							],
 							"query": [
@@ -2213,11 +2213,11 @@
 									"value": "2"
 								},
 								{
-									"key": "minPunctuation",
+									"key": "minScore",
 									"value": "0"
 								},
 								{
-									"key": "maxPunctuation",
+									"key": "maxScore",
 									"value": "1"
 								}
 							]
@@ -2282,13 +2282,13 @@
 					"response": []
 				},
 				{
-					"name": "Update publication's price and punctuation",
+					"name": "Update publication's price and score",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"totalPrice\": 0,\n\t\"totalPunctuation\": 0,\n\t\"photo\": \"string.jpg\",\n\t\"establishmentId\": 1,\n\t\"userId\": 2\n}",
+							"raw": "{\n\t\"totalPrice\": 0,\n\t\"totalScore\": 0,\n\t\"photo\": \"string.jpg\",\n\t\"establishmentId\": 1,\n\t\"userId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2296,7 +2296,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{ip}}:{{port}}/publications/:id/price-punctuation",
+							"raw": "http://{{ip}}:{{port}}/publications/:id/price-score",
 							"protocol": "http",
 							"host": [
 								"{{ip}}"
@@ -2305,7 +2305,7 @@
 							"path": [
 								"publications",
 								":id",
-								"price-punctuation"
+								"price-score"
 							],
 							"variable": [
 								{

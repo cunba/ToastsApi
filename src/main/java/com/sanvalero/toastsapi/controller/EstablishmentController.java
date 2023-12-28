@@ -109,34 +109,34 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByOpen(open), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/establishments/punctuation/{punctuation}")
-    public ResponseEntity<List<Establishment>> getByPunctuation(@PathVariable float punctuation)
+    @GetMapping(value = "/establishments/score/{score}")
+    public ResponseEntity<List<Establishment>> getByScore(@PathVariable float score)
             throws BadRequestException {
-        if (punctuation < 0 || punctuation > 5) {
+        if (score < 0 || score > 5) {
             logger.error("Establishment get by puntuation error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
-        return new ResponseEntity<>(es.findByPunctuation(punctuation), HttpStatus.OK);
+        return new ResponseEntity<>(es.findByScore(score), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/establishments/punctuation/between")
-    public ResponseEntity<List<Establishment>> getByPunctuationBetween(
-            @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
+    @GetMapping(value = "/establishments/score/between")
+    public ResponseEntity<List<Establishment>> getByScoreBetween(
+            @RequestParam(value = "minScore") float minScore,
+            @RequestParam(value = "maxScore") float maxScore) throws BadRequestException {
 
-        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+        if (minScore < 0 || minScore > 5 || maxScore < 0 || maxScore > 5) {
             logger.error("Establishment get by puntuation between error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
 
-        float templatePunctuation = 0;
-        if (minPunctuation > maxPunctuation) {
-            templatePunctuation = minPunctuation;
-            minPunctuation = maxPunctuation;
-            maxPunctuation = templatePunctuation;
+        float templateScore = 0;
+        if (minScore > maxScore) {
+            templateScore = minScore;
+            minScore = maxScore;
+            maxScore = templateScore;
         }
 
-        return new ResponseEntity<>(es.findByPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
+        return new ResponseEntity<>(es.findByScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
@@ -147,7 +147,7 @@ public class EstablishmentController {
         Establishment establishment = mapper.map(establishmentDTO, Establishment.class);
         // establishment.setLocation(establishmentDTO.getLocation().toString());
         establishment.setCreationDate(LocalDate.now());
-        establishment.setPunctuation(0);
+        establishment.setScore(0);
 
         logger.info("Establishment mapped");
         Establishment toPrint = es.addEstablishment(establishment);
@@ -182,19 +182,19 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping(value = "/establishments/{id}/punctuation")
-    public ResponseEntity<String> updatePunctuation(@PathVariable int id) throws NotFoundException {
-        logger.info("begin update punctuation");
+    @PatchMapping(value = "/establishments/{id}/score")
+    public ResponseEntity<String> updateScore(@PathVariable int id) throws NotFoundException {
+        logger.info("begin update score");
         try {
             Establishment establishment = es.findById(id);
             logger.info("Establishment found: " + id);
-            float punctuation = es.sumPunctuation(id) / es.countPublications(id);
-            establishment.setPunctuation(punctuation);
-            es.updatePunctuation(establishment);
-            logger.info("Establishment punctuation updated");
-            logger.info("end update punctuation");
+            float score = es.sumScore(id) / es.countPublications(id);
+            establishment.setScore(score);
+            es.updateScore(establishment);
+            logger.info("Establishment score updated");
+            logger.info("end update score");
 
-            return new ResponseEntity<>("Punctuation updated.", HttpStatus.OK);
+            return new ResponseEntity<>("Score updated.", HttpStatus.OK);
         } catch (NotFoundException nfe) {
             logger.error("Establihsment not found exception with id " + id + ".", nfe);
             throw new NotFoundException("Establishment with ID " + id + " does not exists.");

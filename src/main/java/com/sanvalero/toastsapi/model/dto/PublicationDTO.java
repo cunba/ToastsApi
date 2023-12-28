@@ -21,7 +21,7 @@ public class PublicationDTO {
     @NotEmpty
     private int establishmentId;
     @NotNull
-    private float totalPunctuation;
+    private float totalScore;
     @NotNull
     private float totalPrice;
 }

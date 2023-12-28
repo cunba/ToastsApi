@@ -129,33 +129,33 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/publications/punctuation/{punctuation}")
-    public ResponseEntity<List<Publication>> getByPunctuation(@PathVariable float punctuation)
+    @GetMapping(value = "/publications/score/{score}")
+    public ResponseEntity<List<Publication>> getByScore(@PathVariable float score)
             throws BadRequestException {
-        if (punctuation < 0 || punctuation > 5) {
+        if (score < 0 || score > 5) {
             logger.error("Publication get by puntuation error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
-        return new ResponseEntity<>(ps.findByTotalPunctuation(punctuation), HttpStatus.OK);
+        return new ResponseEntity<>(ps.findByTotalScore(score), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/publications/punctuation/between")
-    public ResponseEntity<List<Publication>> getByPunctuationBetween(
-            @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
+    @GetMapping(value = "/publications/score/between")
+    public ResponseEntity<List<Publication>> getByScoreBetween(
+            @RequestParam(value = "minScore") float minScore,
+            @RequestParam(value = "maxScore") float maxScore) throws BadRequestException {
 
-        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+        if (minScore < 0 || minScore > 5 || maxScore < 0 || maxScore > 5) {
             logger.error("Publication get by puntuation between error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
-        float templatePunctuation = 0;
-        if (minPunctuation > maxPunctuation) {
-            templatePunctuation = minPunctuation;
-            minPunctuation = maxPunctuation;
-            maxPunctuation = templatePunctuation;
+        float templateScore = 0;
+        if (minScore > maxScore) {
+            templateScore = minScore;
+            minScore = maxScore;
+            maxScore = templateScore;
         }
 
-        return new ResponseEntity<>(ps.findByTotalPunctuationBetween(minPunctuation, maxPunctuation), HttpStatus.OK);
+        return new ResponseEntity<>(ps.findByTotalScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
     @GetMapping(value = "/publications/establishment/{id}")
@@ -187,26 +187,26 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByProductType(type), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/publications/date/price/punctuation/between")
-    public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalPunctuationBetween(
+    @GetMapping(value = "/publications/date/price/score/between")
+    public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalScoreBetween(
             @RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate,
             @RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice,
-            @RequestParam(value = "minPunctuation") float minPunctuation,
-            @RequestParam(value = "maxPunctuation") float maxPunctuation) throws BadRequestException {
+            @RequestParam(value = "minScore") float minScore,
+            @RequestParam(value = "maxScore") float maxScore) throws BadRequestException {
 
         if (minDate < dateFrom || maxDate < dateFrom) {
-            logger.error("Publication get by date, price and punctuation between error.", new BadRequestException());
+            logger.error("Publication get by date, price and score between error.", new BadRequestException());
             throw new BadRequestException(
                     "The dates must be in timestamp and more than " + dateFrom + " (01-01-2022 00:00:00).");
         }
-        if (minPunctuation < 0 || minPunctuation > 5 || maxPunctuation < 0 || maxPunctuation > 5) {
+        if (minScore < 0 || minScore > 5 || maxScore < 0 || maxScore > 5) {
             logger.error("Publication get by date, price and puntuation between error.", new BadRequestException());
-            throw new BadRequestException("The punctuation must be between 0 and 5.");
+            throw new BadRequestException("The score must be between 0 and 5.");
         }
         if (minPrice < 0 || maxPrice < 0) {
-            logger.error("Publication get by date, price and punctuation error.", new BadRequestException());
+            logger.error("Publication get by date, price and score error.", new BadRequestException());
             throw new BadRequestException("The price must be 0 or more.");
         }
         Timestamp minTimestamp = new Timestamp(minDate);
@@ -228,15 +228,15 @@ public class PublicationController {
             maxPrice = changerPrice;
         }
 
-        float changerPunctuation = 0;
-        if (minPunctuation > maxPunctuation) {
-            changerPunctuation = minPunctuation;
-            minPunctuation = maxPunctuation;
-            maxPunctuation = changerPunctuation;
+        float changerScore = 0;
+        if (minScore > maxScore) {
+            changerScore = minScore;
+            minScore = maxScore;
+            maxScore = changerScore;
         }
 
-        List<Publication> publications = ps.findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(
-                minDateLocal, maxDateLocal, minPrice, maxPrice, minPunctuation, maxPunctuation);
+        List<Publication> publications = ps.findByDateBetweenAndTotalPriceBetweenAndTotalScoreBetween(
+                minDateLocal, maxDateLocal, minPrice, maxPrice, minScore, maxScore);
 
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
@@ -268,12 +268,12 @@ public class PublicationController {
         Publication publication = new Publication();
         publication.setPhoto(publicationDTO.getPhoto());
         publication.setTotalPrice(0);
-        publication.setTotalPunctuation(0);
+        publication.setTotalScore(0);
         publication.setDate(LocalDate.now());
         publication.setEstablishment(establishment);
         publication.setUser(user);
         publication.setTotalPrice(publicationDTO.getTotalPrice());
-        publication.setTotalPunctuation(publicationDTO.getTotalPunctuation());
+        publication.setTotalScore(publicationDTO.getTotalScore());
         logger.info("Publication mapped");
         logger.info("end create publication");
 
@@ -306,7 +306,7 @@ public class PublicationController {
 
         publication.setPhoto(publicationDTO.getPhoto());
         publication.setTotalPrice(publicationDTO.getTotalPrice());
-        publication.setTotalPunctuation(publicationDTO.getTotalPunctuation());
+        publication.setTotalScore(publicationDTO.getTotalScore());
         publication.setEstablishment(establishment);
 
         Publication toPrint = ps.updatePublication(publication);

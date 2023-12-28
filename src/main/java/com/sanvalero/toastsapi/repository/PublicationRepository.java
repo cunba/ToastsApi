@@ -23,15 +23,15 @@ public interface PublicationRepository extends CrudRepository<Publication, Integ
 
     List<Publication> findByTotalPriceBetween(float minPrice, float maxPrice);
 
-    List<Publication> findByTotalPunctuation(float punctuation);
+    List<Publication> findByTotalScore(float score);
 
-    List<Publication> findByTotalPunctuationBetween(float minPunctuation, float maxPunctuation);
+    List<Publication> findByTotalScoreBetween(float minScore, float maxScore);
 
     List<Publication> findByEstablishment(Establishment establishment);
 
     List<Publication> findByUser(UserModel user);
 
-    List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalPunctuationBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minPunctuation, float maxPunctuation);
+    List<Publication> findByDateBetweenAndTotalPriceBetweenAndTotalScoreBetween(LocalDate minDate, LocalDate maxDate, float minPrice, float maxPrice, float minScore, float maxScore);
 
     @Query(value = "SELECT * FROM publications WHERE id IN (SELECT publication_id FROM products WHERE type_id IN (SELECT id FROM products_types WHERE product_name = :type))", nativeQuery = true)
     List<Publication> findByProductType(String type);   
