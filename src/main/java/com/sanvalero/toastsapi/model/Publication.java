@@ -40,11 +40,11 @@ public class Publication {
     @NotNull
     @PositiveOrZero
     private float totalPrice;
-    @Column(name = "total_punctuation")
+    @Column(name = "total_score")
     @Min(value = 0)
     @Max(value = 5)
     @NotNull
-    private float totalPunctuation;
+    private float totalScore;
     @Column
     private String photo;
 

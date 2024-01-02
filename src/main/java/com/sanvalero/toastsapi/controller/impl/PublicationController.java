@@ -1,4 +1,4 @@
-package com.sanvalero.toastsapi.controller;
+package com.sanvalero.toastsapi.controller.impl;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -7,17 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
-
-import com.sanvalero.toastsapi.exception.BadRequestException;
-import com.sanvalero.toastsapi.exception.ErrorResponse;
-import com.sanvalero.toastsapi.exception.NotFoundException;
-import com.sanvalero.toastsapi.model.Establishment;
-import com.sanvalero.toastsapi.model.Publication;
-import com.sanvalero.toastsapi.model.UserModel;
-import com.sanvalero.toastsapi.model.dto.PublicationDTO;
-import com.sanvalero.toastsapi.service.EstablishmentService;
-import com.sanvalero.toastsapi.service.PublicationService;
-import com.sanvalero.toastsapi.service.UserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +19,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.sanvalero.toastsapi.exception.BadRequestException;
+import com.sanvalero.toastsapi.exception.ErrorResponse;
+import com.sanvalero.toastsapi.exception.NotFoundException;
+import com.sanvalero.toastsapi.model.Establishment;
+import com.sanvalero.toastsapi.model.Publication;
+import com.sanvalero.toastsapi.model.UserModel;
+import com.sanvalero.toastsapi.model.dto.PublicationDTO;
+import com.sanvalero.toastsapi.service.EstablishmentService;
+import com.sanvalero.toastsapi.service.PublicationService;
+import com.sanvalero.toastsapi.service.UserService;
 
 @RestController
 public class PublicationController {
@@ -50,12 +49,12 @@ public class PublicationController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(PublicationController.class);
 
-    @GetMapping("/publications")
+    @GetMapping(value = "/publications")
     public ResponseEntity<List<Publication>> getAll() {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/{id}")
+    @GetMapping(value = "/publications/{id}")
     public ResponseEntity<Publication> getById(@PathVariable int id) throws NotFoundException {
         try {
             return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
@@ -65,7 +64,7 @@ public class PublicationController {
         }
     }
 
-    @GetMapping("/publications/date/{date}")
+    @GetMapping(value = "/publications/date/{date}")
     public ResponseEntity<List<Publication>> getByDate(@PathVariable long date) throws BadRequestException {
         if (date < dateFrom) {
             logger.error("Publication get by date error.", new BadRequestException());
@@ -79,7 +78,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByDate(dateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date/between")
+    @GetMapping(value = "/publications/date/between")
     public ResponseEntity<List<Publication>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
@@ -103,7 +102,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/price/{price}")
+    @GetMapping(value = "/publications/price/{price}")
     public ResponseEntity<List<Publication>> getByTotalPrice(@PathVariable float price) throws BadRequestException {
         if (price < 0) {
             logger.error("Publication get by price error.", new BadRequestException());
@@ -112,7 +111,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/price/between")
+    @GetMapping(value = "/publications/price/between")
     public ResponseEntity<List<Publication>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
@@ -130,7 +129,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/score/{score}")
+    @GetMapping(value = "/publications/score/{score}")
     public ResponseEntity<List<Publication>> getByScore(@PathVariable float score)
             throws BadRequestException {
         if (score < 0 || score > 5) {
@@ -140,7 +139,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalScore(score), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/score/between")
+    @GetMapping(value = "/publications/score/between")
     public ResponseEntity<List<Publication>> getByScoreBetween(
             @RequestParam(value = "minScore") float minScore,
             @RequestParam(value = "maxScore") float maxScore) throws BadRequestException {
@@ -159,7 +158,7 @@ public class PublicationController {
         return new ResponseEntity<>(ps.findByTotalScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/establishment/{id}")
+    @GetMapping(value = "/publications/establishment/{id}")
     public ResponseEntity<List<Publication>> getByEstablishmentId(@PathVariable int id)
             throws NotFoundException {
 
@@ -172,7 +171,7 @@ public class PublicationController {
         }
     }
 
-    @GetMapping("/publications/user/{id}")
+    @GetMapping(value = "/publications/user/{id}")
     public ResponseEntity<List<Publication>> getByUserId(@PathVariable int id) throws NotFoundException {
         try {
             UserModel user = us.findById(id);
@@ -183,12 +182,12 @@ public class PublicationController {
         }
     }
 
-    @GetMapping("/publications/type/{type}")
+    @GetMapping(value = "/publications/type/{type}")
     public ResponseEntity<List<Publication>> getByProductType(@PathVariable String type) {
         return new ResponseEntity<>(ps.findByProductType(type), HttpStatus.OK);
     }
 
-    @GetMapping("/publications/date/price/score/between")
+    @GetMapping(value = "/publications/date/price/score/between")
     public ResponseEntity<List<Publication>> getByDateBetweenTotalPriceBetweenTotalScoreBetween(
             @RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate,
@@ -243,7 +242,7 @@ public class PublicationController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/publications")
+    @PostMapping(value = "/publications")
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) throws NotFoundException {
         logger.info("begin create publication");
 
@@ -273,6 +272,8 @@ public class PublicationController {
         publication.setDate(LocalDate.now());
         publication.setEstablishment(establishment);
         publication.setUser(user);
+        publication.setTotalPrice(publicationDTO.getTotalPrice());
+        publication.setTotalScore(publicationDTO.getTotalScore());
         logger.info("Publication mapped");
         logger.info("end create publication");
 
@@ -280,7 +281,7 @@ public class PublicationController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/publications/{id}")
+    @PutMapping(value = "/publications/{id}")
     public ResponseEntity<Publication> update(@RequestBody PublicationDTO publicationDTO,
             @PathVariable int id) throws NotFoundException {
 
@@ -304,14 +305,8 @@ public class PublicationController {
         logger.info("Establishment found: " + establishment.getId());
 
         publication.setPhoto(publicationDTO.getPhoto());
-
-        try {
-            publication.setTotalPrice(ps.totalPrice(publication.getId()));
-            publication.setTotalScore(ps.totalScore(publication.getId()));
-        } catch (Exception e) {
-            // Quiere decir que no hay productos para obtener el precio y actualizarlo
-            logger.info("No hay productos para actualizar el precio y la puntuación");
-        }
+        publication.setTotalPrice(publicationDTO.getTotalPrice());
+        publication.setTotalScore(publicationDTO.getTotalScore());
         publication.setEstablishment(establishment);
 
         Publication toPrint = ps.updatePublication(publication);
@@ -322,32 +317,7 @@ public class PublicationController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/publications/{id}/price-score")
-    public ResponseEntity<String> totalPriceScore(@PathVariable int id) throws NotFoundException {
-        logger.info("begin set total price score");
-        try {
-            Publication publication = ps.findById(id);
-            logger.info("Publication found: " + publication.getId());
-
-            publication.setTotalPrice(ps.totalPrice(id));
-            publication.setTotalScore(ps.totalScore(id));
-            ps.updatePriceScore(publication);
-            logger.info("Publication price and score updated");
-            logger.info("end set total price score");
-
-            return new ResponseEntity<>("Precio y puntuación modificados.", HttpStatus.OK);
-        } catch (NotFoundException nfe) {
-            logger.error("Publication not found exception with id " + id + ".", nfe);
-            throw new NotFoundException("Publication with ID " + id + " does not exists.");
-        } catch (Exception e) {
-            // Quiere decir que no hay publicaciones para obtener el precio y actualizarlo
-            return new ResponseEntity<>("Money spent can't be updated due to lack of products for the publication "
-                    + id + ".", HttpStatus.OK);
-        }
-    }
-
-    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/publications/{id}")
+    @DeleteMapping(value = "/publications/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete publication");
         try {
@@ -364,7 +334,7 @@ public class PublicationController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/publications")
+    @DeleteMapping(value = "/publications")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 
@@ -390,29 +360,31 @@ public class PublicationController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+    public ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(manve.getMessage(), manve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException cve) {
         Map<String, String> errors = new HashMap<>();
         cve.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(cve.getMessage(), cve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

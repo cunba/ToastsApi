@@ -37,13 +37,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findByPunctuation(float punctuation) {
-        return mr.findByPunctuation(punctuation);
+    public List<Menu> findByScore(float score) {
+        return mr.findByScore(score);
     }
 
     @Override
-    public List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        return mr.findByPunctuationBetween(minPunctuation, maxPunctuation);
+    public List<Menu> findByScoreBetween(float minScore, float maxScore) {
+        return mr.findByScoreBetween(minScore, maxScore);
     }
 
     @Override

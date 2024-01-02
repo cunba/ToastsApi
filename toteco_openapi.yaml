@@ -475,18 +475,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                 
-  /products/{id}/punctuation/{punctuation}:
+  /products/{id}/score/{score}:
     patch:
       security:
         - bearerAuth: []
       tags:
         - Products
-      summary: Update product punctuation
-      description: Update the punctuation of the indicated product.
-      operationId: updateProductsPunctuation
+      summary: Update product score
+      description: Update the score of the indicated product.
+      operationId: updateProductsScore
       parameters:
         - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/punctuation'
+        - $ref: '#/components/parameters/score'
       responses:
         200:
           description: Ok
@@ -521,15 +521,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                 
-  /products/punctuation/{punctuation}:
+  /products/score/{score}:
     get:
       tags:
         - Products
-      summary: Get all products by punctuation
-      description: Get all the products which have this same punctuation. The punctuation goes from 0 to 5.
-      operationId: getProductsByPunctuation
+      summary: Get all products by score
+      description: Get all the products which have this same score. The score goes from 0 to 5.
+      operationId: getProductsByScore
       parameters:
-        - $ref: '#/components/parameters/punctuation'
+        - $ref: '#/components/parameters/score'
       responses:
         200:
           description: Ok
@@ -558,16 +558,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                 
-  /products/punctuation/between/:
+  /products/score/between/:
     get:
       tags:
         - Products
-      summary: Get products by punctuation between
-      description: Get all the products which punctuations are between theese two. The punctuation goes from 0 to 5.
-      operationId: getProductsByPunctuationBetween
+      summary: Get products by score between
+      description: Get all the products which scores are between theese two. The score goes from 0 to 5.
+      operationId: getProductsByScoreBetween
       parameters:
-        - $ref: '#/components/parameters/minPunctuation'
-        - $ref: '#/components/parameters/maxPunctuation'
+        - $ref: '#/components/parameters/minScore'
+        - $ref: '#/components/parameters/maxScore'
       responses:
         200:
           description: Ok
@@ -1363,15 +1363,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /menus/punctuation/{punctuation}:
+  /menus/score/{score}:
     get:
       tags:
         - Menu
-      summary: Get menu by punctuation
-      description: Get menus with the punctuation indicated. The punctuation goes from 0 to 5.
-      operationId: getMenuByPunctuation
+      summary: Get menu by score
+      description: Get menus with the score indicated. The score goes from 0 to 5.
+      operationId: getMenuByScore
       parameters:
-        - $ref: '#/components/parameters/punctuation'
+        - $ref: '#/components/parameters/score'
       responses:
         200:
           description: Ok
@@ -1400,16 +1400,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
     
-  /menus/punctuation/between:
+  /menus/score/between:
     get:
       tags:
         - Menu
-      summary: Get menu by punctuation between
-      description: Get menus between the two punctuations indicated. The punctuation goes from 0 to 5.
-      operationId: getMenuByPunctuationBetween
+      summary: Get menu by score between
+      description: Get menus between the two scores indicated. The score goes from 0 to 5.
+      operationId: getMenuByScoreBetween
       parameters:
-        - $ref: '#/components/parameters/minPunctuation'
-        - $ref: '#/components/parameters/maxPunctuation'
+        - $ref: '#/components/parameters/minScore'
+        - $ref: '#/components/parameters/maxScore'
       responses:
         200:
           description: Ok
@@ -1645,15 +1645,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /publications/{id}/price-punctuation:
+  /publications/{id}/price-score:
     patch:
       security:
         - bearerAuth: []
       tags:
         - Publication
-      summary: Update publication price and punctuation
-      description: Update the price and the punctuation of the publication indicated.
-      operationId: updatePublicationPriceAndPunctuation
+      summary: Update publication price and score
+      description: Update the price and the score of the publication indicated.
+      operationId: updatePublicationPriceAndScore
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -1832,15 +1832,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /publications/punctuation/{punctuation}:
+  /publications/score/{score}:
     get:
       tags:
         - Publication
-      summary: Get publication by punctuation
-      description: Get publications with the punctuation indicated. The punctuation goes from 0 to 5.
-      operationId: getPublicationsByPunctuation
+      summary: Get publication by score
+      description: Get publications with the score indicated. The score goes from 0 to 5.
+      operationId: getPublicationsByScore
       parameters:
-        - $ref: '#/components/parameters/punctuation'
+        - $ref: '#/components/parameters/score'
       responses:
         200:
           description: Ok
@@ -1869,16 +1869,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
     
-  /publications/punctuation/between:
+  /publications/score/between:
     get:
       tags:
         - Publication
-      summary: Get publication by punctuation between
-      description: Get publications between the two punctuations indicated. The punctuation goes from 0 to 5.
-      operationId: getPublicationByPunctuationBetween
+      summary: Get publication by score between
+      description: Get publications between the two scores indicated. The score goes from 0 to 5.
+      operationId: getPublicationByScoreBetween
       parameters:
-        - $ref: '#/components/parameters/minPunctuation'
-        - $ref: '#/components/parameters/maxPunctuation'
+        - $ref: '#/components/parameters/minScore'
+        - $ref: '#/components/parameters/maxScore'
       responses:
         200:
           description: Ok
@@ -2012,20 +2012,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /publications/date/price/punctuation/between:
+  /publications/date/price/score/between:
     get:
       tags:
         - Publication
-      summary: Get publication by date, price and punctuation between
-      description: Get publications that belongs to the between dates, the between price and the between punctuations indicateds.
-      operationId: getPublicationByDateBetweenAndPriceBetweenAndPunctuationBetween
+      summary: Get publication by date, price and score between
+      description: Get publications that belongs to the between dates, the between price and the between scores indicateds.
+      operationId: getPublicationByDateBetweenAndPriceBetweenAndScoreBetween
       parameters:
         - $ref: '#/components/parameters/minDate'
         - $ref: '#/components/parameters/maxDate'
         - $ref: '#/components/parameters/minPrice'
         - $ref: '#/components/parameters/maxPrice'
-        - $ref: '#/components/parameters/minPunctuation'
-        - $ref: '#/components/parameters/maxPunctuation'
+        - $ref: '#/components/parameters/minScore'
+        - $ref: '#/components/parameters/maxScore'
       responses:
         200:
           description: Ok
@@ -2396,15 +2396,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /establishments/{id}/punctuation:
+  /establishments/{id}/score:
     patch:
       security:
         - bearerAuth: []
       tags:
         - Establishment
-      summary: Update establishment punctuation
-      description: Update the punctuation of the establishment indicated.
-      operationId: updateEstablishmentPunctuation
+      summary: Update establishment score
+      description: Update the score of the establishment indicated.
+      operationId: updateEstablishmentScore
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -2433,15 +2433,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
                     
-  /establishments/punctuation/{punctuation}:
+  /establishments/score/{score}:
     get:
       tags:
         - Establishment
-      summary: Get establishment by punctuation
-      description: Get establishments with the punctuation indicated. The punctuation goes from 0 to 5.
-      operationId: getEstablishmentByPunctuation
+      summary: Get establishment by score
+      description: Get establishments with the score indicated. The score goes from 0 to 5.
+      operationId: getEstablishmentByScore
       parameters:
-        - $ref: '#/components/parameters/punctuation'
+        - $ref: '#/components/parameters/score'
       responses:
         200:
           description: Ok
@@ -2470,16 +2470,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Exception'
     
-  /establishment/punctuation/between:
+  /establishment/score/between:
     get:
       tags:
         - Establishment
-      summary: Get establishment by punctuation between
-      description: Get establishments between the two punctuations indicated. The punctuation goes from 0 to 5.
-      operationId: getEstablishmentByPunctuationBetween
+      summary: Get establishment by score between
+      description: Get establishments between the two scores indicated. The score goes from 0 to 5.
+      operationId: getEstablishmentByScoreBetween
       parameters:
-        - $ref: '#/components/parameters/minPunctuation'
-        - $ref: '#/components/parameters/maxPunctuation'
+        - $ref: '#/components/parameters/minScore'
+        - $ref: '#/components/parameters/maxScore'
       responses:
         200:
           description: Ok
@@ -2928,7 +2928,7 @@ components:
         price:
           type: number
           example: 3.40
-        punctuation:
+        score:
           type: number
           example: 4.3
         menu:
@@ -2943,7 +2943,7 @@ components:
         price:
           type: number
           example: 3.40
-        punctuation:
+        score:
           type: number
           example: 4.3
         typeId:
@@ -2993,7 +2993,7 @@ components:
         price:
           type: number
           example: 3.4
-        punctuation:
+        score:
           type: number
           example: 4.5            
     MenuDTO:
@@ -3001,7 +3001,7 @@ components:
         price:
           type: number
           example: 3.4
-        punctuation:
+        score:
           type: number
           example: 4.5            
           
@@ -3018,7 +3018,7 @@ components:
         totalPrice:
           type: number
           example: 3.4
-        totalPunctuation:
+        totalScore:
           type: number
           example: 2.5
         photo:
@@ -3059,7 +3059,7 @@ components:
         open:
           type: boolean
           example: false
-        punctuation:
+        score:
           type: number
           example: 4.5            
     EstablishmentDTO:
@@ -3230,22 +3230,22 @@ components:
         type: number
         example: 5.0
   
-    punctuation:
-      name: punctuation
+    score:
+      name: score
       in: path
       required: true
       schema:
         type: number
         example: 1.5
-    minPunctuation:
-      name: minPunctuation
+    minScore:
+      name: minScore
       in: query
       required: true
       schema:
         type: number
         example: 1.0
-    maxPunctuation:
-      name: maxPunctuation
+    maxScore:
+      name: maxScore
       in: query
       required: true
       schema:

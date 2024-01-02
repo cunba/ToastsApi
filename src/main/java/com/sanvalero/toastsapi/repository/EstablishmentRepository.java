@@ -23,10 +23,10 @@ public interface EstablishmentRepository extends CrudRepository<Establishment, I
 
     List<Establishment> findByLocation(String location);
 
-    List<Establishment> findByPunctuation(float punctuation);
+    List<Establishment> findByScore(float score);
 
-    List<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    List<Establishment> findByScoreBetween(float minScore, float maxScore);
 
-    @Query(value = "SELECT SUM(total_punctuation) FROM publications WHERE establishment_id = :id", nativeQuery = true)
-    float sumPunctuation(int id);
+    @Query(value = "SELECT SUM(total_score) FROM publications WHERE establishment_id = :id", nativeQuery = true)
+    float sumScore(int id);
 }

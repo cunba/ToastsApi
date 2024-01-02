@@ -51,7 +51,7 @@ public class Establishment implements Serializable {
     @Column
     @Min(value = 0)
     @Max(value = 5)
-    private float punctuation;
+    private float score;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "establishment")
     @JsonBackReference(value = "establishment-publications")

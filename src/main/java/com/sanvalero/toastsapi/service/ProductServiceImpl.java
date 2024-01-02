@@ -45,13 +45,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findByPunctuation(float punctuation) {
-        return pr.findByPunctuation(punctuation);
+    public List<Product> findByScore(float score) {
+        return pr.findByScore(score);
     }
 
     @Override
-    public List<Product> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        return pr.findByPunctuationBetween(minPunctuation, maxPunctuation);
+    public List<Product> findByScoreBetween(float minScore, float maxScore) {
+        return pr.findByScoreBetween(minScore, maxScore);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updatePunctuation(Product product) {
+    public void updateScore(Product product) {
         pr.save(product);
     }
 

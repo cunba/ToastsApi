@@ -20,7 +20,7 @@ public interface MenuRepository extends CrudRepository<Menu, Integer> {
 
     List<Menu> findByPriceBetween(float minPrice, float maxPrice);
 
-    List<Menu> findByPunctuation(float punctuation);
+    List<Menu> findByScore(float score);
 
-    List<Menu> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    List<Menu> findByScoreBetween(float minScore, float maxScore);
 }

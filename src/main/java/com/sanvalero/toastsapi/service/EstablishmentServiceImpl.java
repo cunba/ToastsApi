@@ -42,13 +42,13 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public List<Establishment> findByPunctuation(float punctuation) {
-        return er.findByPunctuation(punctuation);
+    public List<Establishment> findByScore(float score) {
+        return er.findByScore(score);
     }
 
     @Override
-    public List<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation) {
-        return er.findByPunctuationBetween(minPunctuation, maxPunctuation);
+    public List<Establishment> findByScoreBetween(float minScore, float maxScore) {
+        return er.findByScoreBetween(minScore, maxScore);
     }
 
     @Override
@@ -82,12 +82,12 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public float sumPunctuation(int id) {
-        return er.sumPunctuation(id);
+    public float sumScore(int id) {
+        return er.sumScore(id);
     }
 
     @Override
-    public void updatePunctuation(Establishment establishment) {
+    public void updateScore(Establishment establishment) {
         er.save(establishment);
     }
 }

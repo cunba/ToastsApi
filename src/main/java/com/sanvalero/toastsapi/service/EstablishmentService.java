@@ -17,9 +17,9 @@ public interface EstablishmentService {
 
     List<Establishment> findByLocation(String location);
 
-    List<Establishment> findByPunctuation(float punctuation);
+    List<Establishment> findByScore(float score);
 
-    List<Establishment> findByPunctuationBetween(float minPunctuation, float maxPunctuation);
+    List<Establishment> findByScoreBetween(float minScore, float maxScore);
 
     Establishment findById(int id) throws NotFoundException;
 
@@ -33,7 +33,7 @@ public interface EstablishmentService {
 
     void deleteAll();
 
-    float sumPunctuation(int id);
+    float sumScore(int id);
 
-    void updatePunctuation(Establishment establishment);
+    void updateScore(Establishment establishment);
 }

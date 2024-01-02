@@ -25,7 +25,7 @@ public class ProductDTO {
     @NotNull
     @Min(value = 0)
     @Max(value = 5)
-    private float punctuation;
+    private float score;
     private int typeId;
     private int menuId;
     @NotNull
