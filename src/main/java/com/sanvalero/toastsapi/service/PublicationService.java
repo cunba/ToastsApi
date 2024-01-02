@@ -33,12 +33,6 @@ public interface PublicationService {
 
     Publication findById(int id) throws NotFoundException;
 
-    float totalPrice(int id);
-
-    float totalScore(int id);
-
-    void updatePriceScore(Publication publication);
-
     Publication addPublication(Publication publication);
 
     Publication updatePublication(Publication publication);

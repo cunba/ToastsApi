@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PublicationDTO {
 
-    private String photo;
+    private byte[] photo;
     @NotNull
     @NotBlank
     @NotEmpty
@@ -20,4 +20,8 @@ public class PublicationDTO {
     @NotBlank
     @NotEmpty
     private int establishmentId;
+    @NotNull
+    private float totalScore;
+    @NotNull
+    private float totalPrice;
 }

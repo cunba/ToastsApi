@@ -55,12 +55,12 @@ public class ProductController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    @GetMapping("/products")
+    @GetMapping(value = "/products")
     public ResponseEntity<List<Product>> getAll() {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping(value = "/products/{id}")
     public ResponseEntity<Product> getById(@PathVariable int id) throws NotFoundException {
         try {
             return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products/date/{date}")
+    @GetMapping(value = "/products/date/{date}")
     public ResponseEntity<List<Product>> getByDate(@PathVariable long date) throws BadRequestException {
         if (date < dateFrom) {
             logger.error("Product get by date error.", new BadRequestException());
@@ -83,7 +83,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByDate(dateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/products/date/between")
+    @GetMapping(value = "/products/date/between")
     public ResponseEntity<List<Product>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
@@ -107,12 +107,12 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/products/inMenu/{inMenu}")
+    @GetMapping(value = "/products/inMenu/{inMenu}")
     public ResponseEntity<List<Product>> getByInMenu(@PathVariable boolean inMenu) {
         return new ResponseEntity<>(ps.findByInMenu(inMenu), HttpStatus.OK);
     }
 
-    @GetMapping("/products/price/{price}")
+    @GetMapping(value = "/products/price/{price}")
     public ResponseEntity<List<Product>> getByPrice(@PathVariable float price) throws BadRequestException {
         if (price < 0) {
             logger.error("Product get by price error.", new BadRequestException());
@@ -121,7 +121,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/products/price/between")
+    @GetMapping(value = "/products/price/between")
     public ResponseEntity<List<Product>> getByPriceBetween(@PathVariable float minPrice,
             @PathVariable float maxPrice) throws BadRequestException {
 
@@ -139,7 +139,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/products/score/{score}")
+    @GetMapping(value = "/products/score/{score}")
     public ResponseEntity<List<Product>> getByScore(@PathVariable float score) throws BadRequestException {
         if (score < 0 || score > 5) {
             logger.error("Product get by puntuation error.", new BadRequestException());
@@ -148,7 +148,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByScore(score), HttpStatus.OK);
     }
 
-    @GetMapping("/products/score/between")
+    @GetMapping(value = "/products/score/between")
     public ResponseEntity<List<Product>> getByScoreBetween(@PathVariable float minScore,
             @PathVariable float maxScore) throws BadRequestException {
 
@@ -166,7 +166,7 @@ public class ProductController {
         return new ResponseEntity<>(ps.findByScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
-    @GetMapping("/products/type/{id}")
+    @GetMapping(value = "/products/type/{id}")
     public ResponseEntity<List<Product>> getByTypeId(@PathVariable int id) throws NotFoundException {
         try {
             ProductType type = pts.findById(id);
@@ -177,7 +177,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products/menu/{id}")
+    @GetMapping(value = "/products/menu/{id}")
     public ResponseEntity<List<Product>> getByMenu(@PathVariable int id) throws NotFoundException {
         try {
             Menu menu = ms.findById(id);
@@ -188,7 +188,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products/publication/{id}")
+    @GetMapping(value = "/products/publication/{id}")
     public ResponseEntity<List<Product>> getByPublication(@PathVariable int id) throws NotFoundException {
         try {
             Publication publication = publicationService.findById(id);
@@ -200,7 +200,7 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/products")
+    @PostMapping(value = "/products")
     public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO)
             throws NotFoundException, BadRequestException {
 
@@ -265,7 +265,7 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/products/{id}")
+    @PutMapping(value = "/products/{id}")
     public ResponseEntity<Product> update(@RequestBody ProductDTO productDTO, @PathVariable int id)
             throws NotFoundException, BadRequestException {
         logger.info("begin update product");
@@ -325,7 +325,7 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/products/{id}/price/{price}")
+    @PatchMapping(value = "/products/{id}/price/{price}")
     public ResponseEntity<String> updatePrice(@PathVariable int id,
             @PathVariable float price) throws NotFoundException, BadRequestException {
 
@@ -354,7 +354,7 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/products/{id}/score/{score}")
+    @PatchMapping(value = "/products/{id}/score/{score}")
     public ResponseEntity<String> updateScore(@PathVariable int id,
             @PathVariable float score) throws NotFoundException, BadRequestException {
 
@@ -383,7 +383,7 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping(value = "/products/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete product");
         try {
@@ -401,7 +401,7 @@ public class ProductController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/products")
+    @DeleteMapping(value = "/products")
     public ResponseEntity<String> deleteAll() {
         ps.deleteAll();
 
@@ -446,28 +446,30 @@ public class ProductController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+    public ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(manve.getMessage(), manve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException cve) {
         Map<String, String> errors = new HashMap<>();
         cve.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(cve.getMessage(), cve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

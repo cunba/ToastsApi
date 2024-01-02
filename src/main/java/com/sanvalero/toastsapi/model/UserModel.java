@@ -49,7 +49,7 @@ public class UserModel {
     @NotNull
     private String surname;
     @Column(name = "birth_date")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Past
     private LocalDate birthDate;
     @Column
@@ -64,7 +64,7 @@ public class UserModel {
     @NotBlank
     private String password;
     @Column(name = "creation_date")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
     @Column
     @NotNull

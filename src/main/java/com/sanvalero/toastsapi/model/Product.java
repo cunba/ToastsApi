@@ -30,7 +30,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     @Column(name = "in_menu")
     @NotNull
@@ -50,6 +50,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;
+
     @ManyToOne
     @JoinColumn(name = "publication_id")
     private Publication publication;

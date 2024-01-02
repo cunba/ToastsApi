@@ -35,5 +35,7 @@ public interface EstablishmentService {
 
     float sumScore(int id);
 
+    float countPublications(int id);
+
     void updateScore(Establishment establishment);
 }

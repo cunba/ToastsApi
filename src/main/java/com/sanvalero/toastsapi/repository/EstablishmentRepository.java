@@ -29,4 +29,7 @@ public interface EstablishmentRepository extends CrudRepository<Establishment, I
 
     @Query(value = "SELECT SUM(total_score) FROM publications WHERE establishment_id = :id", nativeQuery = true)
     float sumScore(int id);
+
+    @Query(value = "SELECT COUNT(id) FROM publications WHERE establishment_id = :id", nativeQuery = true)
+    float countPublications(int id);
 }

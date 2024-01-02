@@ -82,21 +82,6 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public float totalPrice(int id) {
-        return pr.totalPrice(id);
-    }
-
-    @Override
-    public float totalScore(int id) {
-        return pr.totalScore(id);
-    }
-
-    @Override
-    public void updatePriceScore(Publication publication) {
-        pr.save(publication);
-    }
-
-    @Override
     public Publication addPublication(Publication publication) {
         return pr.save(publication);
     }

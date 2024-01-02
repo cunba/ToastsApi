@@ -43,12 +43,12 @@ public class EstablishmentController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(EstablishmentController.class);
 
-    @GetMapping("/establishments")
+    @GetMapping(value = "/establishments")
     public ResponseEntity<List<Establishment>> getAll() {
         return new ResponseEntity<>(es.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/{id}")
+    @GetMapping(value = "/establishments/{id}")
     public ResponseEntity<Establishment> getById(@PathVariable int id) throws NotFoundException {
         try {
             Establishment establishment = es.findById(id);
@@ -59,12 +59,12 @@ public class EstablishmentController {
         }
     }
 
-    @GetMapping("/establishments/name/{name}")
+    @GetMapping(value = "/establishments/name/{name}")
     public ResponseEntity<Establishment> getByName(@PathVariable String name) {
         return new ResponseEntity<>(es.findByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/{date}")
+    @GetMapping(value = "/establishments/date/{date}")
     public ResponseEntity<List<Establishment>> getByCreationDate(@PathVariable long date)
             throws BadRequestException {
         if (date < dateFrom) {
@@ -78,7 +78,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDate(creationDate), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/date/between")
+    @GetMapping(value = "/establishments/date/between")
     public ResponseEntity<List<Establishment>> getByCreationDateBetween(
             @RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
@@ -104,7 +104,7 @@ public class EstablishmentController {
         return new ResponseEntity<>(es.findByCreationDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/establishments/open/{open}")
+    @GetMapping(value = "/establishments/open/{open}")
     public ResponseEntity<List<Establishment>> getByOpen(@PathVariable boolean open) {
         return new ResponseEntity<>(es.findByOpen(open), HttpStatus.OK);
     }
@@ -140,7 +140,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/establishments")
+    @PostMapping(value = "/establishments")
     public ResponseEntity<Establishment> create(@RequestBody EstablishmentDTO establishmentDTO) {
         logger.info("begin create establishment");
         ModelMapper mapper = new ModelMapper();
@@ -157,7 +157,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/establishments/{id}")
+    @PutMapping(value = "/establishments/{id}")
     public ResponseEntity<Establishment> update(@RequestBody EstablishmentDTO establishmentDTO, @PathVariable int id)
             throws NotFoundException {
 
@@ -181,14 +181,15 @@ public class EstablishmentController {
 
     }
 
-    @Secured({ "ROLE_ADMIN" })
-    @PatchMapping("/establishments/{id}/score")
+    @Secured({ "ROLE_USER", "ROLE_ADMIN" })
+    @PatchMapping(value = "/establishments/{id}/score")
     public ResponseEntity<String> updateScore(@PathVariable int id) throws NotFoundException {
         logger.info("begin update score");
         try {
             Establishment establishment = es.findById(id);
             logger.info("Establishment found: " + id);
-            establishment.setScore(es.sumScore(id));
+            float score = es.sumScore(id) / es.countPublications(id);
+            establishment.setScore(score);
             es.updateScore(establishment);
             logger.info("Establishment score updated");
             logger.info("end update score");
@@ -207,7 +208,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/establishments/{id}")
+    @DeleteMapping(value = "/establishments/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete establishment");
         try {
@@ -225,7 +226,7 @@ public class EstablishmentController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/establishments")
+    @DeleteMapping(value = "/establishments")
     public ResponseEntity<String> deleteAll() {
         es.deleteAll();
         return new ResponseEntity<>("All establishments deleted.", HttpStatus.OK);
@@ -250,29 +251,31 @@ public class EstablishmentController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+    public ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(manve.getMessage(), manve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException cve) {
         Map<String, String> errors = new HashMap<>();
         cve.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(cve.getMessage(), cve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

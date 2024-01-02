@@ -42,10 +42,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					"/login", 
 					"/users",
 					"/establishments",
+					"/establishments/*",
 					"/menus",
+					"/menus/*",
 					"/products",
+					"/products/*",
 					"/types",
-					"/publications"
+					"/types/*",
+					"/publications",
+					"/publications/*"
 					).permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().headers().frameOptions().disable().and().csrf()
 				.disable()

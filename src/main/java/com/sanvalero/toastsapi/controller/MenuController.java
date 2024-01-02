@@ -42,7 +42,7 @@ public class MenuController {
     private long dateFrom = 1640995200000L;
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
-    @GetMapping("/menus/date/{date}")
+    @GetMapping(value = "/menus/date/{date}")
     public ResponseEntity<List<Menu>> getByDate(@PathVariable long date) throws BadRequestException {
         if (date < dateFrom) {
             logger.error("Establishment get by date error.", new BadRequestException());
@@ -56,7 +56,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDate(dateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/date/between")
+    @GetMapping(value = "/menus/date/between")
     public ResponseEntity<List<Menu>> getByDateBetween(@RequestParam(value = "minDate") long minDate,
             @RequestParam(value = "maxDate") long maxDate) throws BadRequestException {
 
@@ -81,7 +81,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByDateBetween(minDateLocal, maxDateLocal), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/price/{price}")
+    @GetMapping(value = "/menus/price/{price}")
     public ResponseEntity<List<Menu>> getByPrice(@PathVariable float price) throws BadRequestException {
         if (price < 0) {
             logger.error("Establishment get by price error.", new BadRequestException());
@@ -91,7 +91,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPrice(price), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/price/between")
+    @GetMapping(value = "/menus/price/between")
     public ResponseEntity<List<Menu>> getByPriceBetween(@RequestParam(value = "minPrice") float minPrice,
             @RequestParam(value = "maxPrice") float maxPrice) throws BadRequestException {
 
@@ -109,7 +109,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByPriceBetween(minPrice, maxPrice), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/score/{score}")
+    @GetMapping(value = "/menus/score/{score}")
     public ResponseEntity<List<Menu>> getByScore(@PathVariable float score) throws BadRequestException {
         if (score < 0 || score > 5) {
             logger.error("Establishment get by puntuation error.", new BadRequestException());
@@ -118,7 +118,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByScore(score), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/score/between")
+    @GetMapping(value = "/menus/score/between")
     public ResponseEntity<List<Menu>> getByPunbtuationBetween(
             @RequestParam(value = "minScore") float minScore,
             @RequestParam(value = "maxScore") float maxScore) throws BadRequestException {
@@ -138,7 +138,7 @@ public class MenuController {
         return new ResponseEntity<>(ms.findByScoreBetween(minScore, maxScore), HttpStatus.OK);
     }
 
-    @GetMapping("/menus/{id}")
+    @GetMapping(value = "/menus/{id}")
     public ResponseEntity<Menu> getById(@PathVariable int id) throws NotFoundException {
         try {
             Menu menu = ms.findById(id);
@@ -149,13 +149,13 @@ public class MenuController {
         }
     }
 
-    @GetMapping("/menus")
+    @GetMapping(value = "/menus")
     public ResponseEntity<List<Menu>> getAll() {
         return new ResponseEntity<>(ms.findAll(), HttpStatus.OK);
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PostMapping("/menus")
+    @PostMapping(value = "/menus")
     public ResponseEntity<Menu> create(@RequestBody MenuDTO menuDTO) {
         logger.info("begin create menu");
         ModelMapper mapper = new ModelMapper();
@@ -170,7 +170,7 @@ public class MenuController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PutMapping("/menus/{id}")
+    @PutMapping(value = "/menus/{id}")
     public ResponseEntity<Menu> update(@PathVariable int id, @RequestBody MenuDTO menuDTO) throws NotFoundException {
         logger.info("begin update menu");
         try {
@@ -189,7 +189,7 @@ public class MenuController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/menus/{id}")
+    @DeleteMapping(value = "/menus/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("begin delete menu");
         try {
@@ -207,7 +207,7 @@ public class MenuController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/menus")
+    @DeleteMapping(value = "/menus")
     public ResponseEntity<String> deleteAll() {
         ms.deleteAll();
 
@@ -233,29 +233,31 @@ public class MenuController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+    public ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(manve.getMessage(), manve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException cve) {
         Map<String, String> errors = new HashMap<>();
         cve.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(cve.getMessage(), cve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

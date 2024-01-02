@@ -87,6 +87,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
+    public float countPublications(int id) {
+        return er.sumScore(id);
+    }
+
+    @Override
     public void updateScore(Establishment establishment) {
         er.save(establishment);
     }

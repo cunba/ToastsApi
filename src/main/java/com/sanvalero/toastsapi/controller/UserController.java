@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 import com.sanvalero.toastsapi.exception.BadRequestException;
 import com.sanvalero.toastsapi.exception.ErrorResponse;
@@ -51,17 +55,17 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Secured({ "ROLE_ADMIN" })
-    @GetMapping("/users")
+    @GetMapping(value = "/users")
     public ResponseEntity<List<UserModel>> getAllUsers() {
         return new ResponseEntity<>(us.findAllUsers(), HttpStatus.OK);
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @GetMapping("/users/{id}")
+    @GetMapping(value = "/users/{id}")
     public ResponseEntity<UserModel> getById(@PathVariable int id) throws NotFoundException {
 
         try {
@@ -73,7 +77,16 @@ public class UserController {
         }
     }
 
-    @PostMapping("/users")
+    @GetMapping(value = "/user-loged")
+    @Produces(MediaType.TEXT_PLAIN)
+    public ResponseEntity<UserModel> getUserLoged(@Context HttpServletRequest headers) throws NotFoundException {
+        String token = jwtTokenProvider.resolveToken(headers);
+        int id = Integer.parseInt(jwtTokenProvider.getId(token));
+        UserModel user = us.findById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/users")
     public ResponseEntity<UserModel> create(@RequestBody UserDTO userDTO) throws BadRequestException {
         List<UserModel> userList = us.findByUsername(userDTO.getUsername());
         if (!userList.isEmpty()) {
@@ -92,7 +105,7 @@ public class UserController {
         user.setBirthDate(LocalDate.parse(userDTO.getBirth_date(), formatter));
         if (user.getBirthDate() == null) {
             logger.error("Users birth date error.", new BadRequestException());
-            throw new BadRequestException("The birth date is incorrect or the format is not dd-MM-yyyy");
+            throw new BadRequestException("The birth date is incorrect or the format is not dd/MM/yyyy");
         }
 
         user.setRole(userDTO.getRole().toUpperCase());
@@ -104,7 +117,7 @@ public class UserController {
         return new ResponseEntity<>(us.addUser(user), HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request)
             throws Exception {
 
@@ -126,7 +139,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/publications-number")
+    @PatchMapping(value = "/users/{id}/publications-number")
     public ResponseEntity<String> updatePublicationsNumber(@PathVariable int id)
             throws NotFoundException {
 
@@ -147,7 +160,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/money-spent")
+    @PatchMapping(value = "/users/{id}/money-spent")
     public ResponseEntity<String> updateMoneySpent(@PathVariable int id)
             throws NotFoundException {
 
@@ -177,7 +190,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/password")
+    @PatchMapping(value = "/users/{id}/password")
     public ResponseEntity<String> updatePassword(@PathVariable int id,
             @RequestBody PasswordChangeDTO password) throws NotFoundException {
 
@@ -200,7 +213,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/disable")
+    @PatchMapping(value = "/users/{id}/disable")
     public ResponseEntity<String> disable(@PathVariable int id) throws NotFoundException {
         logger.info("begin disable user");
 
@@ -220,7 +233,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @PatchMapping("/users/{id}/activate")
+    @PatchMapping(value = "/users/{id}/activate")
     public ResponseEntity<String> activate(@PathVariable int id) throws NotFoundException {
         logger.info("begin activate user");
 
@@ -240,7 +253,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_USER", "ROLE_ADMIN" })
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping(value = "/users/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) throws NotFoundException {
         logger.info("Begin delete user");
 
@@ -259,7 +272,7 @@ public class UserController {
     }
 
     @Secured({ "ROLE_ADMIN" })
-    @DeleteMapping("/users")
+    @DeleteMapping(value = "/users")
     public ResponseEntity<String> deleteAll() {
         us.deleteAll();
         return new ResponseEntity<>("All users deleted", HttpStatus.OK);
@@ -312,29 +325,31 @@ public class UserController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
+    public ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(manve.getMessage(), manve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException cve) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException cve) {
         Map<String, String> errors = new HashMap<>();
         cve.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
+        ErrorResponse errorResponse = new ErrorResponse("400", errors, "Validation error");
         logger.error(cve.getMessage(), cve);
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
