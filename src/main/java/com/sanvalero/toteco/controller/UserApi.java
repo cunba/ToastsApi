@@ -41,11 +41,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Validated
 @RestController
 @RequestMapping(value = "/users", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@Tag(name = "Users", description = "Users API")
 public interface UserApi {
 
         @Operation(summary = "Get user logged", operationId = "getUserLogged")
@@ -113,7 +115,6 @@ public interface UserApi {
         @GetMapping
         public ResponseEntity<List<UserModel>> getAll();
 
-        @Secured({ "ROLE_ADMIN" })
         @Operation(summary = "Save user", operationId = "save")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "201", description = "CREATED"),
@@ -121,8 +122,6 @@ public interface UserApi {
                         @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
                         @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
         @PostMapping
-        @SecurityRequirements
-        @SecurityRequirement(name = "bearer")
         public ResponseEntity<UserModel> save(
                         @Parameter(description = "User transfer object", required = true) @RequestBody UserDTO userDTO)
                         throws NotFoundException, BadRequestException;
@@ -239,6 +238,7 @@ public interface UserApi {
         @SecurityRequirement(name = "bearer")
         public ResponseEntity<String> deleteAll();
 
+        @Tag(name = "Login", description = "Login petition")
         @Operation(summary = "Login", operationId = "login")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "OK"),

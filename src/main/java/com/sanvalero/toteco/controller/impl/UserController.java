@@ -110,7 +110,6 @@ public class UserController implements UserApi {
 
         ModelMapper mapper = new ModelMapper();
         UserModel user = mapper.map(userDTO, UserModel.class);
-        user.setBirthDate(userDTO.getBirthDate());
         user.setRole(userDTO.getRole().toUpperCase());
         user.setPassword(UserModel.encoder().encode(userDTO.getPassword()));
         user.setCreated(LocalDate.now().toEpochDay());

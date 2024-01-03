@@ -22,46 +22,46 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "totecoEntityManagerFactory", transactionManagerRef = "totecoTransactionManager", basePackages = {
-        "com.sanvalero.toteco.repository.toteco" })
+		"com.sanvalero.toteco.repository" })
 public class TotecoConfig {
 
-    @Autowired
-    private Environment env;
+	@Autowired
+	private Environment env;
 
-    @Bean(name = "totecoDataSource")
-    public DataSource totecoDatasource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl(env.getProperty("toteco.datasource.url"));
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
+	@Bean(name = "totecoDataSource")
+	public DataSource totecoDatasource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setUrl(env.getProperty("spring.datasource.url"));
+		dataSource.setUsername(env.getProperty("spring.datasource.username"));
+		dataSource.setPassword(env.getProperty("spring.datasource.password"));
 
-        return dataSource;
-    }
+		return dataSource;
+	}
 
-    @Bean(name = "totecoEntityManagerFactory")
+	@Bean(name = "totecoEntityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(totecoDatasource());
-		em.setPackagesToScan("com.sanvalero.toteco.model.toteco");
-		
+		em.setPackagesToScan("com.sanvalero.toteco.model");
+
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
-		
+
 		Map<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
 		properties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
-		properties.put("hibernate.dialect", env.getProperty("spring.jpa.database-platform"));
-		
+		properties.put("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
+
 		em.setJpaPropertyMap(properties);
-		
+
 		return em;
 	}
 
-    @Bean(name = "totecoTransactionManager")
+	@Bean(name = "totecoTransactionManager")
 	public PlatformTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-		
+
 		return transactionManager;
 	}
 }

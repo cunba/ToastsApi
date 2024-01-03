@@ -32,11 +32,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Validated
 @RestController
 @RequestMapping(value = "/menus", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@Tag(name = "Menus", description = "Menus API")
 public interface MenuApi {
 
         @Operation(summary = "Get menu by ID", operationId = "getById")

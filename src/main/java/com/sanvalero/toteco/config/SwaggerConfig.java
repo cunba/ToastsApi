@@ -22,7 +22,7 @@ public class SwaggerConfig {
     public GroupedOpenApi totecoOpenApi() {
         return GroupedOpenApi.builder()
                 .group("TotecoApi")
-                .packagesToScan(BASE_PACKAGE + ".toteco")
+                .packagesToScan(BASE_PACKAGE)
                 .build();
     }
 

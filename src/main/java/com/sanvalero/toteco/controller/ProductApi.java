@@ -33,11 +33,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Validated
 @RestController
 @RequestMapping(value = "/products", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@Tag(name = "Products", description = "Products API")
 public interface ProductApi {
 
         @Operation(summary = "Get products by menu", operationId = "getByMenu")

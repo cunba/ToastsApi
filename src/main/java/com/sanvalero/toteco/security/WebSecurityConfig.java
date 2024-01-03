@@ -39,19 +39,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity
 				.cors().and()
 				.authorizeRequests().antMatchers(
-					"/login", 
-					"/users",
-					"/establishments",
-					"/establishments/*",
-					"/menus",
-					"/menus/*",
-					"/products",
-					"/products/*",
-					"/types",
-					"/types/*",
-					"/publications",
-					"/publications/*"
-					).permitAll()
+						"/users/login",
+						"/users",
+						"/establishments",
+						"/establishments/*",
+						"/menus",
+						"/menus/*",
+						"/products",
+						"/products/*",
+						"/types",
+						"/types/*",
+						"/publications",
+						"/publications/*",
+						"/login",
+						"/swagger-ui.html",
+						"/swagger-ui/**",
+						"/swagger-resources/**",
+						"/v2/api-docs",
+						"/v2/api-docs/**",
+						"/v3/api-docs",
+						"/v3/api-docs/**",
+						"/webjars/**")
+				.permitAll()
 				.anyRequest().authenticated().and().httpBasic().and().headers().frameOptions().disable().and().csrf()
 				.disable()
 				.exceptionHandling().authenticationEntryPoint(jwtAuthEndPoint).and()
