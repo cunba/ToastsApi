@@ -58,7 +58,7 @@ _Pasos a seguir:_
 
 * **Irene Cunto** - *Trabajo Principal y documentación* - [cunba](https://github.com/cunba)
 
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/cunba/toastsapi) que han participado en este proyecto.
+También puedes mirar la lista de todos los [contribuyentes](https://github.com/cunba/toteco) que han participado en este proyecto.
 
 
 
