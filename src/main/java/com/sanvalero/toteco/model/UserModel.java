@@ -67,6 +67,11 @@ public class UserModel {
     @NotNull
     @NotEmpty
     @NotBlank
+    private String image;
+    @Column
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String password;
     @Column
     private long created;

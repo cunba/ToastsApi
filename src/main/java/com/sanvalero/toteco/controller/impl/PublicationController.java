@@ -107,7 +107,7 @@ public class PublicationController implements PublicationApi {
         logger.info("User found: " + user.getId());
 
         Publication publication = new Publication();
-        publication.setPhoto(publicationDTO.getPhoto());
+        publication.setImage(publicationDTO.getImage());
         publication.setTotalPrice(0);
         publication.setTotalScore(0);
         publication.setCreated(LocalDate.now().toEpochDay());
@@ -144,7 +144,7 @@ public class PublicationController implements PublicationApi {
         }
         logger.info("Establishment found: " + establishment.getId());
 
-        publication.setPhoto(publicationDTO.getPhoto());
+        publication.setImage(publicationDTO.getImage());
         publication.setTotalPrice(publicationDTO.getTotalPrice());
         publication.setTotalScore(publicationDTO.getTotalScore());
         publication.setEstablishment(establishment);

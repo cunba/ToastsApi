@@ -39,7 +39,7 @@ public class Publication {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @Column(length = 36, nullable = false, updatable = false)
-    @Type(type="org.hibernate.type.UUIDCharType")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
     @Column
     private long created;
@@ -53,7 +53,7 @@ public class Publication {
     @NotNull
     private float totalScore;
     @Column
-    private byte[] photo;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

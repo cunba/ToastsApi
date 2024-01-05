@@ -36,6 +36,10 @@ public class UserDTO {
     @NotNull
     @NotBlank
     @NotEmpty
+    private String image;
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private String password;
     @NotNull
     @NotBlank

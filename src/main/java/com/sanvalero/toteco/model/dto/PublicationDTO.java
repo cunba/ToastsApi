@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PublicationDTO {
 
-    private byte[] photo;
+    private String image;
     @NotNull
     @NotBlank
     @NotEmpty
